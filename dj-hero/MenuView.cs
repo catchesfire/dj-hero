@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    public class MenuView
+    public class MenuView : View
     {
         public int selectedOption = 0;
         ConsoleKeyInfo pressedKey;

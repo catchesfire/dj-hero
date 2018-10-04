@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    class View
+    public class View
     {
     }
 }
