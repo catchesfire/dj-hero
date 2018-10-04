@@ -10,7 +10,11 @@ namespace dj_hero
     {
         static void Main(string[] args)
         {
+            Console.CursorVisible = false;
             Console.WriteLine("Hello DJ-Hero");
+            Console.WriteLine();
+            MenuView menu = new MenuView();
+            menu.Display();
         }
     }
 }
