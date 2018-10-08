@@ -34,7 +34,7 @@ namespace dj_hero
                 return fill + difference;
         }
 
-        // generates bar of progress
+        // generates progress bar
         public void DisplayBar()
         {
             string ret = "[";
@@ -56,7 +56,7 @@ namespace dj_hero
             Console.ResetColor();
         }
 
-        // operation of change of bar status
+        // operation of bar status change
         public void ChangeStatus(int difference)
         {
             int finalProgress = CountProgress(difference);
@@ -76,7 +76,7 @@ namespace dj_hero
             }
         }
 
-        //animation of change of bar status
+        //animation of bar status change
         public void UpdateStatus(int iterator)
         {
             fill = iterator;
