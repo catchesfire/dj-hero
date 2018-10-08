@@ -14,7 +14,7 @@ namespace dj_hero
             Console.WriteLine("Hello DJ-Hero");
             Console.WriteLine();
             MenuView menu = new MenuView();
-            menu.Display();
+            menu.Render();
         }
     }
 }

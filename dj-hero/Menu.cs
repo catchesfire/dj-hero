@@ -11,7 +11,9 @@ namespace dj_hero
         // switch to window difficult chose
         public static void Play()
         {
-            Console.WriteLine("Game is ONNNNNNNN");
+            //Console.WriteLine("Game is ONNNNNNNN");
+            GameView gameView = new GameView();
+            gameView.Render();
         }
 
         public static void Options()
