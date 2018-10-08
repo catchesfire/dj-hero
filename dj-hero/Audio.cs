@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace dj_hero
         public Audio()
         {
             Player = new WMPLib.WindowsMediaPlayer();
+            PrepareSongs();
         }
 
         public void StartSong() {
@@ -38,6 +40,30 @@ namespace dj_hero
         {
             Player.settings.setMode("loop", false);
             Player.controls.stop();
+        }
+
+       public void PrepareSongs()
+        {
+            string finalPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"/DJH_MusicFiles";
+            string primaryPath = @"./media";
+
+            if (!Directory.Exists(primaryPath))
+            {
+                Console.WriteLine("Brak plików muzycznych. Gra odtwarzana bez muzyki.");
+            }
+            else
+            {
+                DirectoryInfo primaryDirectory = new DirectoryInfo(primaryPath); 
+                if (!Directory.Exists(finalPath))
+                {
+                    Directory.CreateDirectory(finalPath);
+                }
+                foreach (FileInfo fi in primaryDirectory.GetFiles())
+                {
+                    fi.CopyTo(Path.Combine(finalPath, fi.Name), true);
+                }
+            }
+
         }
 
     }

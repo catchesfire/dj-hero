@@ -17,6 +17,7 @@ namespace dj_hero
             
             Audio a = new Audio();
              a.Menu();
+            a.PrepareSongs();
             //  ProgressBar p = new ProgressBar();
             //  p.ChangeStatus(50);
             Console.WriteLine(Difficulty.easy.GetRandomCharacter());
