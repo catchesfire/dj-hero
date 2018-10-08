@@ -11,7 +11,9 @@ namespace dj_hero
         // switch to window difficult chose
         public static void Play()
         {
-            Console.WriteLine("Game is ONNNNNNNN");
+            Game game = Game.Instance;
+            
+            game.play();
         }
 
         public static void Options()
