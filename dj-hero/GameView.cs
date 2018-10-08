@@ -6,12 +6,33 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    public class GameView : View
+//<<<<<<< HEAD
+//    public class GameView : View
+//    {
+//        public override void Render()
+//        {
+//            Elements.Add(new ViewElement(15, 20, 15, 7, new List<object>() { @"              ,", @"            /'/", @"          /' / ", @"       ,/'  /", @"      /`--,/", @"    /'    /", @"(,/'     (_, " }));
+//            base.Render();
+//=======
+    public class GameView
     {
-        public override void Render()
+
+
+        public void DisplayPoints(int points)
         {
-            Elements.Add(new ViewElement(15, 20, 15, 7, new List<object>() { @"              ,", @"            /'/", @"          /' / ", @"       ,/'  /", @"      /`--,/", @"    /'    /", @"(,/'     (_, " }));
-            base.Render();
+            Console.WriteLine("Points: " +points);
+        }
+
+        public void DisplayCharacter(string c)
+        {
+            Console.Clear();
+            Console.WriteLine("random element:  " + c);
+        }
+
+        public void DisplayEndGame()
+        {
+            Console.Clear();
+            Console.WriteLine("THATS IT! GAME OVER, MAN! GAME OVER! ");
         }
     }
 }
