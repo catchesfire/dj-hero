@@ -52,6 +52,7 @@ namespace dj_hero
         public void StopTimer()
         {
             timer.Stop();
+            timer.Dispose();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -62,8 +63,9 @@ namespace dj_hero
             if(time == 0)
             {
                 // go end game
-                timer.Stop();
                 Game.Instance.EndGame();
+                timer.Stop();
+                timer.Dispose();
             }
             Game.Instance.TimeControler();
         }
@@ -109,6 +111,7 @@ namespace dj_hero
                 {
                     if (gameOver == true)
                     {
+                        view.DisplayEndGame(); //<===
                         break;
                     }
                     pressedKey = Console.ReadKey(true);
