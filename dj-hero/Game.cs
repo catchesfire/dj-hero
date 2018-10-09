@@ -60,7 +60,7 @@ namespace dj_hero
         {
             time--;
 
-            Game.Instance.view.DisplayTime(time);
+            //Game.Instance.view.DisplayTime(time);
 
             if(time == 0)
             {
@@ -69,7 +69,10 @@ namespace dj_hero
                 timer.Stop();
                 timer.Dispose();
             }
-            Game.Instance.TimeControler();
+            else
+            {
+                Game.Instance.TimeControler();
+            }
         }
     }
 
@@ -111,6 +114,7 @@ namespace dj_hero
             CancellationToken ct = ts.Token;
             Task.Factory.StartNew(() =>
             {
+
                 while (true)
                 {
                     if (gameOver == true)
@@ -185,7 +189,11 @@ namespace dj_hero
             init();
             timer.RunTimer();
             LoadSegment();
-            
+            while(!gameOver)
+            {
+
+            }
+            Console.ReadKey();
         }
 
         //clock stuff

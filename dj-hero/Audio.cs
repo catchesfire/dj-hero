@@ -56,7 +56,6 @@ namespace dj_hero
 
             if (!Directory.Exists(primaryPath))
             {
-                System.Environment.Exit(1);
                 Console.WriteLine("Brak plików muzycznych. Gra odtwarzana bez muzyki.");
             }
             else
