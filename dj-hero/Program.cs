@@ -17,13 +17,13 @@ namespace dj_hero
             Console.WriteLine("Hello DJ-Hero");
             Console.WriteLine();
             MenuView menu = new MenuView();
+            Audio a = new Audio();
+            // a.Menu();
+            a.PrepareSongs();
             menu.Render();
 
             
             
-            Audio a = new Audio();
-             a.Menu();
-            a.PrepareSongs();
 
         }
     }

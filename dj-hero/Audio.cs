@@ -9,8 +9,9 @@ namespace dj_hero
 {
     class Audio
     {
-        WMPLib.WindowsMediaPlayer Player; //player itself
-        readonly static string mainmenusong = @"C:\Users\Marcin\source\repos\dj-hero\dj-hero\bin\Debug\media\cat.mp3"; //main menu song, to change
+        public static WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer(); //player itself
+        readonly static string mainmenusong = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "DJH_MusicFiles", "cat.mp3"); //main menu song, to change
+        readonly static string testSong = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "DJH_MusicFiles", "testSong.mp3"); //main menu song, to change
 
         public Audio()
         {
@@ -22,7 +23,7 @@ namespace dj_hero
             Player.controls.play();
         }
 
-        public void StopSong()
+        public static void StopSong()
         {
             Player.controls.stop();
         }
@@ -32,6 +33,12 @@ namespace dj_hero
         {
             Player.URL = mainmenusong;
             Player.settings.setMode("loop", true);
+            Player.controls.play();
+        }
+
+        public static void TestSong()
+        {
+            Player.URL = testSong;
             Player.controls.play();
         }
 
@@ -45,10 +52,11 @@ namespace dj_hero
        public void PrepareSongs()
         {
             string finalPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"/DJH_MusicFiles";
-            string primaryPath = @"./media";
+            string primaryPath = @"../../media";
 
             if (!Directory.Exists(primaryPath))
             {
+                System.Environment.Exit(1);
                 Console.WriteLine("Brak plików muzycznych. Gra odtwarzana bez muzyki.");
             }
             else
@@ -60,7 +68,8 @@ namespace dj_hero
                 }
                 foreach (FileInfo fi in primaryDirectory.GetFiles())
                 {
-                    fi.CopyTo(Path.Combine(finalPath, fi.Name), true);
+                    if(!File.Exists(Path.Combine(finalPath, fi.Name)))
+                        fi.CopyTo(Path.Combine(finalPath, fi.Name), true);
                 }
             }
 

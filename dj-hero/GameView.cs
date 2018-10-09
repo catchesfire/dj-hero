@@ -18,6 +18,12 @@ namespace dj_hero
     {
 
 
+        public void DisplayTime(int time)
+        {
+            Console.Clear();
+            Console.WriteLine(time);
+        }
+
         public void DisplayPoints(int points)
         {
             Console.WriteLine("Points: " +points);

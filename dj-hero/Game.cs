@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -59,7 +60,8 @@ namespace dj_hero
         {
             time--;
 
-            // gameview odswierz widok(time);
+            Game.Instance.view.DisplayTime(time);
+
             if(time == 0)
             {
                 // go end game
@@ -81,7 +83,7 @@ namespace dj_hero
         public ConsoleKeyInfo pressedKey;
         private string current;
         Element elem;
-        GameView view;
+        public GameView view;
         private int points;
         
         private Boolean gameOver;
@@ -94,6 +96,8 @@ namespace dj_hero
         private void init()
         {
             setTimeToAnswer(5);
+            Audio.TestSong();
+
             timer = new GameTimer(20);
             elem = new Element();
             view = new GameView();
@@ -169,6 +173,7 @@ namespace dj_hero
         {
             //Game view display stats and evrything
             gameOver = true;
+            Audio.StopSong();
             view.DisplayEndGame();
             view.DisplayPoints(points);
             //save to rank etc.
