@@ -98,9 +98,10 @@ namespace dj_hero
             setTimeToAnswer(5);
             Audio.TestSong();
 
-            timer = new GameTimer(20);
+            timer = new GameTimer(131);
             elem = new Element();
             view = new GameView();
+            view.Render();
             gameOver = false;
 
 
