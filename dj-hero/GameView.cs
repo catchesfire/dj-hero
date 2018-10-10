@@ -12,10 +12,13 @@ namespace dj_hero
         private ViewElement progressBar;
         private ViewElement character;
 
+        private int characterIndex;
+
         protected ViewElement points;
 
         public GameView()
         {
+            characterIndex = 0;
             timer = new ViewElement(Console.WindowWidth - 5, 1, 5, 3,
                 new List<string>()
                 {
@@ -23,9 +26,9 @@ namespace dj_hero
                     "",
                     "00:00"
                 });
-            progressBar = new ViewElement(3, 1, 20, 5, new List<string>());
+            progressBar = new ViewElement(3, 1, 20, 5, new List<string>() { "" });
             points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
-            character = new ViewElement(Console.WindowWidth / 2, Console.WindowHeight / 2, 5, 1, new List<string>() { "" });
+            character = new ViewElement(Console.WindowWidth / 2, Console.WindowHeight / 2, 5, 1, new List<string>() { "", "", "" });
             Elements.Add("ProgressBar", progressBar);
             Elements.Add("Points", points);
             Elements.Add("Timer", timer);
@@ -45,6 +48,12 @@ namespace dj_hero
             Elements["Timer"].Update(2);
         }
 
+        public void DisplayProgressBar(int percent)
+        {
+            Elements["ProgressBar"].Lines[0] = percent.ToString();
+            Elements["ProgressBar"].Update();
+        }
+
         public void DisplayPoints(int points)
         {
             Elements["Points"].Lines[0] = points.ToString();
@@ -55,6 +64,11 @@ namespace dj_hero
         {
             Elements["Character"].Lines[0] = c;
             Elements["Character"].Update();
+        }
+
+        public void RenderNewCharacter(ToChange character)
+        {
+
         }
 
         public void DisplayEndGame()
