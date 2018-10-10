@@ -35,10 +35,13 @@ namespace dj_hero
             Clear();
             foreach (KeyValuePair<string, ViewElement> element in Elements)
             {
-                for(int i = 0; i < element.Value.Lines.Count; i++)
+                if(element.Value.PosX >= 0 && element.Value.PosY >= 0)
                 {
-                    Console.SetCursorPosition(element.Value.PosX, element.Value.PosY + i);
-                    Console.Write(element.Value.Lines[i]);
+                    for(int i = 0; i < element.Value.Lines.Count; i++)
+                    {
+                        Console.SetCursorPosition(element.Value.PosX, element.Value.PosY + i);
+                        Console.Write(element.Value.Lines[i]);
+                    }
                 }
                 // do something with entry.Value or entry.Key
             }

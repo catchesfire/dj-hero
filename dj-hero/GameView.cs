@@ -10,18 +10,24 @@ namespace dj_hero
     {
         private ViewElement timer;
         private ViewElement progressBar;
+        private ViewElement[] characters;
         private ViewElement character0;
         private ViewElement character1;
         private ViewElement character2;
 
         private int characterIndex;
+        private int charactersNo;
 
         protected ViewElement points;
 
         public GameView()
         {
             characterIndex = 0;
-            timer = new ViewElement(Console.WindowWidth - 5, 1, 5, 3,
+            charactersNo = 3;
+
+            characters = new ViewElement[charactersNo];
+
+            timer = new ViewElement(Console.WindowWidth - 8, 1, 5, 3,
                 new List<string>()
                 {
                     "TIMER",
@@ -30,17 +36,21 @@ namespace dj_hero
                 });
             progressBar = new ViewElement(3, 1, 20, 5, new List<string>() { "" });
             points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
-            character0 = new ViewElement(Console.WindowWidth / 2, Console.WindowHeight / 2, 5, 1, new List<string>() { ""});
-            character1 = new ViewElement(Console.WindowWidth / 2, (Console.WindowHeight / 2) + 1, 5, 1, new List<string>() { ""});
-            character2 = new ViewElement(Console.WindowWidth / 2, (Console.WindowHeight / 2) + 2, 5, 1, new List<string>() { ""});
             Elements.Add("ProgressBar", progressBar);
             Elements.Add("Points", points);
             Elements.Add("Timer", timer);
-            Elements.Add("Character0", character0);
-            Elements.Add("Character1", character1);
-            Elements.Add("Character2", character2);
+            InitCharacters();
         }
 
+        private void InitCharacters()
+        {
+            for(int i = 0; i < charactersNo; i++)
+            {
+                characters[i] = new ViewElement(-1, -1, 2, 1, new List<string>() { "" });
+                Elements.Add("Character" + i, characters[i]);
+            }
+        }
+        
         public void DisplayTime(int time)
         {
             int minutes = time / 60;
