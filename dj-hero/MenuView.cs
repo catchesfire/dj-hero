@@ -14,8 +14,8 @@ namespace dj_hero
         public override void Render()
         {
             string logo = "LOGO";
-            Elements.Add(new ViewElement((Console.WindowWidth - 40) / 2, 0, 80, 6, 
-                new List<object>()
+            Elements.Add("logo", new ViewElement((Console.WindowWidth - 40) / 2, 0, 80, 6, 
+                new List<string>()
                 {
                     @"______  ___   _   _  ___________ _____",
                     @"|  _  \|_  | | | | ||  ___| ___ \  _  |",
@@ -25,10 +25,10 @@ namespace dj_hero
                     @"|___/\____/  \_| |_/\____/\_| \_|\___/"
                 }
                 ));
-            Elements.Add(new ViewElement(20, 10, 7, 1, new List<object>() { "1. Play" }));
-            Elements.Add(new ViewElement(20, 12, 10, 1, new List<object>() { "2. Options" }));
-            Elements.Add(new ViewElement(20, 14, 7, 1, new List<object>() { "3. Rank" }));
-            Elements.Add(new ViewElement(20, 16, 8, 1, new List<object>() { "4. Exit" }));
+            Elements.Add("play", new ViewElement(20, 10, 7, 1, new List<string>() { "1. Play" }));
+            Elements.Add("options", new ViewElement(20, 12, 10, 1, new List<string>() { "2. Options" }));
+            Elements.Add("rank", new ViewElement(20, 14, 7, 1, new List<string>() { "3. Rank" }));
+            Elements.Add("exit", new ViewElement(20, 16, 8, 1, new List<string>() { "4. Exit" }));
             base.Render();
             //Console.WriteLine("LOGO");
             //Console.WriteLine("1.Play");

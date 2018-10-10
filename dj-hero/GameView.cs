@@ -6,33 +6,55 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-//<<<<<<< HEAD
-//    public class GameView : View
-//    {
-//        public override void Render()
-//        {
-//            Elements.Add(new ViewElement(15, 20, 15, 7, new List<object>() { @"              ,", @"            /'/", @"          /' / ", @"       ,/'  /", @"      /`--,/", @"    /'    /", @"(,/'     (_, " }));
-//            base.Render();
-//=======
-    public class GameView
+    public class GameView : View
     {
+        private ViewElement timer;
+        private ViewElement progressBar;
+        private ViewElement character;
 
+        protected ViewElement points;
+
+        public GameView()
+        {
+            timer = new ViewElement(Console.WindowWidth - 5, 1, 5, 3,
+                new List<string>()
+                {
+                    "TIMER",
+                    "",
+                    "00:00"
+                });
+            progressBar = new ViewElement(3, 1, 20, 5, new List<string>());
+            points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
+            character = new ViewElement(Console.WindowWidth / 2, Console.WindowHeight / 2, 5, 1, new List<string>() { "" });
+            Elements.Add("ProgressBar", progressBar);
+            Elements.Add("Points", points);
+            Elements.Add("Timer", timer);
+            Elements.Add("Character", character);
+        }
 
         public void DisplayTime(int time)
         {
-            Console.Clear();
-            Console.WriteLine(time);
+            int minutes = time / 60;
+            int seconds = time % 60;
+
+            string sTime = minutes < 10 ? "0" + minutes.ToString() : minutes.ToString();
+            sTime += ":";
+            sTime += seconds < 10 ? "0" + seconds.ToString() : seconds.ToString();
+
+            Elements["Timer"].Lines[2] = sTime;
+            Elements["Timer"].Update(2);
         }
 
         public void DisplayPoints(int points)
         {
-            Console.WriteLine("Points: " +points);
+            Elements["Points"].Lines[0] = points.ToString();
+            Elements["Points"].Update();
         }
 
         public void DisplayCharacter(string c)
         {
-            Console.Clear();
-            Console.WriteLine("random element:  " + c);
+            Elements["Character"].Lines[0] = c;
+            Elements["Character"].Update();
         }
 
         public void DisplayEndGame()

@@ -104,12 +104,15 @@ namespace dj_hero
             
             Audio.TestSong();
 
+
             points = 0;
             progresBarValue = 100;
 
             timer = new GameTimer(20);
+
             elem = new Element();
             view = new GameView();
+            view.Render();
             gameOver = false;
 
 

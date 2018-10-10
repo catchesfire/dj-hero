@@ -21,8 +21,7 @@ namespace dj_hero
             // a.Menu();
             a.PrepareSongs();
 
-            
-            
+            //menu.Render();
 
         }
     }

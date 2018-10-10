@@ -11,30 +11,18 @@ namespace dj_hero
         private int Width;
         private int Height;
 
-        private List<ViewElement> elements;
-
-        public List<ViewElement> Elements
-        {
-            get
-            {
-                return elements;
-            }
-            set
-            {
-                elements = value;
-            }
-        }
+        public Dictionary<string, ViewElement> Elements { get; set; }
 
         public View()
         {
-            elements = new List<ViewElement>();
+            Elements = new Dictionary<string, ViewElement>();
             Width = Console.WindowWidth;
             Height = Console.WindowHeight;
         }
 
-        public void AddElement(ViewElement element)
+        public void AddElement(string name, ViewElement element)
         {
-            elements.Add(element);
+            Elements.Add(name, element);
         }
 
         private void Clear()
@@ -45,13 +33,14 @@ namespace dj_hero
         public virtual void Render()
         {
             Clear();
-            foreach(var el in elements)
+            foreach (KeyValuePair<string, ViewElement> element in Elements)
             {
-                for(int  i = 0; i < el.Lines.Count; i++)
+                for(int i = 0; i < element.Value.Lines.Count; i++)
                 {
-                    Console.SetCursorPosition(el.PosX, el.PosY + i);
-                    Console.Write(el.Lines[i]);
+                    Console.SetCursorPosition(element.Value.PosX, element.Value.PosY + i);
+                    Console.Write(element.Value.Lines[i]);
                 }
+                // do something with entry.Value or entry.Key
             }
         }
     }
