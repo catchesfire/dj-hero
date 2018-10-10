@@ -77,6 +77,50 @@ namespace dj_hero
         }
     }
 
+    public class ToChangeManager
+    {
+        private static ToChangeManager instance;
+        public List<ToChange> items;
+
+        private ToChangeManager()
+        {
+            items = new List<ToChange>();
+        }
+
+        public void Add(ToChange toChange)
+        {
+            if(items.Count == 3)
+            {
+                items.RemoveAt(0);
+            }
+            items.Add(toChange);
+        }
+
+        public static ToChangeManager GetInstance()
+        {
+            if(instance == null)
+            {
+                instance = new ToChangeManager();
+            }
+
+            return instance;
+        }
+
+    }
+
+    public class ToChange
+    {
+        public int PosX { get; set; }
+        public int PosY { get; set; }
+        public int ClicksNo { get; set; }
+        public char Letter { get; set; }
+
+        public ToChange()
+        {
+            PosX = -1;
+            PosY = -1;
+        }
+    }
 
 
 
