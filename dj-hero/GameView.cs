@@ -40,5 +40,24 @@ namespace dj_hero
             Console.Clear();
             Console.WriteLine("THATS IT! GAME OVER, MAN! GAME OVER! ");
         }
+        
+        public void DisplayAppearingCharacter(AppearingChar appChar)
+        {
+            Console.WriteLine("Character: "+appChar.character);
+            Console.WriteLine("Counter:   "+appChar.counter);
+        }
+        private int counter = 0;
+        public void Add(AppearingChar elem)
+        {
+            if (counter++ == 0)
+                Console.Clear();
+                Console.WriteLine(elem.character+ "    " + elem.counter);
+            
+            
+        }
+        public void refresh(AppearingChar elem)
+        {
+            Console.WriteLine("ref");
+        }
     }
 }
