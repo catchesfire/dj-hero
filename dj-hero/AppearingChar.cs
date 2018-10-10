@@ -8,11 +8,16 @@ namespace dj_hero
 {
     public class AppearingChar
     {
+        public int PosX { get; set; }
+        public int PosY { get; set; }
+
         public char character;
         public int counter;
 
         public AppearingChar()
         {
+            PosX = -1;
+            PosY = -1;
             Random rnd = new Random();
             MatchOption matchOption = MatchOption.Instance();
             int len = matchOption.charactersSet.Length;

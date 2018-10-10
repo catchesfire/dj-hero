@@ -9,29 +9,6 @@ using System.Timers;
 
 namespace dj_hero
 {
-    public class Element
-    {
-        private List<String> characterList = new List<string>();
-        public string character;
-        public Element()
-        {
-            characterList.Add("a");
-            characterList.Add("b");
-            characterList.Add("c");
-            characterList.Add("d");
-            characterList.Add("e");
-            characterList.Add("f");
-            characterList.Add("g");
-            characterList.Add("h");
-        }
-
-        public string randomCharacter()
-        {
-            Random rnd = new Random();
-            int no = rnd.Next() % 8;
-            return characterList[no];
-        }
-    }
 
     public class GameTimer
     {
@@ -60,7 +37,8 @@ namespace dj_hero
         {
             time--;
 
-            //Game.Instance.view.DisplayTime(time);
+            Game.Instance.view.DisplayTime(time);
+
 
             if(time == 0)
             {
@@ -80,14 +58,14 @@ namespace dj_hero
     public class ToChangeManager
     {
         private static ToChangeManager instance;
-        public List<ToChange> items;
+        public List<AppearingChar> items;
 
         private ToChangeManager()
         {
-            items = new List<ToChange>();
+            items = new List<AppearingChar>();
         }
 
-        public void Add(ToChange toChange)
+        public void Add(AppearingChar toChange)
         {
             if(items.Count == 3)
             {
@@ -130,7 +108,6 @@ namespace dj_hero
         private GameTimer timer;
         public ConsoleKeyInfo pressedKey;
         private char current;
-        Element elem;
         public GameView view;
         private int points;
         private int progresBarValue;
@@ -154,7 +131,6 @@ namespace dj_hero
 
             timer = new GameTimer(20);
 
-            elem = new Element();
             view = new GameView();
             view.Render();
             gameOver = false;
@@ -177,7 +153,7 @@ namespace dj_hero
                     }
                     pressedKey = Console.ReadKey(true);
 
-                    if (pressedKey.Key.ToString().ToUpper() == current.ToString().ToUpper())
+                    if (pressedKey.Key.ToString().ToUpper() == mainElement.character.ToString().ToUpper())
                     {
                         SuccesedClick();
                     }
@@ -203,7 +179,8 @@ namespace dj_hero
         public void DecreaseProgresBarPerSec()
         {
             progresBarValue -= matchOpttions.progresBarLosePerSec;
-            if(progresBarValue < 1)
+            view.DisplayProgressBar(progresBarValue);
+            if (progresBarValue < 1)
             {
                 EndGame();
             }
@@ -212,6 +189,7 @@ namespace dj_hero
         public void DecreaseProgresBarPerMiss()
         {
             progresBarValue -= matchOpttions.decPointsPerMiss;
+            view.DisplayProgressBar(progresBarValue);
             if (progresBarValue < 1)
             {
                 EndGame();
@@ -221,6 +199,7 @@ namespace dj_hero
         public void IncreaseProgresBar()
         {
             progresBarValue += matchOpttions.incPointsPerSucceed;
+            view.DisplayProgressBar(progresBarValue);
             if (progresBarValue > 100)
                 progresBarValue = 100;
         }
@@ -231,6 +210,7 @@ namespace dj_hero
         {
             // ++ points
             points += 10;
+            view.DisplayPoints(points);
             // progres bar ++
             IncreaseProgresBar();
             //load next segment
@@ -254,41 +234,46 @@ namespace dj_hero
             //core
             RefreshTimeToAnswer();
 
-            mainElement = new AppearingChar();
-            view.Add(mainElement);
+            //mainElement = new AppearingChar();
+            //ToChangeManager.GetInstance().Add(mainElement);
+            //view.RenderNewCharacter(mainElement);
+            //view.Add(mainElement);
+            //========================
             //3 posibility
             //first load
-            //if(mainElement == null)
-            //{
-            //    mainElement = new AppearingChar();
-            //    queue.Enqueue(mainElement);
-            //    view.Add(mainElement);
-            //    mainElement = new AppearingChar();
-            //    queue.Enqueue(mainElement);
-            //    view.Add(mainElement);
+            if (mainElement == null)
+            {
+                
 
-            //    mainElement = new AppearingChar();
-            //    current = mainElement.character;
-            //    view.Add(mainElement);
+                for (int i=1; i<=matchOpttions.amountElementsSameTime;i++)
+                {
+                    mainElement = new AppearingChar();
+                    queue.Enqueue(mainElement);
+                    view.Add(mainElement);
+                }
+                mainElement = queue.Dequeue();
 
-            //    return;
-            //}
-            ////refresh
-            //if(mainElement.counter>0)
-            //{
-            //    view.refresh(mainElement);
-            //    //display 
-            //}
-            ////hit
-            //if(mainElement.counter==0)
-            //{
-            //    mainElement = new AppearingChar();
-            //    queue.Enqueue(mainElement);
-            //    view.Add(mainElement);
 
-            //    mainElement = queue.Dequeue();
+                return;
+            }
+            //refresh
+            if (mainElement.counter > 0)
+            {
+                //view.refresh(mainElement);
+                Console.WriteLine("no chance");
+                //display 
+            }
+            //hit
+            if (mainElement.counter == 0)
+            {
+                mainElement = new AppearingChar();
+                queue.Enqueue(mainElement);
+                view.Add(mainElement);
 
-            //}
+                mainElement = queue.Dequeue();
+
+            }
+            //=====================================
 
 
         }

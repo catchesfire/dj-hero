@@ -66,14 +66,16 @@ namespace dj_hero
             Elements["Points"].Update();
         }
 
-        public void DisplayCharacter(string c)
+        public void Add(AppearingChar character)
         {
- 
+            Elements["Character" + characterIndex % 3].Lines[0] = character.character + " " + character.counter.ToString();
+            Elements["Character" + characterIndex % 3].Update();
+            characterIndex++;
         }
 
-        public void RenderNewCharacter(ToChange character)
+        public void RenderNewCharacter(AppearingChar character)
         {
-            Elements["Character" + characterIndex % 3].Lines[0] = character.Letter + character.ClicksNo.ToString();
+            Elements["Character" + characterIndex % 3].Lines[0] = character.character +" " + character.counter.ToString();
             Elements["Character" + characterIndex % 3].Update();
             characterIndex++;
         }
@@ -84,23 +86,5 @@ namespace dj_hero
             Console.WriteLine("THATS IT! GAME OVER, MAN! GAME OVER! ");
         }
         
-        public void DisplayAppearingCharacter(AppearingChar appChar)
-        {
-            Console.WriteLine("Character: "+appChar.character);
-            Console.WriteLine("Counter:   "+appChar.counter);
-        }
-        private int counter = 0;
-        public void Add(AppearingChar elem)
-        {
-            if (counter++ == 0)
-                Console.Clear();
-                Console.WriteLine(elem.character+ "    " + elem.counter);
-            
-            
-        }
-        public void refresh(AppearingChar elem)
-        {
-            Console.WriteLine("ref");
-        }
     }
 }
