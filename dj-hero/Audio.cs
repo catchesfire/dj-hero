@@ -7,21 +7,14 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    //Klasa audio jest niepubliczna, a jest managerem, cos nie bangla. Tak samo, czy potrzebujemy jej instancji skoro jest managerem?
+    //Nazywanie piosenek: JAK_MAM_TO_ZDAC.mp3 -> odtworzenie Audio.StartSong("jak mam to zdac", true/false)
+    //Odtworzenie szumu Audio.Noise();
     public static class Audio
     {
         private static WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
         private static WMPLib.WindowsMediaPlayer Player2 = new WMPLib.WindowsMediaPlayer();
         private static Dictionary<string, string> SongPath= new Dictionary<string, string>();
         private static readonly string libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/DJH_MusicFiles";
-
-        public static void ReadDic()
-        {
-            foreach (var pair in SongPath)
-            {
-                Console.WriteLine("{0}, {1}", pair.Key, pair.Value);
-            }
-        }
 
 
         public static void StartSong(string title, bool isLoop)
@@ -30,16 +23,26 @@ namespace dj_hero
                 Player.settings.setMode("loop", true);
             else
                 Player.settings.setMode("loop", false);
-            Player.URL = title;
-            Player.controls.play();
+
+            if (SongPath.ContainsKey(title))
+            {
+                if(title == "noise")
+                    Player2.URL = libraryPath + "/" + SongPath[title];
+                else
+                Player.URL = libraryPath + "/" + SongPath[title];
+
+                Console.WriteLine(libraryPath + "/" + SongPath[title]);
+            }
+            else
+            {
+                Console.WriteLine("Internal Error 404 - Wybrana piosenka nie istnieje. Programista to ciolek XD");
+            }
         }
 
         public static void Noise()
         {
             Player.settings.volume = 50;
-            Player2.URL = noise;
-            Player2.settings.setMode("loop", true);
-            Player2.controls.play();
+            StartSong("noise", true);
         }
 
         public static void StopSong()
@@ -48,7 +51,6 @@ namespace dj_hero
         }
        public static void PrepareSongs()
         {
-            
             string primaryPath = @"../../media";
 
             if (!Directory.Exists(primaryPath))
@@ -75,7 +77,7 @@ namespace dj_hero
 
         public static void GenerateSongName(string filename)
         {
-            SongPath.Add(filename, filename.Substring(0, filename.Length - 4).Replace('_', ' '));
+            SongPath.Add(filename.Substring(0, filename.Length - 4).Replace('_', ' '), filename);
             return;
         }
     }
