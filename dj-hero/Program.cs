@@ -20,9 +20,6 @@ namespace dj_hero
             Audio a = new Audio();
             // a.Menu();
             a.PrepareSongs();
-
-            //menu.Render();
-
         }
     }
 }

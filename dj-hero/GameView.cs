@@ -66,19 +66,57 @@ namespace dj_hero
             Elements["Points"].Update();
         }
 
+        int x1 =-1, x2=-1;
+
         public void Add(AppearingChar character)
         {
-            Elements["Character" + characterIndex % 3].Lines[0] = character.character + " " + character.counter.ToString();
-            Elements["Character" + characterIndex % 3].Update();
+            //character.Id = characterIndex;
+            Random rand = new Random();
+            do
+            {
+                character.PosX = rand.Next(0, 118);
+                character.PosY = rand.Next(10, 29);
+            } while (character.PosX == x1 || character.PosX == x2);
+            if(characterIndex%2==0)
+            {
+                x1 = character.PosX;
+            }
+            else
+            {
+                x2 = character.PosX;
+            }
+
+            Elements["Character" + characterIndex % 3].Clear();
+            Elements["Character" + characterIndex % 3].PosX = character.PosX;
+            Elements["Character" + characterIndex % 3].PosY = character.PosY;
+            Elements["Character" + characterIndex % 3].Lines[0] = character.character + character.counter.ToString();
+            if(characterIndex %3 == 0)
+            {
+                Elements["Character" + characterIndex % 3].Update("green");
+            }
+            else
+            {
+                Elements["Character" + characterIndex % 3].Update();
+
+            }
+
             characterIndex++;
         }
 
-        public void RenderNewCharacter(AppearingChar character)
-        {
-            Elements["Character" + characterIndex % 3].Lines[0] = character.character +" " + character.counter.ToString();
-            Elements["Character" + characterIndex % 3].Update();
-            characterIndex++;
-        }
+
+        //public void UpdateCharacter()
+        //{
+        //    ToChange character = ToChangeManager.GetInstance().items[0];
+        //    if (character.ClicksNo == 0)
+        //    {
+        //        Elements["Character" + character.Id % 3].Clear();
+        //    }
+        //    else
+        //    {
+        //        Elements["Character" + character.Id % 3].Lines[0] = character.Letter + character.ClicksNo.ToString();
+        //        Elements["Character" + characterIndex % 3].Update();
+        //    }
+        //}
 
         public void DisplayEndGame()
         {

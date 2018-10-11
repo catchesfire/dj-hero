@@ -88,10 +88,11 @@ namespace dj_hero
 
     public class ToChange
     {
+        public int Id { get; set; }
         public int PosX { get; set; }
         public int PosY { get; set; }
         public int ClicksNo { get; set; }
-        public char Letter { get; set; }
+        public string Letter { get; set; }
 
         public ToChange()
         {

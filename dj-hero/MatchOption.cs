@@ -10,9 +10,9 @@ namespace dj_hero
     {
         public char[] charactersSet = Difficulty.easy.characters;
         public int answerTime = Difficulty.easy.answerTime;
-        public int progresBarLosePerSec = 0;
-        public int decPointsPerMiss = 1;
-        public int incPointsPerSucceed = 10;
+        public int progresBarLosePerSec = 1;
+        public int decPointsPerMiss = 10;
+        public int incPointsPerSucceed = 15;
         public int maxBombCounterElement = 5;
         public int chanceBombElement =0  ;//range 0-10
         public int amountElementsSameTime = 3;
