@@ -8,8 +8,10 @@ namespace dj_hero
 {
     public class Difficulty
     {
-        private readonly char[] characters;
-        private readonly int answerTime;
+        //private readonly char[] characters;
+        //private readonly int answerTime;
+        public char[] characters;
+        public int answerTime;
 
         public int getAnswerTime()
         {

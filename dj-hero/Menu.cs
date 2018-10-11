@@ -98,8 +98,10 @@ namespace dj_hero
         {
             //GameView gameView = new GameView();
             //gameView.Render();
-            Game game = Game.Instance;
-            game.play();
+            SongSelection songSelection = new SongSelection();
+            songSelection.Init();
+            //Game game = Game.Instance;
+            //game.play();
         }
 
         public static void Options()

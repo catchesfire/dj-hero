@@ -50,9 +50,22 @@ namespace dj_hero
             Clear();
             for (int i = 0; i < Lines.Count; i++)
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(PosX, PosY + i);
                 Console.Write(Lines[i]);
             }
+        }
+
+        public void Update(string colour)
+        {
+            Clear();
+            for (int i = 0; i < Lines.Count; i++)
+            {
+                Console.SetCursorPosition(PosX, PosY + i);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(Lines[i]);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public void Update(int lineIndex)
