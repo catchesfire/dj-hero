@@ -16,10 +16,13 @@ namespace dj_hero
             Console.CursorVisible = false;
             Console.WriteLine("Hello DJ-Hero");
             Console.WriteLine();
-            Menu.Init();
-            Audio a = new Audio();
-            // a.Menu();
-            a.PrepareSongs();
+            // Menu.Init();
+           // Audio.StartSong(Audio.mainmenusong, true);
+            Audio.PrepareSongs();
+            Audio.ReadDic();
+            Console.ReadKey();
+            Audio.Noise();
+            Console.ReadKey();
 
             //menu.Render();
 

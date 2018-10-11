@@ -123,7 +123,7 @@ namespace dj_hero
         private void init()
         {
             
-            Audio.TestSong();
+          //  Audio.TestSong();
 
 
             points = 0;
