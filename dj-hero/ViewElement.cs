@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Figgle;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace dj_hero
 {
     public class ViewElement
     {
+        public static Dictionary<string, List<string>> Ascii;
+
         public int PosX { get; set; }
         public int PosY { get; set; }
         public int Width { get; set; }
@@ -25,12 +28,15 @@ namespace dj_hero
 
         public void Clear()
         {
-            for (int i = 0; i < Lines.Count; i++)
+            if(PosX >= 0 && PosY >= 0)
             {
-                for(int j = 0; j < Width; j++)
+                for (int i = 0; i < Lines.Count; i++)
                 {
-                    Console.SetCursorPosition(PosX + j, PosY + i);
-                    Console.Write(" ");
+                    for(int j = 0; j < Width; j++)
+                    {
+                        Console.SetCursorPosition(PosX + j, PosY + i);
+                        Console.Write(" ");
+                    }
                 }
             }
         }
@@ -48,24 +54,29 @@ namespace dj_hero
         {
             //@ to do to check if line is different, if it is - reload
             Clear();
-            for (int i = 0; i < Lines.Count; i++)
+            if(PosX >=0 && PosY >= 0)
             {
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(PosX, PosY + i);
-                Console.Write(Lines[i]);
+                for (int i = 0; i < Lines.Count; i++)
+                {
+                    Console.SetCursorPosition(PosX, PosY + i);
+                    Console.Write(Lines[i]);
+                }
             }
         }
 
-        public void Update(string colour)
+        public void Update(ConsoleColor colour)
         {
             Clear();
-            for (int i = 0; i < Lines.Count; i++)
+            if (PosX >= 0 && PosY >= 0)
             {
-                Console.SetCursorPosition(PosX, PosY + i);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write(Lines[i]);
+                for (int i = 0; i < Lines.Count; i++)
+                {
+                    Console.SetCursorPosition(PosX, PosY + i);
+                    Console.ForegroundColor = colour;
+                    Console.Write(Lines[i]);
+                }
             }
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
         }
 
         public void Update(int lineIndex)

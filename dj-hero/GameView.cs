@@ -11,9 +11,6 @@ namespace dj_hero
         private ViewElement timer;
         private ViewElement progressBar;
         private ViewElement[] characters;
-        private ViewElement character0;
-        private ViewElement character1;
-        private ViewElement character2;
 
         private int characterIndex;
         private int charactersNo;
@@ -34,7 +31,7 @@ namespace dj_hero
                     "",
                     "00:00"
                 });
-            progressBar = new ViewElement(3, 1, 20, 5, new List<string>() { "" });
+            progressBar = new ViewElement(3, 1, 25, 5, new List<string>() { "" });
             points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
             Elements.Add("ProgressBar", progressBar);
             Elements.Add("Points", points);
@@ -66,8 +63,24 @@ namespace dj_hero
 
         public void DisplayProgressBar(int percent)
         {
-            Elements["ProgressBar"].Lines[0] = percent.ToString();
-            Elements["ProgressBar"].Update();
+            string ret = "[";
+            for (int i = 0; i < 25; i++)
+            {
+                if (percent / 4 > i)
+                    ret = ret + "|";
+                else
+                    ret = ret + " ";
+            }
+            ret = ret + "]";
+
+            Elements["ProgressBar"].Lines[0] = ret;
+
+            if (percent <= 30)
+                Elements["ProgressBar"].Update(ConsoleColor.Red);
+            else if (percent <= 70)
+                Elements["ProgressBar"].Update(ConsoleColor.Yellow);
+            else
+                Elements["ProgressBar"].Update(ConsoleColor.Green);
         }
 
         public void DisplayPoints(int points)
@@ -100,14 +113,14 @@ namespace dj_hero
             Elements["Character" + characterIndex % 3].PosX = character.PosX;
             Elements["Character" + characterIndex % 3].PosY = character.PosY;
             Elements["Character" + characterIndex % 3].Lines[0] = character.character + character.counter.ToString();
-            if(characterIndex %3 == 0)
+            if(characterIndex == 0)
             {
-                Elements["Character" + characterIndex % 3].Update("green");
+                Elements["Character" + characterIndex % 3].Update(ConsoleColor.Green);
             }
             else
             {
                 Elements["Character" + characterIndex % 3].Update();
-
+                Elements["Character" + (characterIndex + 1) % 3].Update(ConsoleColor.Green);
             }
 
             characterIndex++;

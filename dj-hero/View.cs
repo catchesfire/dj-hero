@@ -18,6 +18,7 @@ namespace dj_hero
             Elements = new Dictionary<string, ViewElement>();
             Width = Console.WindowWidth;
             Height = Console.WindowHeight;
+
         }
 
         public void AddElement(string name, ViewElement element)
