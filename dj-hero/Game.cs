@@ -82,13 +82,15 @@ namespace dj_hero
             while (!gameOver)
             {
 
+
             }
             Console.ReadKey();
         }
 
         private void init()
         {
-            Audio.TestSong();
+            //Audio.TestSong();
+            //Audio.StartSong()
             points = 0;
             progresBarValue = 100;
             timer = new GameTimer(20);

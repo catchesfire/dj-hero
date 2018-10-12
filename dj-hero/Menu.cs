@@ -18,20 +18,6 @@ namespace dj_hero
             MenuView menuView = new MenuView();
             menuView.Render();
 
-
-            //var ts = new CancellationTokenSource();
-            //CancellationToken ct = ts.Token;
-            //Task.Factory.StartNew(() =>
-            //{
-            //    do
-            //    {
-            //        pressedKey = Console.ReadKey(true);
-            //        Thread.Sleep(10);
-            //    } while (!ct.IsCancellationRequested);
-
-            //}, ct);
-
-
             Thread t = new Thread(delegate ()
             {
                 do
