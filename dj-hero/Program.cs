@@ -17,9 +17,9 @@ namespace dj_hero
             Console.WriteLine("Hello DJ-Hero");
             Console.WriteLine();
             // Menu.Init();
-            Audio.PrepareSongs();
+            Song.PrepareSongs();
 
-            Audio.StartSong("main", true);
+            Audio.StartSong(Song.mainmenusong, true);
             Console.ReadKey();
             Console.WriteLine("Tutaj ktos zle wcisnal literke XD");
             Audio.Noise();
