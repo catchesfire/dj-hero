@@ -17,6 +17,8 @@ namespace dj_hero
         public int Height { get; set; }
         public List<string> Lines { get; set; }
 
+        static readonly object locker = new object();
+
         public ViewElement(int _posX, int _posY, int _width, int _height, List<string> _lines)
         {
             PosX = _posX;
@@ -53,30 +55,36 @@ namespace dj_hero
         public void Update()
         {
             //@ to do to check if line is different, if it is - reload
-            Clear();
-            if(PosX >=0 && PosY >= 0)
+            lock (locker)
             {
-                for (int i = 0; i < Lines.Count; i++)
+                Clear();
+                if(PosX >=0 && PosY >= 0)
                 {
-                    Console.SetCursorPosition(PosX, PosY + i);
-                    Console.Write(Lines[i]);
+                    for (int i = 0; i < Lines.Count; i++)
+                    {
+                        Console.SetCursorPosition(PosX, PosY + i);
+                        Console.Write(Lines[i]);
+                    }
                 }
             }
         }
 
         public void Update(ConsoleColor colour)
         {
-            Clear();
-            if (PosX >= 0 && PosY >= 0)
+            lock (locker)
             {
-                for (int i = 0; i < Lines.Count; i++)
+                Clear();
+                if (PosX >= 0 && PosY >= 0)
                 {
-                    Console.SetCursorPosition(PosX, PosY + i);
-                    Console.ForegroundColor = colour;
-                    Console.Write(Lines[i]);
+                    for (int i = 0; i < Lines.Count; i++)
+                    {
+                        Console.SetCursorPosition(PosX, PosY + i);
+                        Console.ForegroundColor = colour;
+                        Console.Write(Lines[i]);
+                    }
                 }
+                Console.ResetColor();
             }
-            Console.ResetColor();
         }
 
         public void Update(int lineIndex)

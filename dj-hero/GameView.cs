@@ -33,6 +33,7 @@ namespace dj_hero
                 });
             progressBar = new ViewElement(3, 1, 25, 5, new List<string>() { "" });
             points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
+
             Elements.Add("ProgressBar", progressBar);
             Elements.Add("Points", points);
             Elements.Add("Timer", timer);
@@ -121,6 +122,7 @@ namespace dj_hero
             {
                 Elements["Character" + characterIndex % 3].Update();
                 Elements["Character" + (characterIndex + 1) % 3].Update(ConsoleColor.Green);
+                Elements["Character" + (characterIndex + 2) % 3].Update(ConsoleColor.Blue);
             }
 
             characterIndex++;
