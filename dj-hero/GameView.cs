@@ -12,6 +12,8 @@ namespace dj_hero
         private ViewElement progressBar;
         private ViewElement[] characters;
 
+        private bool[,] vacancy;
+
         private int characterIndex;
         private int charactersNo;
 
@@ -23,6 +25,7 @@ namespace dj_hero
             charactersNo = 3;
 
             characters = new ViewElement[charactersNo];
+            vacancy = new bool[Console.WindowHeight, Console.WindowWidth];
 
             timer = new ViewElement(Console.WindowWidth - 8, 1, 5, 3,
                 new List<string>()
@@ -40,12 +43,48 @@ namespace dj_hero
             InitCharacters();
         }
 
+        private void LockPos(ViewElement element)
+        {
+            if(element.PosX + element.Width <= Console.WindowWidth && element.PosY + element.Height <= Console.WindowHeight)
+            {
+                for(int i = 0; i < element.Height; i++)
+                {
+                    for(int j = 0; j < element.Width; j++)
+                    {
+                        vacancy[element.PosY + i, element.PosX + j] = false;
+                    }
+                }
+            }
+        }
+
+        private void ReleasePos(ViewElement element)
+        {
+            if (element.PosX + element.Width <= Console.WindowWidth && element.PosY + element.Height <= Console.WindowHeight)
+            {
+                for (int i = 0; i < element.Height; i++)
+                {
+                    for (int j = 0; j < element.Width; j++)
+                    {
+                        vacancy[element.PosY + i, element.PosX + j] = true;
+                    }
+                }
+            }
+        }
+
         private void InitCharacters()
         {
             for(int i = 0; i < charactersNo; i++)
             {
-                characters[i] = new ViewElement(-1, -1, 2, 1, new List<string>() { "" });
+                characters[i] = new ViewElement(-1, -1, 16, 5, new List<string>() { "" });
                 Elements.Add("Character" + i, characters[i]);
+            }
+
+            for(int i = 3; i < 30; i++)
+            {
+                for(int j = 10; j < 120; j++)
+                {
+                    vacancy[i, j] = true;
+                }
             }
         }
         
@@ -96,24 +135,72 @@ namespace dj_hero
         {
             //character.Id = characterIndex;
             Random rand = new Random();
+            //List<string> lines = new List<string>(Ascii[character.character.ToString()].Concat(Ascii[character.counter.ToString()])); 
+            List<string> lines = Ascii[character.character.ToString()];
+            bool vac = true;
             do
             {
-                character.PosX = rand.Next(0, 118);
-                character.PosY = rand.Next(10, 29);
-            } while (character.PosX == x1 || character.PosX == x2);
-            if(characterIndex%2==0)
-            {
-                x1 = character.PosX;
-            }
-            else
-            {
-                x2 = character.PosX;
-            }
+                vac = true;
+                character.PosX = rand.Next(10, 102);
+                character.PosY = rand.Next(3, 24);
+                for(int i = 0; i < 5; i++)
+                {
+                    for(int j = 0; j < 16; j++)
+                    {
+                        if(vacancy[character.PosY + i, character.PosX + j] == false)
+                        {
+                            vac = false;
+                            break;
+                        }
+                    }
+
+                    if (vac == false)
+                        break;
+                }
+            } while (vac == false);
+
+            //while (true)
+            //{
+            //    vac = true;
+            //    character.PosX = rand.Next(10, 102);
+            //    character.PosY = rand.Next(3, 24);
+            //    for (int i = 0; i < 5; i++)
+            //    {
+            //        for (int j = 0; j < 16; j++)
+            //        {
+            //            if (vacancy[character.PosY + i, character.PosX + j] == false)
+            //            {
+            //                vac = false;
+            //                break;
+            //            }
+            //        }
+
+            //        if (vac == false)
+            //            break;
+            //    }
+
+            //    if(vac == true)
+            //    {
+            //        break;
+            //    }
+            //}
+
+            //if (characterIndex%2==0)
+            //{
+            //    x1 = character.PosX;
+            //}
+            //else
+            //{
+            //    x2 = character.PosX;
+            //}
 
             Elements["Character" + characterIndex % 3].Clear();
+            if(characterIndex > 3)
+                ReleasePos(Elements["Character" + characterIndex % 3]);
             Elements["Character" + characterIndex % 3].PosX = character.PosX;
             Elements["Character" + characterIndex % 3].PosY = character.PosY;
-            Elements["Character" + characterIndex % 3].Lines[0] = character.character + character.counter.ToString();
+            LockPos(Elements["Character" + characterIndex % 3]);
+            Elements["Character" + characterIndex % 3].Lines = lines;
             if(characterIndex == 0)
             {
                 Elements["Character" + characterIndex % 3].Update(ConsoleColor.Green);
