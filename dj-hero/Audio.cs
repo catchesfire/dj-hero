@@ -7,72 +7,33 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    class Audio
+    public static class Audio
     {
-        public static WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer(); //player itself
-        readonly static string mainmenusong = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "DJH_MusicFiles", "cat.mp3"); //main menu song, to change
-        readonly static string testSong = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "DJH_MusicFiles", "testSong.mp3"); //main menu song, to change
+        private static WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
+        private static WMPLib.WindowsMediaPlayer Player2 = new WMPLib.WindowsMediaPlayer();
+        public static readonly string libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/DJH_MusicFiles";
 
-        public Audio()
+
+        public static void StartSong(Song song, bool isLoop)
         {
-            Player = new WMPLib.WindowsMediaPlayer();
-            PrepareSongs();
+            if(isLoop == true)
+                Player.settings.setMode("loop", true);
+            else
+                Player.settings.setMode("loop", false);
+            if (song == Song.noisesong)
+                Player2.URL = song.GetPath();
+            else
+                Player.URL = song.GetPath();
+          
         }
-
-        public void StartSong() {
-            Player.controls.play();
+        public static void Noise()
+        {
+            Player.settings.volume = 50;
+            StartSong(Song.noisesong, true);
         }
-
         public static void StopSong()
         {
             Player.controls.stop();
         }
-
-        //song after enter mainmenu - set song and mode to loop
-        public void Menu()
-        {
-            Player.URL = mainmenusong;
-            Player.settings.setMode("loop", true);
-            Player.controls.play();
-        }
-
-        public static void TestSong()
-        {
-            Player.URL = testSong;
-            Player.controls.play();
-        }
-
-        //after eqit mainmenu turn off loop & change song I guess xD
-        public void QuitMenu()
-        {
-            Player.settings.setMode("loop", false);
-            Player.controls.stop();
-        }
-
-       public void PrepareSongs()
-        {
-            string finalPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"/DJH_MusicFiles";
-            string primaryPath = @"../../media";
-
-            if (!Directory.Exists(primaryPath))
-            {
-                Console.WriteLine("Brak plików muzycznych. Gra odtwarzana bez muzyki.");
-            }
-            else
-            {
-                DirectoryInfo primaryDirectory = new DirectoryInfo(primaryPath); 
-                if (!Directory.Exists(finalPath))
-                {
-                    Directory.CreateDirectory(finalPath);
-                }
-                foreach (FileInfo fi in primaryDirectory.GetFiles())
-                {
-                    if(!File.Exists(Path.Combine(finalPath, fi.Name)))
-                        fi.CopyTo(Path.Combine(finalPath, fi.Name), true);
-                }
-            }
-
-        }
-
     }
 }

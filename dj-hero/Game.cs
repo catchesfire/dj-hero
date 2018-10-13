@@ -40,7 +40,7 @@ namespace dj_hero
             Game.Instance.view.DisplayTime(time);
 
 
-            if(time == 0)
+            if(time <= 0)
             {
                 // go end game
                 Game.Instance.EndGame();
@@ -55,54 +55,6 @@ namespace dj_hero
         }
     }
 
-    public class ToChangeManager
-    {
-        private static ToChangeManager instance;
-        public List<AppearingChar> items;
-
-        private ToChangeManager()
-        {
-            items = new List<AppearingChar>();
-        }
-
-        public void Add(AppearingChar toChange)
-        {
-            if(items.Count == 3)
-            {
-                items.RemoveAt(0);
-            }
-            items.Add(toChange);
-        }
-
-        public static ToChangeManager GetInstance()
-        {
-            if(instance == null)
-            {
-                instance = new ToChangeManager();
-            }
-
-            return instance;
-        }
-
-    }
-
-    public class ToChange
-    {
-        public int Id { get; set; }
-        public int PosX { get; set; }
-        public int PosY { get; set; }
-        public int ClicksNo { get; set; }
-        public string Letter { get; set; }
-
-        public ToChange()
-        {
-            PosX = -1;
-            PosY = -1;
-        }
-    }
-
-
-
     public sealed class Game
     {
         public List<String> characterList = new List<string>();
@@ -114,42 +66,44 @@ namespace dj_hero
         private int progresBarValue;
         MatchOption matchOpttions = MatchOption.Instance();
 
+        Thread t;
+
         private Boolean gameOver;
 
         private Game()
         {
-           
+        }
+
+        public void play()
+        {
+            init();
+            timer.RunTimer();
+            LoadSegment();
+            while (!gameOver)
+            {
+
+
+            }
+            Console.ReadKey();
         }
 
         private void init()
         {
-            
-            Audio.TestSong();
-
-
+            //Audio.TestSong();
+            //Audio.StartSong()
             points = 0;
             progresBarValue = 100;
-
             timer = new GameTimer(20);
-
             view = new GameView();
             view.Render();
             gameOver = false;
 
-
-            //iterator = 0;
-            //points = 0;
-
-            var ts = new CancellationTokenSource();
-            CancellationToken ct = ts.Token;
-            Task.Factory.StartNew(() =>
+            t = new Thread(delegate ()
             {
-
                 while (true)
                 {
                     if (gameOver == true)
                     {
-                        view.DisplayEndGame(); //<===
                         break;
                     }
                     pressedKey = Console.ReadKey(true);
@@ -161,51 +115,13 @@ namespace dj_hero
                     else
                     {
                         MissClick();
-                        
+
                     }
                     pressedKey = new ConsoleKeyInfo();
-
-                    if (ct.IsCancellationRequested)
-                    {
-                        // another thread decided to cancel
-                        break;
-                    }
                 }
-            }, ct);
-
-            
+            });
+            t.Start();
         }
-        // -- operation on progresbarr
-
-        public void DecreaseProgresBarPerSec()
-        {
-            progresBarValue -= matchOpttions.progresBarLosePerSec;
-            view.DisplayProgressBar(progresBarValue);
-            if (progresBarValue < 1)
-            {
-                EndGame();
-            }
-        }
-
-        public void DecreaseProgresBarPerMiss()
-        {
-            progresBarValue -= matchOpttions.decPointsPerMiss;
-            view.DisplayProgressBar(progresBarValue);
-            if (progresBarValue < 1)
-            {
-                EndGame();
-            }
-        }
-
-        public void IncreaseProgresBar()
-        {
-            progresBarValue += matchOpttions.incPointsPerSucceed;
-            view.DisplayProgressBar(progresBarValue);
-            if (progresBarValue > 100)
-                progresBarValue = 100;
-        }
-
-        // --------------------------------------------------------------
 
         private void SuccesedClick()
         {
@@ -234,11 +150,6 @@ namespace dj_hero
         {
             //core
             RefreshTimeToAnswer();
-
-            //mainElement = new AppearingChar();
-            //ToChangeManager.GetInstance().Add(mainElement);
-            //view.RenderNewCharacter(mainElement);
-            //view.Add(mainElement);
             //========================
             //3 posibility
             //first load
@@ -275,14 +186,15 @@ namespace dj_hero
 
             }
             //=====================================
-
-
         }
 
         public void EndGame()
         {
-            //Game view display stats and evrything
+
+            t.Abort();
+            int b;
             gameOver = true;
+            timer.StopTimer();
             Audio.StopSong();
             view.DisplayEndGame();
             view.DisplayPoints(points);
@@ -290,17 +202,40 @@ namespace dj_hero
 
         }
 
-        public void play()
-        {
-            init();
-            timer.RunTimer();
-            LoadSegment();
-            while(!gameOver)
-            {
 
+
+        // -- operation on progresbarr
+
+        public void DecreaseProgresBarPerSec()
+        {
+            progresBarValue -= matchOpttions.progresBarLosePerSec;
+            view.DisplayProgressBar(progresBarValue);
+            if (progresBarValue < 1)
+            {
+                EndGame();
             }
-            Console.ReadKey();
         }
+
+        public void DecreaseProgresBarPerMiss()
+        {
+            progresBarValue -= matchOpttions.decPointsPerMiss;
+            view.DisplayProgressBar(progresBarValue);
+            if (progresBarValue < 1)
+            {
+                EndGame();
+            }
+        }
+
+        public void IncreaseProgresBar()
+        {
+            progresBarValue += matchOpttions.incPointsPerSucceed;
+            view.DisplayProgressBar(progresBarValue);
+            if (progresBarValue > 100)
+                progresBarValue = 100;
+        }
+
+        // --------------------------------------------------------------
+
 
         //clock stuff
         public void TimeControler()

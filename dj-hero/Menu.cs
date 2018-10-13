@@ -11,7 +11,6 @@ namespace dj_hero
     {
 
 
-        private static int selectedOption = 0;
         private static ConsoleKeyInfo pressedKey;
 
         public static void Init()
@@ -19,41 +18,28 @@ namespace dj_hero
             MenuView menuView = new MenuView();
             menuView.Render();
 
-
-            var ts = new CancellationTokenSource();
-            CancellationToken ct = ts.Token;
-            Task.Factory.StartNew(() =>
+            Thread t = new Thread(delegate ()
             {
                 do
                 {
                     pressedKey = Console.ReadKey(true);
-                    //if(pressedKey.Key == ConsoleKey.D1)
-                    //{
-                    //    break;
-                    //}
+
                     Thread.Sleep(10);
 
 
-                } while (!ct.IsCancellationRequested);
-                //while (true)
-                //{
+                } while (true);
+            });
+            t.Start();
 
-                //    if (ct.IsCancellationRequested)
-                //    {
-                //        // another thread decided to cancel
-                //        break;
-                //    }
-                //    pressedKey = Console.ReadKey(true);
-                //}
-            }, ct);
-
+            Boolean exit = false;
             do
             {
                 switch (pressedKey.Key)
                 {
                     case ConsoleKey.D1:
-                        ts.Cancel();
-                        //pressedKey = new ConsoleKeyInfo();
+                        //ts.Cancel();
+                        t.Abort();
+                        exit = true;
                         Menu.Play();
                         break;
                     case ConsoleKey.D2:
@@ -67,41 +53,15 @@ namespace dj_hero
                         break;
 
                 }
-            } while (!ct.IsCancellationRequested);
-            //while (true)
-            //{
-            //    switch (pressedKey.Key)
-            //    {
-            //        case ConsoleKey.D1:
-            //            ts.Cancel();
-            //            Menu.Play();
-            //            pressedKey = new ConsoleKeyInfo();
-            //            break;
-            //        case ConsoleKey.D2:
-            //            Menu.Options();
-            //            break;
-            //        case ConsoleKey.D3:
-            //            Menu.Rank();
-            //            break;
-            //        case ConsoleKey.D4:
-            //            Menu.Exit();
-            //            break;
-                    
-            //    }
-
-            //}
+            } while (!exit);
         }
 
 
         // switch to window difficult chose
         public static void Play()
         {
-            //GameView gameView = new GameView();
-            //gameView.Render();
             SongSelection songSelection = new SongSelection();
             songSelection.Init();
-            //Game game = Game.Instance;
-            //game.play();
         }
 
         public static void Options()

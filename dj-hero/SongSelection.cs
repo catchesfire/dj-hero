@@ -2,18 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dj_hero
 {
     class SongSelection
     {
+        private static ConsoleKeyInfo pressedKey;
 
         public void Init()
         {
-            //Display songs 
-            //set matchoptions 
-            Game game = Game.Instance;
+            SongSlectionView selectionView = new SongSlectionView();
+
+            //Thread t = new Thread(delegate ()
+            //{
+            //    do
+            //    {
+            //        pressedKey = Console.ReadKey(true);
+
+            //    } while (true);
+            //});
+            //t.Start();
+
+            private Song current = Song.songs[0];
+
+
+        //Display songs 
+        //set matchoptions 
+        Audio.StartSong(current);
+        Game game = Game.Instance;
             game.play();
         }
     }
