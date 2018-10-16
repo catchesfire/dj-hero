@@ -25,7 +25,7 @@ namespace dj_hero
             //});
             //t.Start();
 
-            private Song current = Song.songs[0];
+             Song current = Song.songs[0];
 
 
         //Display songs 

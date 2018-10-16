@@ -14,7 +14,7 @@ namespace dj_hero
         public static readonly string libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/DJH_MusicFiles";
 
 
-        public static void StartSong(Song song, bool isLoop)
+        public static void StartSong(Song song, bool isLoop = false)
         {
             if(isLoop == true)
                 Player.settings.setMode("loop", true);

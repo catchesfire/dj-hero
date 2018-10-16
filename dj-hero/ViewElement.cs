@@ -87,6 +87,18 @@ namespace dj_hero
             }
         }
 
+        public void UpdateReverseColours()
+        {
+            ConsoleColor foreColor = Console.ForegroundColor;
+            Console.ForegroundColor = Console.BackgroundColor;
+            Console.BackgroundColor = foreColor;
+            this.Update();
+            foreColor = Console.ForegroundColor;
+            Console.ForegroundColor = Console.BackgroundColor;
+            Console.BackgroundColor = foreColor;
+
+        }
+
         public void Update(int lineIndex)
         {
             ClearLine(lineIndex);
