@@ -25,13 +25,13 @@ namespace dj_hero
             //});
             //t.Start();
 
-            private Song current = Song.songs[0];
+            Song current = Song.songs[0];
 
 
-        //Display songs 
-        //set matchoptions 
-        Audio.StartSong(current);
-        Game game = Game.Instance;
+            //Display songs 
+            //set matchoptions 
+            Audio.StartSong(current, false);
+            Game game = Game.Instance;
             game.play();
         }
     }

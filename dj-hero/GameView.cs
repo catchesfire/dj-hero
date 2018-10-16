@@ -75,7 +75,7 @@ namespace dj_hero
         {
             for(int i = 0; i < charactersNo; i++)
             {
-                characters[i] = new ViewElement(-1, -1, 16, 5, new List<string>() { "" });
+                characters[i] = new ViewElement(-1, -1, 16, 7, new List<string>() { "" });
                 Elements.Add("Character" + i, characters[i]);
             }
 
@@ -129,21 +129,19 @@ namespace dj_hero
             Elements["Points"].Update();
         }
 
-        int x1 =-1, x2=-1;
 
         public void Add(AppearingChar character)
         {
-            //character.Id = characterIndex;
             Random rand = new Random();
-            //List<string> lines = new List<string>(Ascii[character.character.ToString()].Concat(Ascii[character.counter.ToString()])); 
-            List<string> lines = Ascii[character.character.ToString()];
+            List<string> lines = new List<string>(Ascii[character.character.ToString()]);
+            lines.Add(character.counter.ToString());
             bool vac = true;
             do
             {
                 vac = true;
                 character.PosX = rand.Next(10, 102);
                 character.PosY = rand.Next(3, 24);
-                for(int i = 0; i < 5; i++)
+                for(int i = 0; i < 7; i++)
                 {
                     for(int j = 0; j < 16; j++)
                     {
@@ -158,41 +156,6 @@ namespace dj_hero
                         break;
                 }
             } while (vac == false);
-
-            //while (true)
-            //{
-            //    vac = true;
-            //    character.PosX = rand.Next(10, 102);
-            //    character.PosY = rand.Next(3, 24);
-            //    for (int i = 0; i < 5; i++)
-            //    {
-            //        for (int j = 0; j < 16; j++)
-            //        {
-            //            if (vacancy[character.PosY + i, character.PosX + j] == false)
-            //            {
-            //                vac = false;
-            //                break;
-            //            }
-            //        }
-
-            //        if (vac == false)
-            //            break;
-            //    }
-
-            //    if(vac == true)
-            //    {
-            //        break;
-            //    }
-            //}
-
-            //if (characterIndex%2==0)
-            //{
-            //    x1 = character.PosX;
-            //}
-            //else
-            //{
-            //    x2 = character.PosX;
-            //}
 
             Elements["Character" + characterIndex % 3].Clear();
             if(characterIndex > 3)
@@ -216,19 +179,18 @@ namespace dj_hero
         }
 
 
-        //public void UpdateCharacter()
-        //{
-        //    ToChange character = ToChangeManager.GetInstance().items[0];
-        //    if (character.ClicksNo == 0)
-        //    {
-        //        Elements["Character" + character.Id % 3].Clear();
-        //    }
-        //    else
-        //    {
-        //        Elements["Character" + character.Id % 3].Lines[0] = character.Letter + character.ClicksNo.ToString();
-        //        Elements["Character" + characterIndex % 3].Update();
-        //    }
-        //}
+        public void UpdateCharacter(AppearingChar character)
+        {
+            if (character.counter == 0)
+            {
+                Elements["Character" + (characterIndex + 1) % 3].Clear();
+            }
+            else
+            {
+                Elements["Character" + characterIndex % 3].Lines[6] = character.counter.ToString();
+                Elements["Character" + characterIndex % 3].Update(ConsoleColor.Green);
+            }
+        }
 
         public void DisplayEndGame()
         {
