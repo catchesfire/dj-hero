@@ -93,7 +93,7 @@ namespace dj_hero
          * </summary>
          * <returns>Zwraca listę</returns>
          **/
-        public ObservableCollection<T> getList()
+        public ObservableCollection<T> GetList()
         {
             return list;
         }

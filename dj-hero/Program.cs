@@ -25,7 +25,19 @@ namespace dj_hero
             //Console.ReadKey();
             //Console.WriteLine("Tutaj ktos zle wcisnal literke XD");
             //Audio.Noise();
-            //Console.ReadKey();
+
+
+            //Ranking r = new Ranking(Audio.GetSongList()[0]);
+
+            //r.AddRecord("marcin", 2137);
+            //r.AddRecord("pawelek", 2);
+            //r.AddRecord("wojtek", 512);
+
+            //r.AddRecord("menekin", 21373);
+
+            //r.Print();
+            Console.ReadKey();
+
 
             //menu.Render();
 

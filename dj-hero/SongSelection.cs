@@ -10,6 +10,7 @@ namespace dj_hero
     class SongSelection
     {
         private static ConsoleKeyInfo pressedKey;
+        public List<Song> songsList;
 
         public void Init()
         {
@@ -25,13 +26,14 @@ namespace dj_hero
             //});
             //t.Start();
 
-             Song current = Song.songs[0];
+            songsList = Audio.GetSongList();
+            Song selectedSong = songsList[0];
 
 
 
             //Display songs 
             //set matchoptions 
-            Audio.StartSong(current, false);
+            Audio.StartSong(selectedSong);
             Game game = Game.Instance;
             game.play();
         }

@@ -9,13 +9,7 @@ namespace dj_hero
     class SongSlectionView
     {
 
-        public void Display()
-        {
-            foreach(Song s in Song.songs)
-            {
-                Console.WriteLine(s.title);
-            }
-        }
+
 
     }
 }
