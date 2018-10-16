@@ -171,7 +171,7 @@ namespace dj_hero
             //refresh
             if (mainElement.counter > 0)
             {
-                //view.refresh(mainElement);
+                view.UpdateCharacter(mainElement);
                 Console.WriteLine("no chance");
                 //display 
             }
