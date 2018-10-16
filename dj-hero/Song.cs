@@ -24,6 +24,7 @@ namespace dj_hero
         }
 
         public string GetPath() => path;
+        public string GetTitle() => title;
 
         public Song(string filename)
         {
