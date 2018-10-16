@@ -9,6 +9,7 @@ namespace dj_hero
 {
     public static class Audio
     {
+        private static List<Song> songs = new List<Song>();
         private static WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
         private static WMPLib.WindowsMediaPlayer Player2 = new WMPLib.WindowsMediaPlayer();
         public static readonly string libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/DJH_MusicFiles";
@@ -35,5 +36,12 @@ namespace dj_hero
         {
             Player.controls.stop();
         }
+
+        public static void AddSongToList(Song s)
+        {
+            songs.Add(s);
+        }
+
+        public static List<Song> GetSongList() => songs;
     }
 }

@@ -24,7 +24,8 @@ namespace dj_hero
             //Console.WriteLine("Tutaj ktos zle wcisnal literke XD");
             //Audio.Noise();
 
-            Ranking r = new Ranking(Song.songs[0]);
+            Ranking r = new Ranking(Audio.GetSongList()[0]);
+
             r.AddRecord("marcin", 2137);
             r.AddRecord("pawelek", 2);
             r.AddRecord("wojtek", 512);

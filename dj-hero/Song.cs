@@ -9,14 +9,13 @@ namespace dj_hero
 {
     public class Song
     {
-        public static List<Song> songs = new List<Song>();
 
         public static Song mainmenusong;
         public static Song noisesong;
 
-        private string path;
-        private string title;
-        private Difficulty difficulty;
+        private readonly string path;
+        private readonly string title;
+        private readonly Difficulty difficulty;
 
         public Song()
         {
@@ -67,7 +66,7 @@ namespace dj_hero
                     else
                     {
                         Song s = new Song(fi.Name);
-                        songs.Add(s);
+                        Audio.AddSongToList(s);
                     }
                 }
             }
