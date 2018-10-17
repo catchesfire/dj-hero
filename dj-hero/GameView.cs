@@ -116,11 +116,15 @@ namespace dj_hero
             Elements["ProgressBar"].Lines[0] = ret;
 
             if (percent <= 30)
-                Elements["ProgressBar"].Update(ConsoleColor.Red);
+            {
+                Elements["ProgressBar"].ForegroundColor = ConsoleColor.Red;
+            }
             else if (percent <= 70)
-                Elements["ProgressBar"].Update(ConsoleColor.Yellow);
+                Elements["ProgressBar"].ForegroundColor = ConsoleColor.Yellow;
             else
-                Elements["ProgressBar"].Update(ConsoleColor.Green);
+                Elements["ProgressBar"].ForegroundColor = ConsoleColor.Green;
+
+            Elements["ProgressBar"].Update();
         }
 
         public void DisplayPoints(int points)
@@ -166,13 +170,17 @@ namespace dj_hero
             Elements["Character" + characterIndex % 3].Lines = lines;
             if(characterIndex == 0)
             {
-                Elements["Character" + characterIndex % 3].Update(ConsoleColor.Green);
+                Elements["Character" + characterIndex % 3].ForegroundColor = ConsoleColor.Green;
+                Elements["Character" + characterIndex % 3].Update();
             }
             else
             {
+                Elements["Character" + characterIndex % 3].ForegroundColor = ConsoleColor.White;
                 Elements["Character" + characterIndex % 3].Update();
-                Elements["Character" + (characterIndex + 1) % 3].Update(ConsoleColor.Green);
-                Elements["Character" + (characterIndex + 2) % 3].Update(ConsoleColor.Blue);
+                Elements["Character" + (characterIndex + 1) % 3].ForegroundColor = ConsoleColor.Green;
+                Elements["Character" + (characterIndex + 1) % 3].Update();
+                Elements["Character" + (characterIndex + 2) % 3].ForegroundColor = ConsoleColor.Blue;
+                Elements["Character" + (characterIndex + 2) % 3].Update();
             }
 
             characterIndex++;
@@ -188,7 +196,8 @@ namespace dj_hero
             else
             {
                 Elements["Character" + characterIndex % 3].Lines[6] = character.counter.ToString();
-                Elements["Character" + characterIndex % 3].Update(ConsoleColor.Green);
+                Elements["Character" + characterIndex % 3].ForegroundColor = ConsoleColor.Green;
+                Elements["Character" + characterIndex % 3].Update();
             }
         }
 

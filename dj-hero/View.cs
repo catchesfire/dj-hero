@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    public class View
+    public abstract class View
     {
-        private int Width;
-        private int Height;
+        protected int width;
+        protected int height;
+        protected int posX;
+        protected int posY;
 
         public Dictionary<string, ViewElement> Elements { get; set; }
         protected Dictionary<string, List<string>> Ascii { get; set; }
@@ -18,8 +20,8 @@ namespace dj_hero
         {
             Elements = new Dictionary<string, ViewElement>();
             Ascii = new Dictionary<string, List<string>>();
-            Width = Console.WindowWidth;
-            Height = Console.WindowHeight;
+            width = Console.WindowWidth;
+            height = Console.WindowHeight;
 
             Ascii.Add("0", new List<string>()
             {
@@ -177,12 +179,12 @@ namespace dj_hero
             });
         }
 
-        public void AddElement(string name, ViewElement element)
+        public virtual void AddElement(string name, ViewElement element)
         {
             Elements.Add(name, element);
         }
 
-        private void Clear()
+        public void Clear()
         {
             Console.Clear();
         }
