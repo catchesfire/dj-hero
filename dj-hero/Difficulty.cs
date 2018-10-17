@@ -12,6 +12,7 @@ namespace dj_hero
         //private readonly int answerTime;
         public char[] characters;
         public int answerTime;
+        public string name;
 
         public int getAnswerTime()
         {
@@ -23,15 +24,16 @@ namespace dj_hero
         private static readonly char[] hardCharacters = { 'a', 's', 'd', 'f', 'h', 'j', 'k', 'l', 'z', 'm', 'q', 'w', 'e', 'r', 'u', 'i', 'o', 'p'};
 
 
-        public Difficulty(char[] _characters, int _answerTime)
+        public Difficulty(char[] _characters, int _answerTime, string _name)
         {
             this.characters = _characters;
             this.answerTime = _answerTime;
+            this.name = _name;
         }
 
-        public static Difficulty easy = new Difficulty(easyCharacters, 5);
-        public static Difficulty medium = new Difficulty(mediumCharacters, 4);
-        public static Difficulty hard = new Difficulty(hardCharacters, 3);
+        public static Difficulty easy = new Difficulty(easyCharacters, 5, "easy");
+        public static Difficulty medium = new Difficulty(mediumCharacters, 4, "medium");
+        public static Difficulty hard = new Difficulty(hardCharacters, 3, "hard");
 
 
         public char GetRandomCharacter()

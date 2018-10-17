@@ -17,8 +17,8 @@ namespace dj_hero
         // switch to window difficult chose
         public static void Play()
         {
-            SongSelection songSelection = new SongSelection();
-            songSelection.Init();
+            SongSlectionView songSlectionView = new SongSlectionView();
+            songSlectionView.Init();
         }
 
         public static void Options()

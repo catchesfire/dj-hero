@@ -60,7 +60,6 @@ namespace dj_hero
         public List<String> characterList = new List<string>();
         private GameTimer timer;
         public ConsoleKeyInfo pressedKey;
-        private char current;
         public GameView view;
         private int points;
         private int progresBarValue;
@@ -192,7 +191,6 @@ namespace dj_hero
         {
 
             t.Abort();
-            int b;
             gameOver = true;
             timer.StopTimer();
             Audio.StopSong();

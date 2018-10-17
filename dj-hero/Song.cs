@@ -18,6 +18,13 @@ namespace dj_hero
         private readonly string title;
         private readonly Difficulty difficulty;
 
+        public string getDifficultyName()
+        {
+            return difficulty.name;
+        }
+
+        public int duration;
+
         public Song()
         {
 
@@ -67,7 +74,9 @@ namespace dj_hero
                     else
                     {
                         Song s = new Song(fi.Name);
+                        s.duration = Audio.SetDurationSong(s);
                         Audio.AddSongToList(s);
+
                     }
                 }
             }

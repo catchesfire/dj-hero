@@ -62,6 +62,7 @@
     <Compile Include="Song.cs" />
     <Compile Include="SongSelection.cs" />
     <Compile Include="SongSlectionView.cs" />
+    <Compile Include="SongView.cs" />
     <Compile Include="View.cs" />
     <Compile Include="ViewElement.cs" />
   </ItemGroup>

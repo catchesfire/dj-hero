@@ -104,19 +104,6 @@ namespace dj_hero
             else { Menu.Exit(); }
         }
 
-        public override void Render()
-        {
-            base.Render();
-            selectedElement.UpdateReverseColours();
-
-
-            //Console.WriteLine("LOGO");
-            //Console.WriteLine("1.Play");
-            //Console.WriteLine("2.Options");
-            //Console.WriteLine("3.rank");
-            //Console.WriteLine("4.Exit");
-        }
-
         internal void MoveSelectedUp()
         {
             selectedElement.Update();
@@ -133,5 +120,19 @@ namespace dj_hero
             selectedElement = Elements[list[++counter % list.Length]];
             selectedElement.UpdateReverseColours();
         }
+
+        public override void Render(bool clear = true)
+        {
+            base.Render();
+            selectedElement.UpdateReverseColours();
+
+
+            //Console.WriteLine("LOGO");
+            //Console.WriteLine("1.Play");
+            //Console.WriteLine("2.Options");
+            //Console.WriteLine("3.rank");
+            //Console.WriteLine("4.Exit");
+        }
+
     }
 }

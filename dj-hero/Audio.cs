@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WMPLib;
 
 namespace dj_hero
 {
@@ -40,6 +41,14 @@ namespace dj_hero
         public static void AddSongToList(Song s)
         {
             songs.Add(s);
+        }
+
+        public static int SetDurationSong(Song song)
+        {
+            WindowsMediaPlayer wmp = new WindowsMediaPlayer();
+            string path = song.GetPath() ;
+            IWMPMedia mediaInformation = wmp.newMedia(path);
+            return (int)mediaInformation.duration;
         }
 
         public static List<Song> GetSongList() => songs;
