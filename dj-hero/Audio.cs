@@ -24,8 +24,10 @@ namespace dj_hero
             if (song == Song.noisesong)
                 Player2.URL = song.GetPath();
             else
+            {
                 Player.URL = song.GetPath();
-          
+            }
+
         }
         public static void Noise()
         {

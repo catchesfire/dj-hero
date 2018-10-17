@@ -39,12 +39,8 @@ namespace dj_hero
             {
                 Directory.CreateDirectory(rankingPath);
             }
-
-            var oc = new ObservableCollection<Score>();
-            foreach (var item in scores)
-                oc.Add(item);
-            XmlList = new ListSerializer<Score>(rankingPath + song.GetTitle(), song.GetTitle() + ".xml", oc);
-            XmlList.PullData();
+            XmlList = new ListSerializer<Score>(rankingPath + song.GetTitle(), song.GetTitle() + ".xml", scores);
+            scores = XmlList.PullData();
         }
 
 
@@ -58,6 +54,7 @@ namespace dj_hero
             {
                 scores.RemoveAt(scores.Count - 1);
             }
+            XmlList = new ListSerializer<Score>(rankingPath + song.GetTitle(), song.GetTitle() + ".xml", scores);
             XmlList.PushData();
             return;
         }

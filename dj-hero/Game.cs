@@ -63,6 +63,8 @@ namespace dj_hero
         private char current;
         public GameView view;
         private int points;
+        private string playerName;
+        private Song currentsong;
         private int progresBarValue;
         MatchOption matchOpttions = MatchOption.Instance();
 
@@ -198,6 +200,9 @@ namespace dj_hero
             Audio.StopSong();
             view.DisplayEndGame();
             view.DisplayPoints(points);
+
+            Ranking ranking = new Ranking(currentsong);
+            ranking.AddRecord(playerName, points);
             //save to rank etc.
 
         }
