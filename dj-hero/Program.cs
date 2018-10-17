@@ -29,11 +29,22 @@ namespace dj_hero
 
             //Ranking r = new Ranking(Audio.GetSongList()[0]);
 
-            //r.AddRecord("marcin", 2137);
+            //r.AddRecord("marcin", 1);
             //r.AddRecord("pawelek", 2);
-            //r.AddRecord("wojtek", 512);
+            //r.AddRecord("wojtek", 3);
+            //r.AddRecord("menekin", 4);
+            //r.AddRecord("menekin", 5);
+            //r.AddRecord("menekin", 6);
 
-            //r.AddRecord("menekin", 21373);
+            //r.AddRecord("menekin", 7);
+            //r.AddRecord("menekin", 8);
+
+            //r.AddRecord("menekin", 10);
+            //r.AddRecord("menekin", 11);
+
+            //r.AddRecord("menekin", 9);
+
+
 
             //r.Print();
             Console.ReadKey();

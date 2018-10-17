@@ -12,31 +12,31 @@ namespace dj_hero
 {
     public class ListSerializer<T>
     {
-        public ObservableCollection<T> list;
+        public List<T> list;
         private string fileName;
         private string header;
 
-        public ListSerializer(string fileName, string header, ObservableCollection<T> list)
+        public ListSerializer(string fileName, string header, List<T> list)
         {
             this.list = list;
             this.fileName = fileName;
             this.header = header;
         }
 
-        public ObservableCollection<T> PullData()
+        public List<T> PullData()
         {
             XmlRootAttribute oRootAttr = new XmlRootAttribute
             {
                 ElementName = header,
                 IsNullable = true
             };
-            XmlSerializer oSerializer = new XmlSerializer(typeof(ObservableCollection<T>), oRootAttr);
+            XmlSerializer oSerializer = new XmlSerializer(typeof(List<T>), oRootAttr);
             StreamReader oStreamReader = null;
 
             try
             {
                 oStreamReader = new StreamReader(fileName + ".xml");
-                list = (ObservableCollection<T>)oSerializer.Deserialize(oStreamReader);
+                list = (List<T>)oSerializer.Deserialize(oStreamReader);
             }
             catch (FileNotFoundException)
             {
@@ -67,7 +67,7 @@ namespace dj_hero
                 ElementName = header,
                 IsNullable = true
             };
-            XmlSerializer oSerializer = new XmlSerializer(typeof(ObservableCollection<T>), oRootAttr);
+            XmlSerializer oSerializer = new XmlSerializer(typeof(List<T>), oRootAttr);
             StreamWriter oStreamWriter = null;
 
             try
@@ -93,7 +93,7 @@ namespace dj_hero
          * </summary>
          * <returns>Zwraca listę</returns>
          **/
-        public ObservableCollection<T> GetList()
+        public List<T> GetList()
         {
             return list;
         }

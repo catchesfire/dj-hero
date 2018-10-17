@@ -44,8 +44,6 @@ namespace dj_hero
 
             selectedSong.SetTick();
 
-
-
             t = new Thread(delegate ()
             {
                 do
@@ -76,13 +74,6 @@ namespace dj_hero
                 }
             } while (!exit);
 
-
-            
-
-
-
-            //Display songs 
-            
         }
 
         private void EnterAction()
@@ -93,7 +84,6 @@ namespace dj_hero
             exit = true;
             MatchOption matchOption = new MatchOption(selectedSong.song);
 
-
             Game game = new Game(matchOption, selectedSong.song);
             game.play();
         }
@@ -101,14 +91,10 @@ namespace dj_hero
         private void MoveSelectedUp()
         {
             selectedSong.RemoveTick();
-
             counter += songViewsList.Count - 1;
             int index = counter % songViewsList.Count;
             selectedSong = songViewsList[index];
-
-
             selectedSong.SetTick();
-
         }
 
         private void MoveSelectedDown()

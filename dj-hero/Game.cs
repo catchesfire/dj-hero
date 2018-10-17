@@ -64,9 +64,10 @@ namespace dj_hero
         public ConsoleKeyInfo pressedKey;
         public GameView view;
         private int points;
+        private string playerName;
+        public Song song;
         private int progresBarValue;
         MatchOption matchOpttions;
-        Song song;
 
         Thread t;
 
@@ -202,6 +203,10 @@ namespace dj_hero
             Audio.StopSong();
             view.DisplayEndGame();
             view.DisplayPoints(points);
+
+            Ranking ranking = new Ranking(song);
+            ranking.AddRecord(playerName, points);
+
             //save to rank etc.
 
         }
