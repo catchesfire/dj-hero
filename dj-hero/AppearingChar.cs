@@ -14,12 +14,12 @@ namespace dj_hero
         public char character;
         public int counter;
 
-        public AppearingChar()
+        public AppearingChar(MatchOption matchOption)
         {
             PosX = -1;
             PosY = -1;
             Random rnd = new Random();
-            MatchOption matchOption = MatchOption.Instance();
+            
             int len = matchOption.charactersSet.Length;
             character = matchOption.charactersSet[rnd.Next(len)];
 

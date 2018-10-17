@@ -13,12 +13,14 @@ namespace dj_hero
     public class GameTimer
     {
         private int time;
+        Game game;
         
         private System.Timers.Timer timer = new System.Timers.Timer(1000);
 
-        public GameTimer(int _time)
+        public GameTimer(int _time, Game _game)
         {
             time = _time;
+            game = _game;
         }
 
         public void RunTimer()
@@ -37,45 +39,56 @@ namespace dj_hero
         {
             time--;
 
-            Game.Instance.view.DisplayTime(time);
+            game.view.DisplayTime(time);
 
 
             if(time <= 0)
             {
                 // go end game
-                Game.Instance.EndGame();
+                game.EndGame();
                 timer.Stop();
                 timer.Dispose();
             }
             else
             {
-                Game.Instance.DecreaseProgresBarPerSec();
-                Game.Instance.TimeControler();
+                game.DecreaseProgresBarPerSec();
+                game.TimeControler();
             }
         }
     }
 
     public sealed class Game
     {
-        public List<String> characterList = new List<string>();
+        //public List<String> characterList = new List<string>();
         private GameTimer timer;
         public ConsoleKeyInfo pressedKey;
         public GameView view;
         private int points;
         private int progresBarValue;
-        MatchOption matchOpttions = MatchOption.Instance();
+        MatchOption matchOpttions;
+        Song song;
 
         Thread t;
 
         private Boolean gameOver;
 
-        private Game()
+        public Game(MatchOption _matchOption, Song _song)
         {
+            matchOpttions = _matchOption;
+            song = _song;
+            points = 0;
+            progresBarValue = matchOpttions.progresBarValue;
+            timer = new GameTimer(song.duration, this);
+            view = new GameView();
+            gameOver = false;
+
+
         }
 
         public void play()
         {
             init();
+            Audio.StartSong(song);
             timer.RunTimer();
             LoadSegment();
             while (!gameOver)
@@ -88,14 +101,7 @@ namespace dj_hero
 
         private void init()
         {
-            //Audio.TestSong();
-            //Audio.StartSong()
-            points = 0;
-            progresBarValue = 100;
-            timer = new GameTimer(20);
-            view = new GameView();
             view.Render();
-            gameOver = false;
 
             t = new Thread(delegate ()
             {
@@ -158,7 +164,7 @@ namespace dj_hero
 
                 for (int i=1; i<=matchOpttions.amountElementsSameTime;i++)
                 {
-                    mainElement = new AppearingChar();
+                    mainElement = new AppearingChar(matchOpttions);
                     queue.Enqueue(mainElement);
                     view.Add(mainElement);
                 }
@@ -177,7 +183,7 @@ namespace dj_hero
             //hit
             if (mainElement.counter == 0)
             {
-                mainElement = new AppearingChar();
+                mainElement = new AppearingChar(matchOpttions);
                 queue.Enqueue(mainElement);
                 view.Add(mainElement);
 
@@ -251,16 +257,6 @@ namespace dj_hero
         private void RefreshTimeToAnswer()
         {
             timeToAnswer = matchOpttions.answerTime;
-        }
-
-        //singleton
-
-        private static Game instance = new Game();
-        public static Game Instance {
-            get
-            {
-                return instance;
-            }
         }
 
     }

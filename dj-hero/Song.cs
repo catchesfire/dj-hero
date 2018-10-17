@@ -22,6 +22,11 @@ namespace dj_hero
         {
             return difficulty.name;
         }
+        public Difficulty getDifficulty()
+        {
+            return difficulty;
+        }
+
 
         public int duration;
 

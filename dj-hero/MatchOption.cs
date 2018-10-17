@@ -10,6 +10,7 @@ namespace dj_hero
     {
         public char[] charactersSet = Difficulty.easy.characters;
         public int answerTime = Difficulty.easy.answerTime;
+        public int progresBarValue = 100;
         public int progresBarLosePerSec = 1;
         public int decPointsPerMiss = 10;
         public int incPointsPerSucceed = 15;
@@ -17,15 +18,17 @@ namespace dj_hero
         public int chanceBombElement =0  ;//range 0-10
         public int amountElementsSameTime = 3;
 
-        private MatchOption()
+        public MatchOption()
         {
 
         }
 
-        private static MatchOption instance = new MatchOption();
-        public static MatchOption Instance()
+        public MatchOption(Song song)
         {
-            return instance;
+            charactersSet = song.getDifficulty().characters;
+            answerTime = song.getDifficulty().answerTime;
         }
+
+
     }
 }

@@ -89,7 +89,12 @@ namespace dj_hero
         {
             //set matchoptions 
             //Audio.StartSong(selectedSong);
-            Game game = Game.Instance;
+            t.Abort();
+            exit = true;
+            MatchOption matchOption = new MatchOption(selectedSong.song);
+
+
+            Game game = new Game(matchOption, selectedSong.song);
             game.play();
         }
 

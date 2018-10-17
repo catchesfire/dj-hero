@@ -10,7 +10,7 @@ namespace dj_hero
     {
         private int x, y;
 
-        private Song song;
+        public Song song;
 
         public void SetTick()
         {
