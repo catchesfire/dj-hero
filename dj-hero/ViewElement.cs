@@ -9,12 +9,14 @@ namespace dj_hero
 {
     public class ViewElement
     {
-        public static Dictionary<string, List<string>> Ascii;
-
         public int PosX { get; set; }
         public int PosY { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+
+        public ConsoleColor BackgroundColor { get; set; }
+        public ConsoleColor ForegroundColor { get; set; }
+
         public List<string> Lines { get; set; }
 
         static readonly object locker = new object();
@@ -26,6 +28,9 @@ namespace dj_hero
             Width = _width;
             Height = _height;
             Lines = _lines;
+
+            BackgroundColor = ConsoleColor.Black;
+            ForegroundColor = ConsoleColor.White;
         }
 
         public void Clear()
@@ -54,56 +59,56 @@ namespace dj_hero
 
         public void Update()
         {
-            //@ to do to check if line is different, if it is - reload
             lock (locker)
             {
                 Clear();
+                if(Lines.Count > Height)
+                {
+                    //@Todo throw an exception
+                }
                 if(PosX >=0 && PosY >= 0)
                 {
+                    //Console.ResetColor();
+                    Console.BackgroundColor = BackgroundColor;
+                    Console.ForegroundColor = ForegroundColor;
                     for (int i = 0; i < Lines.Count; i++)
                     {
-                        Console.SetCursorPosition(PosX, PosY + i);
-                        Console.Write(Lines[i]);
-                    }
-                }
-            }
-        }
+                        if(Lines[i].Length > Width)
+                        {
+                            //@Todo throw an exception
+                        }
+                        //Console.ForegroundColor = color;
 
-        public void Update(ConsoleColor colour)
-        {
-            lock (locker)
-            {
-                Clear();
-                if (PosX >= 0 && PosY >= 0)
-                {
-                    for (int i = 0; i < Lines.Count; i++)
-                    {
                         Console.SetCursorPosition(PosX, PosY + i);
-                        Console.ForegroundColor = colour;
                         Console.Write(Lines[i]);
+                        //Console.ResetColor();
+
                     }
+
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
-                Console.ResetColor();
             }
         }
 
         public void UpdateReverseColours()
         {
-            ConsoleColor foreColor = Console.ForegroundColor;
-            Console.ForegroundColor = Console.BackgroundColor;
-            Console.BackgroundColor = foreColor;
-            this.Update();
-            foreColor = Console.ForegroundColor;
-            Console.ForegroundColor = Console.BackgroundColor;
-            Console.BackgroundColor = foreColor;
-
+            ConsoleColor foreColor = ForegroundColor;
+            ForegroundColor = BackgroundColor;
+            BackgroundColor = foreColor;
+            Update();
+            foreColor = ForegroundColor;
+            ForegroundColor = BackgroundColor;
+            BackgroundColor = foreColor;
         }
 
-        public void Update(int lineIndex)
+        public void Update(int lineIndex, ConsoleColor colour = ConsoleColor.White)
         {
             ClearLine(lineIndex);
+            Console.ForegroundColor = colour;
             Console.SetCursorPosition(PosX, PosY + lineIndex);
             Console.Write(Lines[lineIndex]);
+            Console.ResetColor();
         }
     }
 }

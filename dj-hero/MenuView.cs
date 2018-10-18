@@ -67,6 +67,8 @@ namespace dj_hero
                         break;
                     case ConsoleKey.D2:
                         Menu.Rank();
+                        pressedKey = new ConsoleKeyInfo();
+
                         break;
                     case ConsoleKey.D3:
                         Menu.Exit();

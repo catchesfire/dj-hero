@@ -6,23 +6,28 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    public class View
+    public abstract class View
     {
-        //private int Width = Console.WindowWidth;
-       // private int Height = Console.WindowHeight;
+
+        protected int width;
+        protected int height;
+        protected int posX;
+        protected int posY;
+
 
         public Dictionary<string, ViewElement> Elements { get; set; }
 
         public View()
         {
             Elements = new Dictionary<string, ViewElement>();
-            //Width = Console.WindowWidth;
-            //Height = Console.WindowHeight;
+
+            width = Console.WindowWidth;
+            height = Console.WindowHeight;
 
             
         }
 
-        public void AddElement(string name, ViewElement element)
+        public virtual void AddElement(string name, ViewElement element)
         {
             Elements.Add(name, element);
         }
