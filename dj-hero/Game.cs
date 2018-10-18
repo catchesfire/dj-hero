@@ -71,7 +71,9 @@ namespace dj_hero
 
         Thread t;
 
-        private Boolean gameOver;
+        private bool gameOver;
+        private bool gameOverProcesDone;
+        private bool gameOverByUserInterrupt;
 
         public Game(MatchOption _matchOption, Song _song)
         {
@@ -82,6 +84,8 @@ namespace dj_hero
             timer = new GameTimer(song.duration, this);
             view = new GameView();
             gameOver = false;
+            gameOverByUserInterrupt = false;
+            gameOverProcesDone = false;
 
 
         }
@@ -92,12 +96,30 @@ namespace dj_hero
             Audio.StartSong(song);
             timer.RunTimer();
             LoadSegment();
-            while (!gameOver)
+            while (!gameOverProcesDone)
             {
 
 
             }
-            Console.ReadKey();
+
+            if (gameOverByUserInterrupt == true)
+            {
+                MenuView menuView = new MenuView();
+                menuView.Init();
+            }
+            else
+            {
+                view.DisplayEndGame();
+                view.DisplayPoints(points);
+
+                Ranking ranking = new Ranking(song);
+                ranking.AddRecord(playerName, points);
+                Console.ReadKey();
+            }
+            
+
+
+            //Console.ReadKey();
         }
 
         private void init()
@@ -120,8 +142,17 @@ namespace dj_hero
                     }
                     else
                     {
-                        MissClick();
+                        if( pressedKey.Key == ConsoleKey.Escape)
+                        {
+                            gameOver = true;
+                            gameOverByUserInterrupt = true;
+                            EndGame();
 
+                        }
+                        else
+                        {
+                            MissClick();
+                        }
                     }
                     pressedKey = new ConsoleKeyInfo();
                 }
@@ -197,15 +228,13 @@ namespace dj_hero
         public void EndGame()
         {
 
-            t.Abort();
-            gameOver = true;
+            gameOverProcesDone = true;
             timer.StopTimer();
+            pressedKey = new ConsoleKeyInfo();
+            gameOver = true;
             Audio.StopSong();
-            view.DisplayEndGame();
-            view.DisplayPoints(points);
+            t.Abort();
 
-            Ranking ranking = new Ranking(song);
-            ranking.AddRecord(playerName, points);
 
             //save to rank etc.
 

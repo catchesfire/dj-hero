@@ -22,6 +22,7 @@ namespace dj_hero
 
         public SongSlectionView(string _nickname)
         {
+            pressedKey = new ConsoleKeyInfo();
             songsList = Audio.GetSongList();
             nickname = _nickname;
             int x = 60;
@@ -78,10 +79,23 @@ namespace dj_hero
                     case ConsoleKey.Enter:
                         EnterAction();
                         break;
-
+                    case ConsoleKey.Escape:
+                        exit = true;
+                        ExitAction();
+                        pressedKey = new ConsoleKeyInfo();
+                        break;
                 }
             } while (!exit);
 
+        }
+
+        private void ExitAction()
+        {
+            exit = true;
+            t.Abort();
+            Console.CursorVisible = false;
+            MenuView menuView = new MenuView();
+            menuView.Init();
         }
 
         private void EnterAction()

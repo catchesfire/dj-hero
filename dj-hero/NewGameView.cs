@@ -18,9 +18,9 @@ namespace dj_hero
         private Boolean exit;
         private ConsoleKeyInfo pressedKey;
 
-
         public NewGameView()
         {
+            pressedKey = new ConsoleKeyInfo();
             nick = "";
             header = new ViewElement((Console.WindowWidth - 5) / 2, 3, 10, 1, new List<string>() { "Podaj nick" });
             nickname = new ViewElement(Console.WindowWidth / 2 - 20, Console.WindowHeight / 2 - 2, 40, 5, new List<string>()
@@ -44,8 +44,6 @@ namespace dj_hero
             Console.SetCursorPosition(nickname.PosX + 2, nickname.PosY + 2);
             Console.CursorVisible = true;
 
-
-
             exit = false;
             do
             {
@@ -64,10 +62,8 @@ namespace dj_hero
                     default:
                         nick += pressedKey.Key.ToString();
                         break;
-
                 }
             } while (!exit);
-
 
         }
 
