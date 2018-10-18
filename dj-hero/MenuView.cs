@@ -39,6 +39,7 @@ namespace dj_hero
 
         public  void Init()
         {
+            pressedKey = new ConsoleKeyInfo();
             Render();
 
             t = new Thread(delegate ()

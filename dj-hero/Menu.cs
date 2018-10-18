@@ -17,8 +17,8 @@ namespace dj_hero
         // switch to window difficult chose
         public static void Play()
         {
-            SongSlectionView songSlectionView = new SongSlectionView();
-            songSlectionView.Init();
+            NewGameView newGameView = new NewGameView();
+            newGameView.Init();
         }
 
         public static void Options()
@@ -29,7 +29,6 @@ namespace dj_hero
         public static void Rank()
         {
             NewGameView newGameView = new NewGameView();
-            newGameView.Render();
             newGameView.Init();
         }
 

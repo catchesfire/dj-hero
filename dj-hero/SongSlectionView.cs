@@ -17,11 +17,13 @@ namespace dj_hero
         private Thread t;
         private bool exit;
         List<SongView> songViewsList = new List<SongView>();
+        private string nickname;
 
 
-        public SongSlectionView()
+        public SongSlectionView(string _nickname)
         {
             songsList = Audio.GetSongList();
+            nickname = _nickname;
             int x = 60;
             int y = 2;
             foreach (Song song in songsList)
@@ -37,6 +39,12 @@ namespace dj_hero
         public void Init()
         {
             Clear();
+            Elements.Add("nickname",new ViewElement(20,1,30,1, new List<string>()
+                {
+                    "Witaj " + nickname + " wybierz melodie"
+                }
+                ));
+            Render();
             foreach (SongView sView in songViewsList)
             {
                 sView.Render(false);
