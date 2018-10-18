@@ -77,6 +77,7 @@ namespace dj_hero
                         pressedKey = new ConsoleKeyInfo();
                         break;
                     case ConsoleKey.Enter:
+                        exit = true;
                         EnterAction();
                         break;
                     case ConsoleKey.Escape:
@@ -105,9 +106,9 @@ namespace dj_hero
             t.Abort();
             exit = true;
             MatchOption matchOption = new MatchOption(selectedSong.song);
-
+            matchOption.nickname = nickname;
             Game game = new Game(matchOption, selectedSong.song);
-            game.play();
+            //game.play();
         }
 
         private void MoveSelectedUp()

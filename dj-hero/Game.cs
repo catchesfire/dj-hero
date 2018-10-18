@@ -86,7 +86,7 @@ namespace dj_hero
             gameOver = false;
             gameOverByUserInterrupt = false;
             gameOverProcesDone = false;
-
+            play();
 
         }
 
@@ -109,12 +109,14 @@ namespace dj_hero
             }
             else
             {
-                view.DisplayEndGame();
-                view.DisplayPoints(points);
-
                 Ranking ranking = new Ranking(song);
                 ranking.AddRecord(playerName, points);
-                Console.ReadKey();
+
+
+                EndGameView endGameView = new EndGameView(points, song, matchOpttions);
+                //view.DisplayEndGame();
+                //view.DisplayPoints(points);
+
             }
             
 
@@ -134,6 +136,7 @@ namespace dj_hero
                     {
                         break;
                     }
+
                     pressedKey = Console.ReadKey(true);
 
                     if (pressedKey.Key.ToString().ToUpper() == mainElement.character.ToString().ToUpper())
@@ -230,7 +233,7 @@ namespace dj_hero
 
             gameOverProcesDone = true;
             timer.StopTimer();
-            pressedKey = new ConsoleKeyInfo();
+            //pressedKey = new ConsoleKeyInfo();
             gameOver = true;
             Audio.StopSong();
             t.Abort();
