@@ -33,6 +33,9 @@ namespace dj_hero
             }
             );
 
+            Elements.Add("alert", new ViewElement(Console.WindowWidth / 2 - 18, Console.WindowHeight / 2 + 6, 40, 1, new List<string>()
+                {"Invalid nickname" }));
+
             Elements.Add("Header", header);
             Elements.Add("Nickname", nickname);
         }
@@ -41,6 +44,9 @@ namespace dj_hero
         public void Init()
         {
             Render();
+            Elements["alert"].Clear();
+
+
             Console.SetCursorPosition(nickname.PosX + 2, nickname.PosY + 2);
             Console.CursorVisible = true;
 
@@ -60,7 +66,10 @@ namespace dj_hero
                         EnterAction();
                         break;
                     default:
-                        nick += pressedKey.Key.ToString();
+                        if (char.IsLetterOrDigit(pressedKey.KeyChar))
+                        {
+                            nick += pressedKey.KeyChar;
+                        }
                         break;
                 }
             } while (!exit);
@@ -75,11 +84,32 @@ namespace dj_hero
             menuView.Init();
         }
 
+
+        private bool validationNickname()
+        {
+
+
+
+
+            return true;
+        }
+
         private void EnterAction()
         {
+            if(nick.Trim().Length <= 0)
+            {
+                //cw invalid name
+                Elements["alert"].Update();
+
+
+
+                Console.SetCursorPosition(nickname.PosX + 2, nickname.PosY + 2);
+                return;
+            }
+
             exit = true;
             Console.CursorVisible = false;
-            SongSlectionView songSlectionView = new SongSlectionView(nick);
+            SongSlectionView songSlectionView = new SongSlectionView(nick.Trim());
             songSlectionView.Init();
         }
 
