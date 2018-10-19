@@ -31,8 +31,6 @@ namespace dj_hero
             vacancy = new bool[Console.WindowHeight, Console.WindowWidth];
             Ascii = new Dictionary<string, List<string>>();
 
-
-
             timer = new ViewElement(Console.WindowWidth - 8, 1, 5, 3,
                 new List<string>()
                 {
@@ -40,7 +38,7 @@ namespace dj_hero
                     "",
                     "00:00"
                 });
-            progressBar = new ViewElement(3, 1, 25, 5, new List<string>() { "" });
+            progressBar = new ViewElement(3, 1, 27, 5, new List<string>() { "" });
             points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
 
             Elements.Add("ProgressBar", progressBar);
@@ -136,15 +134,6 @@ namespace dj_hero
                 @"   /_/",
             });
 
-            //Ascii.Add("a", new List<string>()
-            //{
-            //    @"    _",
-            //    @"   / \",
-            //    @"  / _ \",
-            //    @" / ___ \",
-            //    @"/_/   \_\",
-            //});
-
             Ascii.Add("a", new List<string>()
             {
                 @" █████╗",
@@ -157,48 +146,52 @@ namespace dj_hero
 
             Ascii.Add("s", new List<string>()
             {
-                @" ____",
-                @"/ ___|",
-                @"\___ \",
-                @" ___) |",
-                @"|____/",
-
+                @"███████╗",
+                @"██╔════╝",
+                @"███████╗",
+                @"╚════██║",
+                @"███████║",
+                @"╚══════╝"
             });
 
             Ascii.Add("d", new List<string>()
             {
-                @" ____",
-                @"|  _ \",
-                @"| | | |",
-                @"| | | |",
-                @"|____/",
+                @"██████╗",
+                @"██╔══██╗",
+                @"██║  ██║",
+                @"██║  ██║",
+                @"██████╔╝",
+                @"╚═════╝"
             });
 
             Ascii.Add("j", new List<string>()
             {
-                @"     _",
-                @"    | |",
-                @" _  | |",
-                @"| |_| |",
-                @" \___/",
+                @"     ██╗",
+                @"     ██║",
+                @"     ██║",
+                @"██   ██║",
+                @"╚█████╔╝",
+                @" ╚════╝"
             });
 
             Ascii.Add("k", new List<string>()
             {
-                @" _  __",
-                @"| |/ /",
-                @"| ' /",
-                @"| . \",
-                @"|_|\_\",
+                @"██╗  ██╗",
+                @"██║ ██╔╝",
+                @"█████╔╝",
+                @"██╔═██╗",
+                @"██║  ██╗",
+                @"╚═╝  ╚═╝"
             });
 
             Ascii.Add("l", new List<string>()
             {
-                @" _ ",
-                @"| |",
-                @"| |",
-                @"| |___",
-                @"|_____|",
+                @"██╗",
+                @"██║",
+                @"██║",
+                @"██║",
+                @"███████╗",
+                @"╚══════╝"
             });
 
             InitCharacters();
@@ -236,7 +229,7 @@ namespace dj_hero
         {
             for(int i = 0; i < charactersNo; i++)
             {
-                characters[i] = new ViewElement(-1, -1, 16, 7, new List<string>() { "" });
+                characters[i] = new ViewElement(-1, -1, 8, 7, new List<string>() { "" });
                 Elements.Add("Character" + i, characters[i]);
             }
 

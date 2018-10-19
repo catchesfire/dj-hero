@@ -24,7 +24,65 @@ namespace dj_hero
             width = Console.WindowWidth;
             height = Console.WindowHeight;
 
-            
+        }
+
+        public List<string> DrawRect(int width, int height)
+        {
+            List<string> rect = new List<string>();
+            string leftTopCorner = "╔";
+            string leftBottomCorner = "╚";
+            string rightTopCorner = "╗";
+            string rightBottomCorner = "╝";
+            string vertical = "║";
+            string horizontal = "═";
+
+            for(int i = 0; i < height; i++)
+            {
+                string line = "";
+
+                if (i == 0)
+                {
+                    line += leftTopCorner;
+                }
+                else if(i == height - 1)
+                {
+                    line += leftBottomCorner;
+                }
+                else
+                {
+                    line += vertical;
+                }
+
+                for(int j = 1; j < width - 2; j++)
+                {
+                    if(i == 0 || i == height - 1)
+                    {
+                        line += horizontal;
+                    }
+                    else
+                    {
+                        line += " ";
+                    }
+                }
+
+                if(i == 0)
+                {
+                    line += rightTopCorner;
+                } else if(i == height - 1)
+                {
+                    line += rightBottomCorner;
+                }
+                else
+                {
+                    line += vertical;
+                }
+
+
+                rect.Add(line);
+
+            }
+
+            return rect;
         }
 
         public virtual void AddElement(string name, ViewElement element)

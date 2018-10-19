@@ -22,7 +22,7 @@ namespace dj_hero
         public SongSlectionView()
         {
             songsList = Audio.GetSongList();
-            int x = 60;
+            int x = Console.WindowWidth / 2 + 1;
             int y = 2;
             foreach (Song song in songsList)
             {
