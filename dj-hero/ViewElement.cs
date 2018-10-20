@@ -59,36 +59,34 @@ namespace dj_hero
 
         public void Update()
         {
-            lock (locker)
+            Clear();
+            if(Lines.Count > Height)
             {
-                Clear();
-                if(Lines.Count > Height)
-                {
-                    //@Todo throw an exception
-                }
-                if(PosX >=0 && PosY >= 0)
-                {
-                    //Console.ResetColor();
-                    Console.BackgroundColor = BackgroundColor;
-                    Console.ForegroundColor = ForegroundColor;
-                    for (int i = 0; i < Lines.Count; i++)
-                    {
-                        if(Lines[i].Length > Width)
-                        {
-                            //@Todo throw an exception
-                        }
-                        //Console.ForegroundColor = color;
-
-                        Console.SetCursorPosition(PosX, PosY + i);
-                        Console.Write(Lines[i]);
-                        //Console.ResetColor();
-
-                    }
-
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
+                throw new Exception();
             }
+            if(PosX >=0 && PosY >= 0)
+            {
+                Console.BackgroundColor = BackgroundColor;
+                Console.ForegroundColor = ForegroundColor;
+                for (int i = 0; i < Lines.Count; i++)
+                {
+                    if(Lines[i].Length > Width)
+                    {
+                        throw new Exception();
+                    }
+                    //Console.ForegroundColor = color;
+
+                    Console.SetCursorPosition(PosX, PosY + i);
+                    Console.Write(Lines[i]);
+
+                }
+
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.SetCursorPosition(0, 0);
+            }
+            
         }
 
         public void UpdateReverseColours()

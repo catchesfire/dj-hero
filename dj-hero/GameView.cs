@@ -41,9 +41,14 @@ namespace dj_hero
             progressBar = new ViewElement(3, 1, 27, 5, new List<string>() { "" });
             points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
 
+
             Elements.Add("ProgressBar", progressBar);
             Elements.Add("Points", points);
             Elements.Add("Timer", timer);
+
+            progressBar.ForegroundColor = ConsoleColor.Green;
+            DisplayProgressBar(100);
+
             Ascii.Add("0", new List<string>()
             {
                 @"  ___ ",

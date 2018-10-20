@@ -17,6 +17,7 @@ namespace dj_hero
         public int maxBombCounterElement = 5;
         public int chanceBombElement =0  ;//range 0-10
         public int amountElementsSameTime = 3;
+        public string nickname = "Player";
 
         public MatchOption()
         {

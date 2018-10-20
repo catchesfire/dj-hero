@@ -39,6 +39,7 @@ namespace dj_hero
 
         public  void Init()
         {
+            pressedKey = new ConsoleKeyInfo();
             Render();
 
             t = new Thread(delegate ()
@@ -46,8 +47,6 @@ namespace dj_hero
                 do
                 {
                     pressedKey = Console.ReadKey(true);
-
-                    Thread.Sleep(10);
 
 
                 } while (true);
@@ -57,6 +56,7 @@ namespace dj_hero
             exit = false;
             do
             {
+
                 switch (pressedKey.Key)
                 {
                     case ConsoleKey.D1:
@@ -86,6 +86,8 @@ namespace dj_hero
                         break;
 
                 }
+
+
             } while (!exit);
         }
 
