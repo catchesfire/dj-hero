@@ -8,14 +8,16 @@ using WMPLib;
 using Figgle;
 namespace dj_hero
 {
-    class Program
+    public class Program
     {
+        public static int width = 180;
+        public static int height = 40; 
+
         static void Main(string[] args)
         {
 
             Console.CursorVisible = false;
-            Console.WriteLine("Hello DJ-Hero");
-            Console.WriteLine();
+            Console.SetWindowSize(width, height);
             Song.PrepareSongs();
             MenuView menuView = new MenuView();
             menuView.Init();

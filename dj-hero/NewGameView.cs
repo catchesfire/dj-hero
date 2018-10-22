@@ -14,30 +14,31 @@ namespace dj_hero
         private string nick;
         private ViewElement header;
         private ViewElement nickname;
+        private ViewElement border;
+        private ViewElement _logo;
         private Thread t;
-        private Boolean exit;
+        private bool exit;
         private ConsoleKeyInfo pressedKey;
 
         public NewGameView()
         {
             pressedKey = new ConsoleKeyInfo();
             nick = "";
-            header = new ViewElement((Console.WindowWidth - 5) / 2, 3, 10, 1, new List<string>() { "Podaj nick" });
-            nickname = new ViewElement(Console.WindowWidth / 2 - 20, Console.WindowHeight / 2 - 2, 40, 5, new List<string>()
-            {
-                @"╔══════════════════════════════════════╗",
-                @"║                                      ║",
-                @"║                                      ║",
-                @"║                                      ║",
-                @"╚══════════════════════════════════════╝"
-            }
-            );
+
+            _logo = new ViewElement((Console.WindowWidth / 2) - (logo[0].Length / 2), 1, logo[0].Length, logo.Count, logo);
+            border = new ViewElement(Console.WindowWidth / 2 - 20, Console.WindowHeight / 2 - 2, 40, 5, DrawRect(40, 5));
+            header = new ViewElement(Console.WindowWidth / 2 - 5, border.PosY - 2, 10, 1, new List<string>() { "Podaj nick" });
+            nickname = new ViewElement(border.PosX + 2, border.PosY + 2, 36, 1, new List<string>() { "" });
+
+            _logo.ForegroundColor = ConsoleColor.Red;
+
+            Elements.Add("Logo", _logo);
+            Elements.Add("Header", header);
+            Elements.Add("NicknameBorder", border);
+            Elements.Add("Nickname", nickname);
 
             Elements.Add("alert", new ViewElement(Console.WindowWidth / 2 - 18, Console.WindowHeight / 2 + 6, 40, 1, new List<string>()
                 {"Invalid nickname" }));
-
-            Elements.Add("Header", header);
-            Elements.Add("Nickname", nickname);
         }
 
 
@@ -47,7 +48,7 @@ namespace dj_hero
             Elements["alert"].Clear();
 
 
-            Console.SetCursorPosition(nickname.PosX + 2, nickname.PosY + 2);
+            Console.SetCursorPosition(nickname.PosX, nickname.PosY);
             Console.CursorVisible = true;
 
             exit = false;
@@ -65,10 +66,24 @@ namespace dj_hero
                     case ConsoleKey.Enter:
                         EnterAction();
                         break;
+                    case ConsoleKey.Backspace:
+                        if(nick.Length > 0)
+                        {
+                            nickname.Lines[0] = nick.Remove(nick.Length - 1, 1);
+                            nick = nickname.Lines[0];
+                            nickname.Update();
+                            Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
+                        }
+                        Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
+                        break;
                     default:
                         if (char.IsLetterOrDigit(pressedKey.KeyChar))
                         {
-                            nick += pressedKey.KeyChar;
+                            if(nick.Length < nickname.Width)
+                            {
+                                nick += pressedKey.KeyChar;
+                                nickname.Lines[0] = nick;
+                            }
                         }
                         break;
                 }
@@ -109,8 +124,8 @@ namespace dj_hero
 
             exit = true;
             Console.CursorVisible = false;
-            SongSlectionView songSlectionView = new SongSlectionView(nick.Trim());
-            songSlectionView.Init();
+            SongSelectionView songSelectionView = new SongSelectionView(nick.Trim());
+            songSelectionView.Init();
         }
 
         public string GetNick()

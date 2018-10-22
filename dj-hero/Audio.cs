@@ -53,6 +53,6 @@ namespace dj_hero
             return (int)mediaInformation.duration;
         }
 
-        public static List<Song> GetSongList() => songs;
+        public static List<Song> GetSongList() => songs.OrderBy(order => order.getDifficulty().GetOrder()).ToList();
     }
 }
