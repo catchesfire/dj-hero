@@ -62,7 +62,7 @@ namespace dj_hero
             Clear();
             if(Lines.Count > Height)
             {
-                throw new Exception();
+                //throw new Exception();
             }
             if(PosX >=0 && PosY >= 0)
             {
@@ -70,21 +70,17 @@ namespace dj_hero
                 Console.ForegroundColor = ForegroundColor;
                 for (int i = 0; i < Lines.Count; i++)
                 {
-                    if(Lines[i].Length > Width)
+                    for(int j = 0; j < Lines[i].Length && j < Width; j++)
                     {
-                        throw new Exception();
+                        Console.SetCursorPosition(PosX + j, PosY + i);
+                        Console.Write(Lines[i][j]);
                     }
-                    //Console.ForegroundColor = color;
-
-                    Console.SetCursorPosition(PosX, PosY + i);
-                    Console.Write(Lines[i]);
-
                 }
 
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
 
-                Console.SetCursorPosition(0, 0);
+                //Console.SetCursorPosition(0, 0);
             }
             
         }

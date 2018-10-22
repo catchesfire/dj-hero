@@ -26,7 +26,15 @@ namespace dj_hero
         }
         public void RemoveTick()
         {
-            Elements["tick"].Clear();
+            //Elements["tick"].Clear();
+            Elements["tick"] = new ViewElement(x, y, 1, 4, new List<string>()
+                {
+                    @" ",
+                    @" ",
+                    @" ",
+                    @" "
+                });
+            Elements["tick"].Update();
         }
 
         public SongView(int _x, int _y, Song _song)
@@ -44,7 +52,7 @@ namespace dj_hero
                 }));
 
             Elements.Add("ramka", new ViewElement(x + 1, y, Console.WindowWidth / 2 - 2, 4, DrawRect(Console.WindowWidth / 2 - 2, 4)));
-            Elements.Add("title", new ViewElement(x + 2, y+1, 20, 1, new List<string>() { song.GetTitle() }));
+            Elements.Add("title", new ViewElement(x + 2, y+1, Console.WindowWidth / 2 - 6, 1, new List<string>() { song.GetTitle() }));
 
             int minutes = song.duration / 60;
             int seconds = song.duration % 60;

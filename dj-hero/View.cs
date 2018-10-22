@@ -16,6 +16,15 @@ namespace dj_hero
 
 
         public Dictionary<string, ViewElement> Elements { get; set; }
+        public static List<string> logo = new List<string>()
+               {
+                    @"______  ___   _   _  ___________ _____",
+                    @"|  _  \|_  | | | | ||  ___| ___ \  _  |",
+                    @"| | | |  | | | |_| || |__ | |_/ / | | |",
+                    @"| | | |  | | |  _  ||  __||    /| | | |",
+                    @"| |/ /\__/ / | | | || |___| |\ \\ \_/ /",
+                    @"|___/\____/  \_| |_/\____/\_| \_|\___/"
+               };
 
         public View()
         {
@@ -101,15 +110,7 @@ namespace dj_hero
                 Clear();
             foreach (KeyValuePair<string, ViewElement> element in Elements)
             {
-                if(element.Value.PosX >= 0 && element.Value.PosY >= 0)
-                {
-                    for(int i = 0; i < element.Value.Lines.Count; i++)
-                    {
-                        Console.SetCursorPosition(element.Value.PosX, element.Value.PosY + i);
-                        Console.Write(element.Value.Lines[i]);
-                    }
-                }
-                // do something with entry.Value or entry.Key
+                element.Value.Update();
             }
         }
     }

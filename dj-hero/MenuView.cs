@@ -13,19 +13,7 @@ namespace dj_hero
         string[] list = { "play", "rank", "exit" };
         private int counter = 0;
         public MenuView()
-        {
-            Elements.Add("logo", new ViewElement((Console.WindowWidth - 40) / 2, 0, 80, 6, 
-                new List<string>()
-                {
-                    @"______  ___   _   _  ___________ _____",
-                    @"|  _  \|_  | | | | ||  ___| ___ \  _  |",
-                    @"| | | |  | | | |_| || |__ | |_/ / | | |",
-                    @"| | | |  | | |  _  ||  __||    /| | | |",
-                    @"| |/ /\__/ / | | | || |___| |\ \\ \_/ /",
-                    @"|___/\____/  \_| |_/\____/\_| \_|\___/"
-                }
-                ));
-            
+        {           
             Elements.Add("play", new ViewElement(20, 10, 7, 1, new List<string>() { "1. Play" }));
             Elements.Add("rank", new ViewElement(20, 12, 7, 1, new List<string>() { "2. Rank" }));
             Elements.Add("exit", new ViewElement(20, 14, 8, 1, new List<string>() { "3. Exit" }));
