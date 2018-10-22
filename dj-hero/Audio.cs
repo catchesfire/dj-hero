@@ -109,6 +109,7 @@ namespace dj_hero
 
 
 
-        public static List<Song> GetSongList() => songs;
+
+        public static List<Song> GetSongList() => songs.OrderBy(order => order.getDifficulty().GetOrder()).ToList();
     }
 }

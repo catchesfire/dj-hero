@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    public class SongSlectionView: View
+    public class SongSelectionView: View
     {
         private int counter = 0;
 
@@ -20,13 +20,13 @@ namespace dj_hero
         private string nickname;
 
 
-        public SongSlectionView(string _nickname)
+        public SongSelectionView(string _nickname)
         {
             pressedKey = new ConsoleKeyInfo();
             songsList = Audio.GetSongList();
             nickname = _nickname;
-            int x = 60;
-            int y = 2;
+            int x = Console.WindowWidth / 2 + 1;
+            int y = 0;
             foreach (Song song in songsList)
             {
                 songViewsList.Add(new SongView(x, y, song));
@@ -39,12 +39,18 @@ namespace dj_hero
 
         public void Init()
         {
-            Clear();
-            Elements.Add("nickname",new ViewElement(20,1,30,1, new List<string>()
-                {
-                    "Witaj " + nickname + " wybierz melodie"
-                }
-                ));
+            Elements.Add("Logo", new ViewElement((Console.WindowWidth / 4) - (logo[0].Length / 2), 1, logo[0].Length, logo.Count, logo));
+            Elements["Logo"].ForegroundColor = ConsoleColor.Red;
+            List<string> h1 = new List<string>()
+            {
+                "Witaj " + nickname
+            };
+            List<string> h2 = new List<string>()
+            {
+                "Wybierz melodie"
+            };
+            Elements.Add("H1", new ViewElement((Console.WindowWidth / 4) - (h1[0].Length / 2), Console.WindowHeight / 2, h1[0].Length, 1, h1));
+            Elements.Add("H2", new ViewElement((Console.WindowWidth / 4) - (h2[0].Length / 2), Console.WindowHeight / 2 + 1, h2[0].Length, 1, h2));
             Render();
             foreach (SongView sView in songViewsList)
             {

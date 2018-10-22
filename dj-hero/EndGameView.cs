@@ -28,10 +28,10 @@ namespace dj_hero
             matchOptions = _matchOptions;
 
 
-            Elements.Add("title", new ViewElement(20, 4, 7, 1, new List<string>() { "GAME OVER" }));
-            Elements.Add("playAgain", new ViewElement(20, 10, 7, 1, new List<string>() { "Play again" }));
-            Elements.Add("backToMenu", new ViewElement(20, 12, 7, 1, new List<string>() { "Back to menu" }));
-            Elements.Add("exit", new ViewElement(20, 14, 8, 1, new List<string>() { "Exit" }));
+            Elements.Add("title", new ViewElement(20, 4, 9, 1, new List<string>() { "GAME OVER" }));
+            Elements.Add("playAgain", new ViewElement(20, 10, 10, 1, new List<string>() { "Play again" }));
+            Elements.Add("backToMenu", new ViewElement(20, 12, 12, 1, new List<string>() { "Back to menu" }));
+            Elements.Add("exit", new ViewElement(20, 14, 4, 1, new List<string>() { "Exit" }));
 
             Elements.Add("points", new ViewElement(20, 20, 6, 2, new List<string>()
                 {

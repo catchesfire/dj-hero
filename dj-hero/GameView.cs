@@ -12,6 +12,7 @@ namespace dj_hero
         private ViewElement timer;
         private ViewElement progressBar;
         private ViewElement[] characters;
+        private ViewElement[] counters;
 
         private bool[,] vacancy;
 
@@ -29,10 +30,9 @@ namespace dj_hero
             charactersNo = 3;
 
             characters = new ViewElement[charactersNo];
+            counters = new ViewElement[charactersNo];
             vacancy = new bool[Console.WindowHeight, Console.WindowWidth];
             Ascii = new Dictionary<string, List<string>>();
-
-
 
             timer = new ViewElement(Console.WindowWidth - 8, 1, 5, 3,
                 new List<string>()
@@ -41,12 +41,17 @@ namespace dj_hero
                     "",
                     "00:00"
                 });
-            progressBar = new ViewElement(3, 1, 25, 5, new List<string>() { "" });
+            progressBar = new ViewElement(3, 1, 27, 5, new List<string>() { "" });
             points = new ViewElement((Console.WindowWidth - 2) / 2, 1, 5, 1, new List<string>() { "0" });
+
 
             Elements.Add("ProgressBar", progressBar);
             Elements.Add("Points", points);
             Elements.Add("Timer", timer);
+
+            progressBar.ForegroundColor = ConsoleColor.Green;
+            DisplayProgressBar(100);
+
             Ascii.Add("0", new List<string>()
             {
                 @"  ___ ",
@@ -137,15 +142,6 @@ namespace dj_hero
                 @"   /_/",
             });
 
-            //Ascii.Add("a", new List<string>()
-            //{
-            //    @"    _",
-            //    @"   / \",
-            //    @"  / _ \",
-            //    @" / ___ \",
-            //    @"/_/   \_\",
-            //});
-
             Ascii.Add("a", new List<string>()
             {
                 @" █████╗",
@@ -158,51 +154,71 @@ namespace dj_hero
 
             Ascii.Add("s", new List<string>()
             {
-                @" ____",
-                @"/ ___|",
-                @"\___ \",
-                @" ___) |",
-                @"|____/",
-
+                @"███████╗",
+                @"██╔════╝",
+                @"███████╗",
+                @"╚════██║",
+                @"███████║",
+                @"╚══════╝"
             });
 
             Ascii.Add("d", new List<string>()
             {
-                @" ____",
-                @"|  _ \",
-                @"| | | |",
-                @"| | | |",
-                @"|____/",
+                @"██████╗",
+                @"██╔══██╗",
+                @"██║  ██║",
+                @"██║  ██║",
+                @"██████╔╝",
+                @"╚═════╝"
             });
 
             Ascii.Add("j", new List<string>()
             {
-                @"     _",
-                @"    | |",
-                @" _  | |",
-                @"| |_| |",
-                @" \___/",
+                @"     ██╗",
+                @"     ██║",
+                @"     ██║",
+                @"██   ██║",
+                @"╚█████╔╝",
+                @" ╚════╝"
             });
 
             Ascii.Add("k", new List<string>()
             {
-                @" _  __",
-                @"| |/ /",
-                @"| ' /",
-                @"| . \",
-                @"|_|\_\",
+                @"██╗  ██╗",
+                @"██║ ██╔╝",
+                @"█████╔╝",
+                @"██╔═██╗",
+                @"██║  ██╗",
+                @"╚═╝  ╚═╝"
             });
 
             Ascii.Add("l", new List<string>()
             {
-                @" _ ",
-                @"| |",
-                @"| |",
-                @"| |___",
-                @"|_____|",
+                @"██╗",
+                @"██║",
+                @"██║",
+                @"██║",
+                @"███████╗",
+                @"╚══════╝"
             });
 
             InitCharacters();
+        }
+
+        private int GetAsciiWidth(string element)
+        {
+            int max = 0;
+            foreach (string line in Ascii[element.ToString()])
+            {
+                max = Math.Max(max, line.Length);
+            }
+
+            return max;
+        }
+
+        private int GetCharWidth(char letter, int counter)
+        {
+            return GetAsciiWidth(letter.ToString()) + GetAsciiWidth(counter.ToString()) + 1;
         }
 
         private void LockPos(ViewElement element)
@@ -237,13 +253,15 @@ namespace dj_hero
         {
             for(int i = 0; i < charactersNo; i++)
             {
-                characters[i] = new ViewElement(-1, -1, 16, 7, new List<string>() { "" });
+                characters[i] = new ViewElement(-1, -1, 8, 6, new List<string>() { "" });
+                counters[i] = new ViewElement(-1, -1, 8, 5, new List<string>() { "" });
                 Elements.Add("Character" + i, characters[i]);
+                Elements.Add("Counter" + i, counters[i]);
             }
 
-            for(int i = 3; i < 30; i++)
+            for(int i = 3; i < Console.WindowHeight; i++)
             {
-                for(int j = 10; j < 120; j++)
+                for(int j = 5; j < Console.WindowWidth - 5; j++)
                 {
                     vacancy[i, j] = true;
                 }
@@ -299,17 +317,17 @@ namespace dj_hero
         public void Add(AppearingChar character)
         {
             Random rand = new Random();
-            List<string> lines = new List<string>(Ascii[character.character.ToString()]);
-            lines.Add(character.counter.ToString());
+            List<string> characterLines = Ascii[character.character.ToString()];
+            List<string> counterLines = Ascii[character.counter.ToString()];
             bool vac = true;
             do
             {
                 vac = true;
-                character.PosX = rand.Next(10, 102);
-                character.PosY = rand.Next(3, 24);
-                for(int i = 0; i < 7; i++)
+                character.PosX = rand.Next(5, Console.WindowWidth - 5);
+                character.PosY = rand.Next(3, Console.WindowHeight - 7);
+                for(int i = 0; i < 6; i++)
                 {
-                    for(int j = 0; j < 16; j++)
+                    for(int j = 0; j < GetCharWidth(character.character, character.counter); j++)
                     {
                         if(vacancy[character.PosY + i, character.PosX + j] == false)
                         {
@@ -323,26 +341,47 @@ namespace dj_hero
                 }
             } while (vac == false);
 
+
+            Elements["Character" + characterIndex % 3].Width = GetAsciiWidth(character.character.ToString());
+            Elements["Counter" + characterIndex % 3].Width = GetAsciiWidth(character.counter.ToString());
+
             Elements["Character" + characterIndex % 3].Clear();
-            if(characterIndex > 3)
+            Elements["Counter" + characterIndex % 3].Clear();
+            if (characterIndex > 3)
+            {
                 ReleasePos(Elements["Character" + characterIndex % 3]);
+                ReleasePos(Elements["Counter" + characterIndex % 3]);
+            }
             Elements["Character" + characterIndex % 3].PosX = character.PosX;
             Elements["Character" + characterIndex % 3].PosY = character.PosY;
             LockPos(Elements["Character" + characterIndex % 3]);
-            Elements["Character" + characterIndex % 3].Lines = lines;
-            if(characterIndex == 0)
+            LockPos(Elements["Character" + characterIndex % 3]);
+            Elements["Character" + characterIndex % 3].Lines = characterLines;
+
+            Elements["Counter" + characterIndex % 3].PosX = character.PosX + GetAsciiWidth(character.character.ToString()) + 1;
+            Elements["Counter" + characterIndex % 3].PosY = character.PosY + 1;
+            Elements["Counter" + characterIndex % 3].Lines = counterLines;
+            if (characterIndex == 0)
             {
                 Elements["Character" + characterIndex % 3].ForegroundColor = ConsoleColor.Green;
+                Elements["Counter" + characterIndex % 3].ForegroundColor = ConsoleColor.Green;
                 Elements["Character" + characterIndex % 3].Update();
+                Elements["Counter" + characterIndex % 3].Update();
             }
             else
             {
                 Elements["Character" + characterIndex % 3].ForegroundColor = ConsoleColor.White;
+                Elements["Counter" + characterIndex % 3].ForegroundColor = ConsoleColor.White;
                 Elements["Character" + characterIndex % 3].Update();
+                Elements["Counter" + characterIndex % 3].Update();
                 Elements["Character" + (characterIndex + 1) % 3].ForegroundColor = ConsoleColor.Green;
+                Elements["Counter" + (characterIndex + 1) % 3].ForegroundColor = ConsoleColor.Green;
                 Elements["Character" + (characterIndex + 1) % 3].Update();
+                Elements["Counter" + (characterIndex + 1) % 3].Update();
                 Elements["Character" + (characterIndex + 2) % 3].ForegroundColor = ConsoleColor.Blue;
+                Elements["Counter" + (characterIndex + 2) % 3].ForegroundColor = ConsoleColor.Blue;
                 Elements["Character" + (characterIndex + 2) % 3].Update();
+                Elements["Counter" + (characterIndex + 2) % 3].Update();
             }
 
             characterIndex++;

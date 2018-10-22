@@ -15,7 +15,21 @@ namespace dj_hero
         protected int posY;
 
 
+
+
         public Dictionary<string, ViewElement> Elements { get; set; }
+        public static List<string> logo = new List<string>()
+               {
+                    @"▓█████▄ ▄▄▄██▀▀▀    ██░ ██ ▓█████  ██▀███   ▒█████",
+                    @"▒██▀ ██   ▒██      ▓██░ ██▒▓█   ▀ ▓██ ▒ ██▒▒██▒  ██▒",
+                    @"░██   █   ░██      ▒██▀▀██░▒███   ▓██ ░▄█ ▒▒██░  ██▒",
+                    @"░▓█▄   ▓██▄██▓     ░▓█ ░██ ▒▓█  ▄ ▒██▀▀█▄  ▒██   ██░",
+                    @"░▒████▓ ▓███▒      ░▓█▒░██▓░▒████▒░██▓ ▒██▒░ ████▓▒░",
+                    @" ▒▒▓  ▒ ▒▓▒▒░       ▒ ░░▒░▒░░ ▒░ ░░ ▒▓ ░▒▓░░ ▒░▒░▒░",
+                    @" ░ ▒  ▒ ▒ ░▒░       ▒ ░▒░ ░ ░ ░  ░  ░▒ ░ ▒░  ░ ▒ ▒░",
+                    @" ░ ░  ░ ░ ░ ░       ░  ░░ ░   ░     ░░   ░ ░ ░ ░ ▒",
+                    @"   ░    ░   ░       ░  ░  ░   ░  ░   ░         ░ ░"
+               };
 
         public View()
         {
@@ -24,7 +38,65 @@ namespace dj_hero
             width = Console.WindowWidth;
             height = Console.WindowHeight;
 
-            
+        }
+
+        public List<string> DrawRect(int width, int height)
+        {
+            List<string> rect = new List<string>();
+            string leftTopCorner = "╔";
+            string leftBottomCorner = "╚";
+            string rightTopCorner = "╗";
+            string rightBottomCorner = "╝";
+            string vertical = "║";
+            string horizontal = "═";
+
+            for(int i = 0; i < height; i++)
+            {
+                string line = "";
+
+                if (i == 0)
+                {
+                    line += leftTopCorner;
+                }
+                else if(i == height - 1)
+                {
+                    line += leftBottomCorner;
+                }
+                else
+                {
+                    line += vertical;
+                }
+
+                for(int j = 1; j < width - 2; j++)
+                {
+                    if(i == 0 || i == height - 1)
+                    {
+                        line += horizontal;
+                    }
+                    else
+                    {
+                        line += " ";
+                    }
+                }
+
+                if(i == 0)
+                {
+                    line += rightTopCorner;
+                } else if(i == height - 1)
+                {
+                    line += rightBottomCorner;
+                }
+                else
+                {
+                    line += vertical;
+                }
+
+
+                rect.Add(line);
+
+            }
+
+            return rect;
         }
 
         public virtual void AddElement(string name, ViewElement element)
@@ -43,15 +115,7 @@ namespace dj_hero
                 Clear();
             foreach (KeyValuePair<string, ViewElement> element in Elements)
             {
-                if(element.Value.PosX >= 0 && element.Value.PosY >= 0)
-                {
-                    for(int i = 0; i < element.Value.Lines.Count; i++)
-                    {
-                        Console.SetCursorPosition(element.Value.PosX, element.Value.PosY + i);
-                        Console.Write(element.Value.Lines[i]);
-                    }
-                }
-                // do something with entry.Value or entry.Key
+                element.Value.Update();
             }
         }
     }
