@@ -90,7 +90,7 @@ namespace dj_hero
             {
                 //cw invalid name
                 Elements["alert"].Update();
-
+                Audio.StartServiceTrack("invalid");
 
 
                 Console.SetCursorPosition(nickname.PosX + 2, nickname.PosY + 2);
@@ -99,6 +99,8 @@ namespace dj_hero
 
             exit = true;
             Console.CursorVisible = false;
+            Audio.StopTrack();
+
             SongSlectionView songSlectionView = new SongSlectionView(nick.Trim());
             songSlectionView.Init();
         }

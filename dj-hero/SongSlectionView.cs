@@ -53,6 +53,8 @@ namespace dj_hero
 
             selectedSong.SetTick();
 
+            Audio.StartServiceTrack("selection");
+
             t = new Thread(delegate ()
             {
                 do

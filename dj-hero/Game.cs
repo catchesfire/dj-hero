@@ -91,7 +91,7 @@ namespace dj_hero
         {
             view.Render();
             Audio.StartSong(song);
-            timer.RunTimer();
+            //timer.RunTimer();
             LoadSegment();
             string currentCharacter;
             while (!gameOverProcesDone)
@@ -145,7 +145,7 @@ namespace dj_hero
         private void MissClick()
         {
             //Audio.Noise();
-
+            Audio.StartServiceTrack("beep");
             //Console.Beep();
 
             // progresbar -- or nothing
@@ -234,9 +234,7 @@ namespace dj_hero
             if (progresBarValue > 100)
                 progresBarValue = 100;
         }
-
         // --------------------------------------------------------------
-
 
         //clock stuff
         public void TimeControler()
@@ -255,6 +253,5 @@ namespace dj_hero
         {
             timeToAnswer = matchOpttions.answerTime;
         }
-
     }
 }

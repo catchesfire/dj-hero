@@ -16,7 +16,7 @@ namespace dj_hero
             Console.CursorVisible = false;
             Console.WriteLine("Hello DJ-Hero");
             Console.WriteLine();
-            Song.PrepareSongs();
+            Audio.PrepareSongs();
             MenuView menuView = new MenuView();
             menuView.Init();
 

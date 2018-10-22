@@ -47,6 +47,7 @@ namespace dj_hero
         private void init()
         {
             Render();
+            Audio.StartServiceTrack("gameover");
             selectedElement.UpdateReverseColours();
 
 

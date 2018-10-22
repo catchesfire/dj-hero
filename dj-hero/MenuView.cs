@@ -39,6 +39,7 @@ namespace dj_hero
 
         public  void Init()
         {
+            Audio.StartServiceTrack("menu", true);
             pressedKey = new ConsoleKeyInfo();
             Render();
 
@@ -61,16 +62,23 @@ namespace dj_hero
                 {
                     case ConsoleKey.D1:
                         //ts.Cancel();
+                        Audio.StopTrack();
+
                         t.Abort();
                         exit = true;
                         Menu.Play();
                         break;
                     case ConsoleKey.D2:
+                        Audio.StopTrack();
+
                         Menu.Rank();
                         pressedKey = new ConsoleKeyInfo();
 
                         break;
                     case ConsoleKey.D3:
+                        Menu.Exit();
+                        break;
+                    case ConsoleKey.Escape:
                         Menu.Exit();
                         break;
                     case ConsoleKey.DownArrow:
@@ -82,6 +90,8 @@ namespace dj_hero
                         pressedKey = new ConsoleKeyInfo();
                         break;
                     case ConsoleKey.Enter:
+                        Audio.StopTrack();
+
                         EnterAction();
                         break;
 
@@ -94,7 +104,7 @@ namespace dj_hero
 
         private void EnterAction()
         {
-            if(counter % list.Length == 0)
+            if (counter % list.Length == 0)
             {
                 t.Abort();
                 exit = true;
