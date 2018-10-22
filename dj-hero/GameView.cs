@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dj_hero
@@ -347,7 +348,6 @@ namespace dj_hero
             characterIndex++;
         }
 
-
         public void UpdateCharacter(AppearingChar character)
         {
             if (character.counter == 0)
@@ -362,11 +362,27 @@ namespace dj_hero
             }
         }
 
-        public void DisplayEndGame()
+
+
+        public ConsoleKeyInfo pressedKey;
+
+        public string getChar()
         {
-            Console.Clear();
-            Console.WriteLine("THATS IT! GAME OVER, MAN! GAME OVER! ");
+            pressedKey = new ConsoleKeyInfo();
+            pressedKey = Console.ReadKey(true);
+            if (pressedKey.Key == ConsoleKey.Escape)
+            {
+                return "escape";
+            }
+
+            return pressedKey.Key.ToString();
         }
-        
+
+
+     
+
+
+
+
     }
 }

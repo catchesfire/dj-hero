@@ -33,7 +33,8 @@ namespace dj_hero
         public static void Noise()
         {
             Player.settings.volume = 50;
-            StartSong(Song.noisesong, true);
+            StartSong(Song.noisesong);
+
         }
         public static void StopSong()
         {

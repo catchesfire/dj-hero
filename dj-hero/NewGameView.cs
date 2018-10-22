@@ -14,7 +14,6 @@ namespace dj_hero
         private string nick;
         private ViewElement header;
         private ViewElement nickname;
-        private Thread t;
         private Boolean exit;
         private ConsoleKeyInfo pressedKey;
 
@@ -84,15 +83,6 @@ namespace dj_hero
             menuView.Init();
         }
 
-
-        private bool validationNickname()
-        {
-
-
-
-
-            return true;
-        }
 
         private void EnterAction()
         {

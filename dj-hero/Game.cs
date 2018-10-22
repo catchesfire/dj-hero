@@ -61,7 +61,6 @@ namespace dj_hero
     {
         //public List<String> characterList = new List<string>();
         private GameTimer timer;
-        public ConsoleKeyInfo pressedKey;
         public GameView view;
         private int points;
         private string playerName;
@@ -69,9 +68,7 @@ namespace dj_hero
         private int progresBarValue;
         MatchOption matchOpttions;
 
-        Thread t;
 
-        private bool gameOver;
         private bool gameOverProcesDone;
         private bool gameOverByUserInterrupt;
 
@@ -79,11 +76,11 @@ namespace dj_hero
         {
             matchOpttions = _matchOption;
             song = _song;
+            playerName = matchOpttions.nickname;
             points = 0;
             progresBarValue = matchOpttions.progresBarValue;
             timer = new GameTimer(song.duration, this);
             view = new GameView();
-            gameOver = false;
             gameOverByUserInterrupt = false;
             gameOverProcesDone = false;
             play();
@@ -92,14 +89,29 @@ namespace dj_hero
 
         public void play()
         {
-            init();
+            view.Render();
             Audio.StartSong(song);
             timer.RunTimer();
             LoadSegment();
+            string currentCharacter;
             while (!gameOverProcesDone)
             {
-
-
+                currentCharacter = view.getChar().ToUpper();
+                if(currentCharacter == mainElement.character.ToString().ToUpper())
+                {
+                    SuccesedClick();
+                }
+                else
+                {
+                    if(currentCharacter == "ESCAPE")
+                    {
+                        gameOverByUserInterrupt = true;
+                        EndGame();
+                    }else
+                    {
+                        MissClick();
+                    }
+                }
             }
 
             if (gameOverByUserInterrupt == true)
@@ -112,56 +124,11 @@ namespace dj_hero
                 Ranking ranking = new Ranking(song);
                 ranking.AddRecord(playerName, points);
 
-
                 EndGameView endGameView = new EndGameView(points, song, matchOpttions);
-                //view.DisplayEndGame();
-                //view.DisplayPoints(points);
-
             }
             
-
-
-            //Console.ReadKey();
         }
 
-        private void init()
-        {
-            view.Render();
-
-            t = new Thread(delegate ()
-            {
-                while (true)
-                {
-                    if (gameOver == true)
-                    {
-                        break;
-                    }
-
-                    pressedKey = Console.ReadKey(true);
-
-                    if (pressedKey.Key.ToString().ToUpper() == mainElement.character.ToString().ToUpper())
-                    {
-                        SuccesedClick();
-                    }
-                    else
-                    {
-                        if( pressedKey.Key == ConsoleKey.Escape)
-                        {
-                            gameOver = true;
-                            gameOverByUserInterrupt = true;
-                            EndGame();
-
-                        }
-                        else
-                        {
-                            MissClick();
-                        }
-                    }
-                    pressedKey = new ConsoleKeyInfo();
-                }
-            });
-            t.Start();
-        }
 
         private void SuccesedClick()
         {
@@ -177,6 +144,10 @@ namespace dj_hero
 
         private void MissClick()
         {
+            //Audio.Noise();
+
+            //Console.Beep();
+
             // progresbar -- or nothing
             DecreaseProgresBarPerMiss();
             // load next segment
@@ -195,7 +166,6 @@ namespace dj_hero
             //first load
             if (mainElement == null)
             {
-                
 
                 for (int i=1; i<=matchOpttions.amountElementsSameTime;i++)
                 {
@@ -204,7 +174,6 @@ namespace dj_hero
                     view.Add(mainElement);
                 }
                 mainElement = queue.Dequeue();
-
 
                 return;
             }
@@ -225,25 +194,16 @@ namespace dj_hero
                 mainElement = queue.Dequeue();
 
             }
-            //=====================================
         }
 
         public void EndGame()
         {
 
-            gameOverProcesDone = true;
             timer.StopTimer();
             //pressedKey = new ConsoleKeyInfo();
-            gameOver = true;
             Audio.StopSong();
-            t.Abort();
-
-
-            //save to rank etc.
-
+            gameOverProcesDone = true;
         }
-
-
 
         // -- operation on progresbarr
 
