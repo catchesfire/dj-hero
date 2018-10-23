@@ -14,7 +14,7 @@ namespace dj_hero
     {
         private int time;
         Game game;
-        
+
         private System.Timers.Timer timer = new System.Timers.Timer(1000);
 
         public GameTimer(int _time, Game _game)
@@ -42,7 +42,7 @@ namespace dj_hero
             game.view.DisplayTime(time);
 
 
-            if(time <= 0)
+            if (time <= 0)
             {
                 // go end game
                 game.EndGame();
@@ -97,17 +97,18 @@ namespace dj_hero
             while (!gameOverProcesDone)
             {
                 currentCharacter = view.getChar().ToUpper();
-                if(currentCharacter == mainElement.character.ToString().ToUpper())
+                if (currentCharacter == mainElement.character.ToString().ToUpper())
                 {
                     SuccesedClick();
                 }
                 else
                 {
-                    if(currentCharacter == "ESCAPE")
+                    if (currentCharacter == "ESCAPE")
                     {
                         gameOverByUserInterrupt = true;
                         EndGame();
-                    }else
+                    }
+                    else
                     {
                         MissClick();
                     }
@@ -126,7 +127,7 @@ namespace dj_hero
 
                 EndGameView endGameView = new EndGameView(points, song, matchOpttions);
             }
-            
+
         }
 
 
@@ -167,7 +168,7 @@ namespace dj_hero
             if (mainElement == null)
             {
 
-                for (int i=1; i<=matchOpttions.amountElementsSameTime;i++)
+                for (int i = 1; i <= matchOpttions.amountElementsSameTime; i++)
                 {
                     mainElement = new AppearingChar(matchOpttions);
                     queue.Enqueue(mainElement);
@@ -240,7 +241,7 @@ namespace dj_hero
         {
             timeToAnswer--;
 
-            if (timeToAnswer==0)
+            if (timeToAnswer == 0)
             {
                 MissClick(); //miss answer function
                 timeToAnswer = matchOpttions.answerTime;

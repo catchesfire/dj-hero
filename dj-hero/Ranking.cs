@@ -59,6 +59,13 @@ namespace dj_hero
             return;
         }
 
+        public void Display()
+        {
+            RankingView rankingView = new RankingView();
+            rankingView.Render();
+            rankingView.Init();
+        }
+
         public void Print()
         {
             int i = 0;

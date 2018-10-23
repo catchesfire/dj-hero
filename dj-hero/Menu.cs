@@ -28,8 +28,7 @@ namespace dj_hero
 
         public static void Rank()
         {
-            NewGameView newGameView = new NewGameView();
-            newGameView.Init();
+            RankingView rankingView = new RankingView();
         }
 
         public static void Exit()
