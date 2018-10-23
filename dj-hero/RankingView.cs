@@ -43,9 +43,10 @@ namespace dj_hero
 
             selectedSong = songViewsList[0];
             selectedSong.SetTick();
+        }
 
-            Render();
-
+        public void Init()
+        {
             t = new Thread(delegate ()
             {
                 do
@@ -82,13 +83,6 @@ namespace dj_hero
             } while (!exit);
         }
 
-        public void Init()
-        {
-           
-
-            
-        }
-
         private void ExitAction()
         {
             exit = true;
@@ -103,6 +97,8 @@ namespace dj_hero
             t.Abort();
             exit = true;
 
+            Ranking ranking = new Ranking(selectedSong.song);
+            ranking.Display();
         }
 
         private void MoveSelectedUp()

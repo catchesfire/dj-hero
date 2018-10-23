@@ -61,9 +61,11 @@ namespace dj_hero
 
         public void Display()
         {
-            RankingView rankingView = new RankingView();
-            rankingView.Render();
-            rankingView.Init();
+            SongRankingView songRankingView = new SongRankingView(song)
+            {
+                PlayerList = scores
+            };
+            songRankingView.Render();
         }
 
         public void Print()

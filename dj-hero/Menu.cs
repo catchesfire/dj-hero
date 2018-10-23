@@ -29,6 +29,8 @@ namespace dj_hero
         public static void Rank()
         {
             RankingView rankingView = new RankingView();
+            rankingView.Render();
+            rankingView.Init();
         }
 
         public static void Exit()
