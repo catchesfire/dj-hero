@@ -91,7 +91,7 @@ namespace dj_hero
         {
             view.Render();
             Audio.StartSong(song);
-            //timer.RunTimer();
+            timer.RunTimer();
             LoadSegment();
             string currentCharacter;
             while (!gameOverProcesDone)
@@ -198,7 +198,6 @@ namespace dj_hero
 
         public void EndGame()
         {
-
             timer.StopTimer();
             //pressedKey = new ConsoleKeyInfo();
             Audio.StopSong();

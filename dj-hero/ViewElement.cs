@@ -59,29 +59,33 @@ namespace dj_hero
 
         public void Update()
         {
-            Clear();
-            if(Lines.Count > Height)
+            lock (locker)
             {
-                //throw new Exception();
-            }
-            if(PosX >=0 && PosY >= 0)
-            {
-                Console.BackgroundColor = BackgroundColor;
-                Console.ForegroundColor = ForegroundColor;
-                for (int i = 0; i < Lines.Count; i++)
+                Clear();
+                if (Lines.Count > Height)
                 {
-                    for(int j = 0; j < Lines[i].Length && j < Width; j++)
-                    {
-                        Console.SetCursorPosition(PosX + j, PosY + i);
-                        Console.Write(Lines[i][j]);
-                    }
+                    //throw new Exception();
                 }
+                if (PosX >= 0 && PosY >= 0)
+                {
+                    Console.BackgroundColor = BackgroundColor;
+                    Console.ForegroundColor = ForegroundColor;
+                    for (int i = 0; i < Lines.Count; i++)
+                    {
+                        for (int j = 0; j < Lines[i].Length && j < Width; j++)
+                        {
+                            Console.SetCursorPosition(PosX + j, PosY + i);
+                            Console.Write(Lines[i][j]);
+                        }
+                    }
 
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
 
-                //Console.SetCursorPosition(0, 0);
+                    //Console.SetCursorPosition(0, 0);
+                }
             }
+            
             
         }
 

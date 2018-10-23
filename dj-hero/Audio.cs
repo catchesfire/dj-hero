@@ -13,6 +13,8 @@ namespace dj_hero
         public static Song mainmenusong;
         public static Song noisesong;
 
+        static readonly object locker = new object();
+
         private static List<Song> songs = new List<Song>();
         private static WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
         private static WMPLib.WindowsMediaPlayer Player2 = new WMPLib.WindowsMediaPlayer();
@@ -29,11 +31,14 @@ namespace dj_hero
 
         public static void StartServiceTrack(string key, bool isLoop = false)
         {
-            if (isLoop == true)
-                Player2.settings.setMode("loop", true);
-            else
-                Player2.settings.setMode("loop", false);
-            Player2.URL = servicesTrack[key];
+            lock (locker)
+            {
+                if (isLoop == true)
+                    Player2.settings.setMode("loop", true);
+                else
+                    Player2.settings.setMode("loop", false);
+                Player2.URL = servicesTrack[key];
+            }
 
         }
         public static void StopTrack()

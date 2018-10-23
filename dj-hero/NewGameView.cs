@@ -67,23 +67,23 @@ namespace dj_hero
                     case ConsoleKey.Enter:
                         EnterAction();
                         break;
-                    case ConsoleKey.Backspace:
-                        if(nick.Length > 0)
-                        {
-                            nickname.Lines[0] = nick.Remove(nick.Length - 1, 1);
-                            nick = nickname.Lines[0];
-                            nickname.Update();
-                            Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
-                        }
-                        Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
-                        break;
+                    //case ConsoleKey.Backspace:
+                    //    if (nick.Length > 0)
+                    //    {
+                    //        nickname.Lines[0] = nick.Remove(nick.Length - 1, 1);
+                    //        nick = nickname.Lines[0];
+                    //        nickname.Update();
+                    //        Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
+                    //    }
+                    //    Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
+                    //    break;
                     default:
                         if (char.IsLetterOrDigit(pressedKey.KeyChar))
                         {
                             if(nick.Length < nickname.Width)
                             {
                                 nick += pressedKey.KeyChar;
-                                nickname.Lines[0] = nick;
+                                //nickname.Lines[0] = nick;
                             }
                         }
                         break;
