@@ -29,7 +29,7 @@ namespace dj_hero
             int y = 0;
             foreach (Song song in songsList)
             {
-                songViewsList.Add(new SongView(x, y, song));
+                songViewsList.Add(new SongView(x, y, Console.WindowWidth /2, song));
                 y += 5;
 
             }

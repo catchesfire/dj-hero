@@ -37,7 +37,7 @@ namespace dj_hero
 
             foreach (Song song in songsList)
             {
-                songViewsList.Add(new SongView(10, y, song));
+                songViewsList.Add(new SongView(10, y, Console.WindowWidth - 20, song));
                 y += 5;
             }
 
@@ -63,21 +63,22 @@ namespace dj_hero
                 switch (pressedKey.Key)
                 {
                     case ConsoleKey.DownArrow:
-                        MoveSelectedDown();
                         pressedKey = new ConsoleKeyInfo();
+                        MoveSelectedDown();
                         break;
                     case ConsoleKey.UpArrow:
-                        MoveSelectedUp();
                         pressedKey = new ConsoleKeyInfo();
+                        MoveSelectedUp();
                         break;
                     case ConsoleKey.Enter:
+                        pressedKey = new ConsoleKeyInfo();
                         exit = true;
                         EnterAction();
                         break;
                     case ConsoleKey.Escape:
+                        pressedKey = new ConsoleKeyInfo();
                         exit = true;
                         ExitAction();
-                        pressedKey = new ConsoleKeyInfo();
                         break;
                 }
             } while (!exit);

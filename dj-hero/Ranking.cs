@@ -66,6 +66,7 @@ namespace dj_hero
                 PlayerList = scores
             };
             songRankingView.Render();
+            songRankingView.Init();
         }
 
         public void Print()

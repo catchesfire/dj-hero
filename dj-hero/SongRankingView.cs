@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dj_hero
@@ -10,6 +11,10 @@ namespace dj_hero
     {
         public Song Song { get; internal set; }
         public List<Ranking.Score> PlayerList { get; internal set; }
+
+        private Thread t;
+        private ConsoleKeyInfo pressedKey;
+        bool exit;
 
         public SongRankingView(Song song)
         {
@@ -40,13 +45,47 @@ namespace dj_hero
             }
         }
 
+        public void Init()
+        {
+            t = new Thread(delegate ()
+            {
+                do
+                {
+                    pressedKey = Console.ReadKey(true);
+
+                } while (true);
+            });
+            t.Start();
+
+            exit = false;
+            do
+            {
+                if(pressedKey.Key == ConsoleKey.Escape)
+                {
+                    exit = true;
+                    ExitAction();
+                    pressedKey = new ConsoleKeyInfo();
+                }
+                       
+            } while (!exit);
+        }
+
+        private void ExitAction()
+        {
+            exit = true;
+            t.Abort();
+            RankingView rankingView = new RankingView();
+            rankingView.Render();
+            rankingView.Init();
+        }
+
         private void PrintScores()
         {
             for(int i = 0; i < PlayerList.Count; i++)
             {
                 Elements["Table_row" + i + "_col0"].Lines[0] = (i + 1).ToString();
-                Elements["Table_row" + i + "_col1"].Lines[0] = PlayerList[0].nickname;
-                Elements["Table_row" + i + "_col2"].Lines[0] = PlayerList[0].points.ToString();
+                Elements["Table_row" + i + "_col1"].Lines[0] = PlayerList[i].nickname;
+                Elements["Table_row" + i + "_col2"].Lines[0] = PlayerList[i].points.ToString();
             }
         }
 

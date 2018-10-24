@@ -29,10 +29,11 @@ namespace dj_hero
             Elements["tick"].Clear();
         }
 
-        public SongView(int _x, int _y, Song _song)
+        public SongView(int _x, int _y, int _width, Song _song)
         {
             x = _x;
             y = _y;
+            width = _width;
             song = _song;
 
             Elements.Add("tick", new ViewElement(x, y, 1, 4, new List<string>()
@@ -43,8 +44,8 @@ namespace dj_hero
                     @" "
                 }));
 
-            Elements.Add("ramka", new ViewElement(x + 1, y, Console.WindowWidth / 2 - 2, 4, DrawRect(Console.WindowWidth / 2 - 2, 4)));
-            Elements.Add("title", new ViewElement(x + 2, y+1, Console.WindowWidth / 2 - 6, 1, new List<string>() { song.GetTitle() }));
+            Elements.Add("ramka", new ViewElement(x + 1, y, width - 2, 4, DrawRect(width - 2, 4)));
+            Elements.Add("title", new ViewElement(x + 2, y+1, width - 6, 1, new List<string>() { song.GetTitle() }));
 
             int minutes = song.duration / 60;
             int seconds = song.duration % 60;
@@ -57,7 +58,7 @@ namespace dj_hero
 
             string difficulty = "Difficulty: " + song.getDifficultyName();
 
-            Elements.Add("Difficulty_label", new ViewElement(Console.WindowWidth - difficulty.Length - 3, y + 2, 11, 1, new List<string>() { "Difficulty:" }));
+            Elements.Add("Difficulty_label", new ViewElement(x + width - difficulty.Length - 4, y + 2, 11, 1, new List<string>() { "Difficulty:" }));
             Elements.Add("Difficulty", new ViewElement(Elements["Difficulty_label"].PosX + 12, y + 2, difficulty.Length - 11, 1, new List<string>() { song.getDifficultyName() }));
 
             ConsoleColor color;
