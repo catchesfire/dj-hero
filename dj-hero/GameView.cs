@@ -23,9 +23,10 @@ namespace dj_hero
 
         protected Dictionary<string, List<string>> Ascii { get; set; }
 
-
-        public GameView()
+        Game game;
+        public GameView(Game _game)
         {
+            game = _game;
             characterIndex = 0;
             charactersNo = 3;
 
@@ -523,25 +524,59 @@ namespace dj_hero
 
 
 
-        public ConsoleKeyInfo pressedKey;
 
+        //static ConsoleKeyInfo? MyReadKey()
+        //{
+        //    var task = Task.Run(() => Console.ReadKey(true));
+        //    bool read = task.Wait(200);
+        //    if (read) return task.Result;
+        //    return null;
+        //}
+
+        public ConsoleKeyInfo pressedKey;
+        public Thread readKeyThread;
+        public bool stopRead = false;
         public string getChar()
         {
-            pressedKey = new ConsoleKeyInfo();
-            pressedKey = Console.ReadKey(true);
-            if (pressedKey.Key == ConsoleKey.Escape)
-            {
-                return "escape";
-            }
 
-            return pressedKey.Key.ToString();
+            //var key = MyReadKey();
+            //while (key == null)
+            //{
+            //    key = MyReadKey();
+            //}
+
+            //return key.ToString();
+
+
+            string str = "";
+            readKeyThread = new Thread(delegate ()
+            {
+
+                pressedKey = new ConsoleKeyInfo();
+                pressedKey = Console.ReadKey(true);
+                if (pressedKey.Key == ConsoleKey.Escape)
+                {
+                    str = "escape";
+                }
+                else
+                {
+                    str = pressedKey.Key.ToString();
+                }
+
+
+            });
+            game.readThread = readKeyThread;
+            readKeyThread.Start();
+            readKeyThread.Join();
+            return str;
+
         }
 
-
-     
-
-
-
+        public void AbortRead()
+        {
+            readKeyThread.Abort();
+            pressedKey = new ConsoleKeyInfo();
+        }
 
     }
 }

@@ -33,6 +33,7 @@ namespace dj_hero
         {
             timer.Stop();
             timer.Dispose();
+            game = null;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -80,39 +81,56 @@ namespace dj_hero
             points = 0;
             progresBarValue = matchOpttions.progresBarValue;
             timer = new GameTimer(song.duration, this);
-            view = new GameView();
+            view = new GameView(this);
             gameOverByUserInterrupt = false;
             gameOverProcesDone = false;
             play();
 
         }
-
+        private Thread t;
+            public Thread readThread;
         public void play()
         {
             view.Render();
+            
             Audio.StartSong(song);
             timer.RunTimer();
+
             LoadSegment();
             string currentCharacter;
-            while (!gameOverProcesDone)
+            t = new Thread( delegate ()
             {
-                currentCharacter = view.getChar().ToUpper();
-                if(currentCharacter == mainElement.character.ToString().ToUpper())
+
+
+                while (!gameOverProcesDone)
                 {
-                    SuccesedClick();
-                }
-                else
-                {
-                    if(currentCharacter == "ESCAPE")
+                    currentCharacter = view.getChar().ToUpper();
+                    if (currentCharacter == mainElement.character.ToString().ToUpper())
                     {
-                        gameOverByUserInterrupt = true;
-                        EndGame();
-                    }else
+                        SuccesedClick();
+                    }
+                    else
                     {
-                        MissClick();
+                        if (currentCharacter == "ESCAPE")
+                        {
+                            gameOverByUserInterrupt = true;
+                            EndGame();
+                        }
+                        else
+                        {
+                            MissClick();
+                        }
                     }
                 }
-            }
+
+            });
+            t.Start();
+            t.Join();
+            //readThread.Abort();
+            view.stopRead = true;
+            view.AbortRead();
+            //view.readKeyThread.Join();
+            //readThread.Join();
 
             if (gameOverByUserInterrupt == true)
             {
@@ -144,6 +162,8 @@ namespace dj_hero
 
         private void MissClick()
         {
+            if (gameOverProcesDone)
+                return;
             //Audio.Noise();
             Audio.StartServiceTrack("beep");
             //Console.Beep();
@@ -195,13 +215,27 @@ namespace dj_hero
 
             }
         }
-
+        private Thread endGameThread;
         public void EndGame()
         {
-            timer.StopTimer();
+            if (timer != null)
+            {
+                timer.StopTimer();  
+            }
+            timer = null;
             //pressedKey = new ConsoleKeyInfo();
             Audio.StopSong();
             gameOverProcesDone = true;
+
+            endGameThread = new Thread(delegate ()
+            {
+                readThread.Abort();
+                t.Abort();
+                readThread.Abort();
+
+            });
+            endGameThread.Start();
+
         }
 
         // -- operation on progresbarr

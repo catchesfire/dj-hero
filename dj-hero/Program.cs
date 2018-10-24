@@ -33,7 +33,8 @@ namespace dj_hero
 
             //Console.SetWindowSize(width, height);
 
-            Maximize();
+            Maximize(); 
+
 
             Audio.PrepareSongs();
             MenuView menuView = new MenuView();
