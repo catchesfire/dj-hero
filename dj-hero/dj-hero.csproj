@@ -57,6 +57,7 @@
     <Compile Include="Difficulty.cs" />
     <Compile Include="ListSerializer.cs" />
     <Compile Include="NewGameView.cs" />
+    <Compile Include="PreEndGameView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgressBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

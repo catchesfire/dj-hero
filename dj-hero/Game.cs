@@ -14,7 +14,7 @@ namespace dj_hero
     {
         private int time;
         Game game;
-        
+
         private System.Timers.Timer timer = new System.Timers.Timer(1000);
 
         public GameTimer(int _time, Game _game)
@@ -43,7 +43,7 @@ namespace dj_hero
             game.view.DisplayTime(time);
 
 
-            if(time <= 0)
+            if (time <= 0)
             {
                 // go end game
                 game.EndGame();
@@ -88,19 +88,22 @@ namespace dj_hero
 
         }
         private Thread t;
-            public Thread readThread;
+        public Thread readThread;
+        private bool endpermiss = false;
         public void play()
         {
             view.Render();
-            
+
             Audio.StartSong(song);
             timer.RunTimer();
 
             LoadSegment();
             string currentCharacter;
 
+            t = new Thread(delegate ()
+            {
 
-                while (!gameOverProcesDone)
+                while (true)
                 {
                     currentCharacter = view.getChar().ToUpper();
                     if (currentCharacter == mainElement.character.ToString().ToUpper())
@@ -121,13 +124,40 @@ namespace dj_hero
                     }
                 }
 
-            
+            });
+            t.Start();
+            t.Join();
 
             //readThread.Abort();
-            view.stopRead = true;
+
             view.AbortRead();
             //view.readKeyThread.Join();
             //readThread.Join();
+
+            if(!endpermiss)
+            {
+                PreEndGameView preEndGame = new PreEndGameView(view);
+                view.readKeyThread.Join();
+
+            }
+            else
+            {
+                PreEndGameView preEndGame = new PreEndGameView(view);
+                Console.ReadKey();
+            }
+
+            //if (Console.KeyAvailable)
+            //{
+            //}
+            //else
+            //{
+            //    Console.ReadKey();
+            //    PreEndGameView preEndGame = new PreEndGameView();
+
+
+            //}
+            //view.readKeyThread.Join();
+
 
             if (gameOverByUserInterrupt == true)
             {
@@ -141,7 +171,7 @@ namespace dj_hero
 
                 EndGameView endGameView = new EndGameView(points, song, matchOpttions);
             }
-            
+
         }
 
 
@@ -176,6 +206,10 @@ namespace dj_hero
         private Queue<AppearingChar> queue = new Queue<AppearingChar>();
         private void LoadSegment()
         {
+            if(gameOverProcesDone)
+            {
+                return;
+            }
             //core
             RefreshTimeToAnswer();
             //========================
@@ -184,7 +218,7 @@ namespace dj_hero
             if (mainElement == null)
             {
 
-                for (int i=1; i<=matchOpttions.amountElementsSameTime;i++)
+                for (int i = 1; i <= matchOpttions.amountElementsSameTime; i++)
                 {
                     mainElement = new AppearingChar(matchOpttions);
                     queue.Enqueue(mainElement);
@@ -217,7 +251,7 @@ namespace dj_hero
         {
             if (timer != null)
             {
-                timer.StopTimer();  
+                timer.StopTimer();
             }
             timer = null;
             //pressedKey = new ConsoleKeyInfo();
@@ -226,9 +260,11 @@ namespace dj_hero
 
             endGameThread = new Thread(delegate ()
             {
+                //view.readKeyThread.Join();
                 view.readKeyThread.Abort();
+
                 //readThread.Abort();
-                //t.Abort();
+                t.Abort();
 
             });
             endGameThread.Start();
@@ -257,6 +293,7 @@ namespace dj_hero
             view.DisplayProgressBar(progresBarValue);
             if (progresBarValue < 1)
             {
+                endpermiss = true;
                 EndGame();
             }
         }
@@ -275,7 +312,7 @@ namespace dj_hero
         {
             timeToAnswer--;
 
-            if (timeToAnswer==0)
+            if (timeToAnswer == 0)
             {
                 MissClick(); //miss answer function
                 timeToAnswer = matchOpttions.answerTime;
