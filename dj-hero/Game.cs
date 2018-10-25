@@ -81,7 +81,7 @@ namespace dj_hero
             points = 0;
             progresBarValue = matchOpttions.progresBarValue;
             timer = new GameTimer(song.duration, this);
-            view = new GameView(this);
+            view = new GameView();
             gameOverByUserInterrupt = false;
             gameOverProcesDone = false;
             play();
@@ -98,8 +98,6 @@ namespace dj_hero
 
             LoadSegment();
             string currentCharacter;
-            t = new Thread( delegate ()
-            {
 
 
                 while (!gameOverProcesDone)
@@ -123,9 +121,8 @@ namespace dj_hero
                     }
                 }
 
-            });
-            t.Start();
-            t.Join();
+            
+
             //readThread.Abort();
             view.stopRead = true;
             view.AbortRead();
@@ -229,9 +226,9 @@ namespace dj_hero
 
             endGameThread = new Thread(delegate ()
             {
-                readThread.Abort();
-                t.Abort();
-                readThread.Abort();
+                view.readKeyThread.Abort();
+                //readThread.Abort();
+                //t.Abort();
 
             });
             endGameThread.Start();
@@ -242,6 +239,8 @@ namespace dj_hero
 
         public void DecreaseProgresBarPerSec()
         {
+            if (progresBarValue < 1)
+                return;
             progresBarValue -= matchOpttions.progresBarLosePerSec;
             view.DisplayProgressBar(progresBarValue);
             if (progresBarValue < 1)
@@ -252,6 +251,8 @@ namespace dj_hero
 
         public void DecreaseProgresBarPerMiss()
         {
+            if (progresBarValue < 1)
+                return;
             progresBarValue -= matchOpttions.decPointsPerMiss;
             view.DisplayProgressBar(progresBarValue);
             if (progresBarValue < 1)

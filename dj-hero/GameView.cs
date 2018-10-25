@@ -23,10 +23,9 @@ namespace dj_hero
 
         protected Dictionary<string, List<string>> Ascii { get; set; }
 
-        Game game;
-        public GameView(Game _game)
+
+        public GameView()
         {
-            game = _game;
             characterIndex = 0;
             charactersNo = 3;
 
@@ -525,27 +524,13 @@ namespace dj_hero
 
 
 
-        //static ConsoleKeyInfo? MyReadKey()
-        //{
-        //    var task = Task.Run(() => Console.ReadKey(true));
-        //    bool read = task.Wait(200);
-        //    if (read) return task.Result;
-        //    return null;
-        //}
-
         public ConsoleKeyInfo pressedKey;
         public Thread readKeyThread;
         public bool stopRead = false;
         public string getChar()
         {
 
-            //var key = MyReadKey();
-            //while (key == null)
-            //{
-            //    key = MyReadKey();
-            //}
 
-            //return key.ToString();
 
 
             string str = "";
@@ -553,7 +538,11 @@ namespace dj_hero
             {
 
                 pressedKey = new ConsoleKeyInfo();
+
                 pressedKey = Console.ReadKey(true);
+
+
+
                 if (pressedKey.Key == ConsoleKey.Escape)
                 {
                     str = "escape";
@@ -565,7 +554,7 @@ namespace dj_hero
 
 
             });
-            game.readThread = readKeyThread;
+            //game.readThread = readKeyThread;
             readKeyThread.Start();
             readKeyThread.Join();
             return str;
