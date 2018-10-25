@@ -61,7 +61,9 @@
     <Compile Include="ProgressBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ranking.cs" />
+    <Compile Include="RankingView.cs" />
     <Compile Include="Song.cs" />
+    <Compile Include="SongRankingView.cs" />
     <Compile Include="SongSelectionView.cs" />
     <Compile Include="SongView.cs" />
     <Compile Include="View.cs" />

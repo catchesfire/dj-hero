@@ -59,6 +59,16 @@ namespace dj_hero
             return;
         }
 
+        public void Display()
+        {
+            SongRankingView songRankingView = new SongRankingView(song)
+            {
+                PlayerList = scores
+            };
+            songRankingView.Render();
+            songRankingView.Init();
+        }
+
         public void Print()
         {
             int i = 0;

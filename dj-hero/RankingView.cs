@@ -7,60 +7,46 @@ using System.Threading.Tasks;
 
 namespace dj_hero
 {
-    public class SongSelectionView: View
+    public class RankingView : View
     {
-        private int counter = 0;
 
+        List<SongView> songViewsList = new List<SongView>();
         private static ConsoleKeyInfo pressedKey;
         public List<Song> songsList;
         SongView selectedSong;
+
+        private int counter = 0;
         private Thread t;
-        private bool exit;
-        List<SongView> songViewsList = new List<SongView>();
-        private string nickname;
+        bool exit;
 
-
-        public SongSelectionView(string _nickname)
+        public RankingView()
         {
-            pressedKey = new ConsoleKeyInfo();
+
             songsList = Audio.GetSongList();
-            nickname = _nickname;
-            int x = Console.WindowWidth / 2 + 1;
-            int y = 0;
+            songViewsList = new List<SongView>();
+
+            string h1 = "Im udało się uciec";
+            string h2 = "Wybierz piosenke, aby przejsc do rankingu.";
+
+            Elements.Add("H1", new ViewElement(Console.WindowWidth / 2 - h1.Length / 2, 3, h2.Length, 1, new List<string>() { h1 }));
+            Elements.Add("H2", new ViewElement(5, 5, h2.Length, 1, new List<string>() { h2 }));
+
+            Audio.StartServiceTrack("rank");
+
+            int y = 7;
+
             foreach (Song song in songsList)
             {
-                songViewsList.Add(new SongView(x, y, Console.WindowWidth /2, song));
+                songViewsList.Add(new SongView(10, y, Console.WindowWidth - 20, song));
                 y += 5;
-
             }
 
             selectedSong = songViewsList[0];
+            selectedSong.SetTick();
         }
 
         public void Init()
         {
-            Elements.Add("Logo", new ViewElement((Console.WindowWidth / 4) - (logo[0].Length / 2), 1, logo[0].Length, logo.Count, logo));
-            Elements["Logo"].ForegroundColor = ConsoleColor.Red;
-            List<string> h1 = new List<string>()
-            {
-                "Witaj " + nickname
-            };
-            List<string> h2 = new List<string>()
-            {
-                "Wybierz melodie"
-            };
-            Elements.Add("H1", new ViewElement((Console.WindowWidth / 4) - (h1[0].Length / 2), Console.WindowHeight / 2, h1[0].Length, 1, h1));
-            Elements.Add("H2", new ViewElement((Console.WindowWidth / 4) - (h2[0].Length / 2), Console.WindowHeight / 2 + 1, h2[0].Length, 1, h2));
-            Render();
-            foreach (SongView sView in songViewsList)
-            {
-                sView.Render(false);
-            }
-
-            selectedSong.SetTick();
-
-            Audio.StartServiceTrack("selection");
-
             t = new Thread(delegate ()
             {
                 do
@@ -77,25 +63,25 @@ namespace dj_hero
                 switch (pressedKey.Key)
                 {
                     case ConsoleKey.DownArrow:
-                        MoveSelectedDown();
                         pressedKey = new ConsoleKeyInfo();
+                        MoveSelectedDown();
                         break;
                     case ConsoleKey.UpArrow:
-                        MoveSelectedUp();
                         pressedKey = new ConsoleKeyInfo();
+                        MoveSelectedUp();
                         break;
                     case ConsoleKey.Enter:
+                        pressedKey = new ConsoleKeyInfo();
                         exit = true;
                         EnterAction();
                         break;
                     case ConsoleKey.Escape:
+                        pressedKey = new ConsoleKeyInfo();
                         exit = true;
                         ExitAction();
-                        pressedKey = new ConsoleKeyInfo();
                         break;
                 }
             } while (!exit);
-
         }
 
         private void ExitAction()
@@ -109,14 +95,11 @@ namespace dj_hero
 
         private void EnterAction()
         {
-            //set matchoptions 
-            //Audio.StartSong(selectedSong);
             t.Abort();
             exit = true;
-            MatchOption matchOption = new MatchOption(selectedSong.song);
-            matchOption.nickname = nickname;
-            Game game = new Game(matchOption, selectedSong.song);
-            //game.play();
+
+            Ranking ranking = new Ranking(selectedSong.song);
+            ranking.Display();
         }
 
         private void MoveSelectedUp()
@@ -134,5 +117,17 @@ namespace dj_hero
             selectedSong = songViewsList[++counter % songViewsList.Count];
             selectedSong.SetTick();
         }
+
+        public override void Render(bool clear = true)
+        {
+            base.Render(clear);
+
+            foreach (SongView sView in songViewsList)
+            {
+                sView.Render(false);
+            }
+        }
+
+
     }
 }
