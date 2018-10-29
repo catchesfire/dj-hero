@@ -52,9 +52,7 @@ namespace dj_hero
                 switch (pressedKey.Key)
                 {
                     case ConsoleKey.D1:
-                        //ts.Cancel();
                         Audio.StopTrack();
-
                         t.Abort();
                         exit = true;
                         Menu.Play();

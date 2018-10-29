@@ -60,7 +60,6 @@ namespace dj_hero
 
     public sealed class Game
     {
-        //public List<String> characterList = new List<string>();
         private GameTimer timer;
         public GameView view;
         private int points;
@@ -81,6 +80,7 @@ namespace dj_hero
             points = 0;
             progresBarValue = matchOpttions.progresBarValue;
             timer = new GameTimer(song.duration, this);
+            keyTimer = new KeyTimer(this);
             view = new GameView();
             gameOverByUserInterrupt = false;
             gameOverProcesDone = false;
@@ -89,13 +89,14 @@ namespace dj_hero
         }
         private Thread t;
         public Thread readThread;
-        private bool endpermiss = false;
+        public KeyTimer keyTimer;
         public void play()
         {
             view.Render();
 
             Audio.StartSong(song);
             timer.RunTimer();
+            keyTimer.RunTimer();
 
             LoadSegment();
             string currentCharacter;
@@ -105,7 +106,7 @@ namespace dj_hero
 
                 while (true)
                 {
-                    currentCharacter = view.getChar().ToUpper();
+                    currentCharacter = keyTimer.getCharacter();
                     if (currentCharacter == mainElement.character.ToString().ToUpper())
                     {
                         SuccesedClick();
@@ -122,42 +123,12 @@ namespace dj_hero
                             MissClick();
                         }
                     }
+                    
                 }
 
             });
             t.Start();
             t.Join();
-
-            //readThread.Abort();
-
-            view.AbortRead();
-            //view.readKeyThread.Join();
-            //readThread.Join();
-
-            if(!endpermiss)
-            {
-                PreEndGameView preEndGame = new PreEndGameView(view);
-                view.readKeyThread.Join();
-
-            }
-            else
-            {
-                PreEndGameView preEndGame = new PreEndGameView(view);
-                Console.ReadKey();
-            }
-
-            //if (Console.KeyAvailable)
-            //{
-            //}
-            //else
-            //{
-            //    Console.ReadKey();
-            //    PreEndGameView preEndGame = new PreEndGameView();
-
-
-            //}
-            //view.readKeyThread.Join();
-
 
             if (gameOverByUserInterrupt == true)
             {
@@ -171,7 +142,6 @@ namespace dj_hero
 
                 EndGameView endGameView = new EndGameView(points, song, matchOpttions);
             }
-
         }
 
 
@@ -191,9 +161,7 @@ namespace dj_hero
         {
             if (gameOverProcesDone)
                 return;
-            //Audio.Noise();
             Audio.StartServiceTrack("beep");
-            //Console.Beep();
 
             // progresbar -- or nothing
             DecreaseProgresBarPerMiss();
@@ -210,7 +178,6 @@ namespace dj_hero
             {
                 return;
             }
-            //core
             RefreshTimeToAnswer();
             //========================
             //3 posibility
@@ -232,8 +199,6 @@ namespace dj_hero
             if (mainElement.counter > 0)
             {
                 view.UpdateCharacter(mainElement);
-                Console.WriteLine("no chance");
-                //display 
             }
             //hit
             if (mainElement.counter == 0)
@@ -252,22 +217,20 @@ namespace dj_hero
             if (timer != null)
             {
                 timer.StopTimer();
+                keyTimer.StopTimer();
             }
             timer = null;
-            //pressedKey = new ConsoleKeyInfo();
             Audio.StopSong();
-            gameOverProcesDone = true;
 
             endGameThread = new Thread(delegate ()
             {
-                //view.readKeyThread.Join();
-                view.readKeyThread.Abort();
 
-                //readThread.Abort();
                 t.Abort();
 
             });
             endGameThread.Start();
+            gameOverProcesDone = true;
+            t.Abort();
 
         }
 
@@ -293,7 +256,6 @@ namespace dj_hero
             view.DisplayProgressBar(progresBarValue);
             if (progresBarValue < 1)
             {
-                endpermiss = true;
                 EndGame();
             }
         }

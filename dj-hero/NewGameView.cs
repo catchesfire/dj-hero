@@ -17,7 +17,6 @@ namespace dj_hero
 
         private ViewElement border;
         private ViewElement _logo;
-        private Thread t;
         private bool exit;
         private ConsoleKeyInfo pressedKey;
 
@@ -67,16 +66,16 @@ namespace dj_hero
                     case ConsoleKey.Enter:
                         EnterAction();
                         break;
-                    //case ConsoleKey.Backspace:
-                    //    if (nick.Length > 0)
-                    //    {
-                    //        nickname.Lines[0] = nick.Remove(nick.Length - 1, 1);
-                    //        nick = nickname.Lines[0];
-                    //        nickname.Update();
-                    //        Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
-                    //    }
-                    //    Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
-                    //    break;
+                    case ConsoleKey.Backspace:
+                        if (nick.Length > 0)
+                        {
+                            nickname.Lines[0] = nick.Remove(nick.Length - 1, 1);
+                            nick = nickname.Lines[0];
+                            nickname.Update();
+                            Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
+                        }
+                        Console.SetCursorPosition(border.PosX + 2 + nickname.Lines[0].Length, border.PosY + 2);
+                        break;
                     default:
                         if (char.IsLetterOrDigit(pressedKey.KeyChar))
                         {
@@ -109,8 +108,7 @@ namespace dj_hero
                 Elements["alert"].Update();
                 Audio.StartServiceTrack("invalid");
 
-
-                Console.SetCursorPosition(nickname.PosX + 2, nickname.PosY + 2);
+                Console.SetCursorPosition(nickname.PosX, nickname.PosY);
                 return;
             }
 

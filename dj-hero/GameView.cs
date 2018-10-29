@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace dj_hero
 {
@@ -512,60 +513,70 @@ namespace dj_hero
             if (character.counter == 0)
             {
                 Elements["Character" + (characterIndex + 1) % 3].Clear();
+                Elements["Counter" + (characterIndex + 1) % 3].Clear();
             }
             else
             {
-                Elements["Character" + characterIndex % 3].Lines[6] = character.counter.ToString();
+                Elements["Counter" + characterIndex % 3].Lines = Ascii[character.counter.ToString()];
+                Elements["Counter" + characterIndex % 3].Update();
                 Elements["Character" + characterIndex % 3].ForegroundColor = ConsoleColor.Green;
                 Elements["Character" + characterIndex % 3].Update();
             }
         }
 
+    }
 
+    public class KeyTimer
+    {
 
-
+        Game game;
         public ConsoleKeyInfo pressedKey;
-        public Thread readKeyThread;
-        public bool stopRead = false;
-        public string getChar()
+
+        private System.Timers.Timer timer = new System.Timers.Timer(100);
+
+        public KeyTimer(Game _game)
         {
-
-
-
-
-            string str = "";
-            readKeyThread = new Thread(delegate ()
-            {
-
-                pressedKey = new ConsoleKeyInfo();
-
-                pressedKey = Console.ReadKey(true);
-
-
-
-                if (pressedKey.Key == ConsoleKey.Escape)
-                {
-                    str = "escape";
-                }
-                else
-                {
-                    str = pressedKey.Key.ToString();
-                }
-
-
-            });
-            //game.readThread = readKeyThread;
-            readKeyThread.Start();
-            readKeyThread.Join();
-            return str;
-
-        }
-
-        public void AbortRead()
-        {
-            readKeyThread.Abort();
             pressedKey = new ConsoleKeyInfo();
+
+            game = _game;
         }
 
+        public void RunTimer()
+        {
+            timer.Elapsed += Timer_Elapsed;
+            timer.Enabled = true;
+        }
+
+        public void StopTimer()
+        {
+            pressedKey = new ConsoleKeyInfo();
+            timer.Stop();
+            timer.Dispose();
+            game = null;
+            pressedKey = new ConsoleKeyInfo();
+
+        }
+        public string getCharacter()
+        {
+            while (pressedKey.Key == 0) ;
+
+            string character = pressedKey.Key.ToString();
+            if(pressedKey.Key == ConsoleKey.Escape)
+            {
+                character = "ESCAPE";
+            }
+            pressedKey = new ConsoleKeyInfo();
+
+            return character;
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (Console.KeyAvailable)
+            {
+                pressedKey = new ConsoleKeyInfo();
+                pressedKey = Console.ReadKey(true);
+            }
+        }
     }
 }
