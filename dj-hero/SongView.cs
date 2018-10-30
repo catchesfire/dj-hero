@@ -58,19 +58,19 @@ namespace dj_hero
 
             string difficulty = "Difficulty: " + song.getDifficultyName();
 
-            Elements.Add("Difficulty_label", new ViewElement(x + width - difficulty.Length - 4, y + 2, 11, 1, new List<string>() { "Difficulty:" }));
-            Elements.Add("Difficulty", new ViewElement(Elements["Difficulty_label"].PosX + 12, y + 2, difficulty.Length - 11, 1, new List<string>() { song.getDifficultyName() }));
+            Elements.Add("Difficulty_label", new ViewElement(x + width - difficulty.Length - 4, y + 2, 11, 1, new List<string>() { "Trudność:" }));
+            Elements.Add("Difficulty", new ViewElement(Elements["Difficulty_label"].PosX + 10, y + 2, difficulty.Length - 9, 1, new List<string>() { song.getDifficultyName() }));
 
             ConsoleColor color;
             switch (Elements["Difficulty"].Lines[0])
             {
-                case "easy":
+                case "łatwy":
                     color = ConsoleColor.Green;
                     break;
-                case "medium":
+                case "średni":
                     color = ConsoleColor.DarkYellow;
                     break;
-                case "hard":
+                case "trudny":
                     color = ConsoleColor.DarkRed;
                     break;
                 default:

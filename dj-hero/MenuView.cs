@@ -15,9 +15,9 @@ namespace dj_hero
         public MenuView()
         {
             Elements.Add("Logo", new ViewElement((Console.WindowWidth / 2) - (logo[0].Length / 2), 1, logo[0].Length, logo.Count, logo));
-            Elements.Add("play", new ViewElement(20, 10, 7, 1, new List<string>() { "1. Play" }));
-            Elements.Add("rank", new ViewElement(20, 12, 7, 1, new List<string>() { "2. Rank" }));
-            Elements.Add("exit", new ViewElement(20, 14, 8, 1, new List<string>() { "3. Exit" }));
+            Elements.Add("play", new ViewElement(20, 10, 7, 1, new List<string>() { "1. Graj" }));
+            Elements.Add("rank", new ViewElement(20, 12, 10, 1, new List<string>() { "2. Ranking" }));
+            Elements.Add("exit", new ViewElement(20, 14, 8, 1, new List<string>() { "3. Wyjdź" }));
             selectedElement = Elements[list[0]];
 
             Elements["Logo"].ForegroundColor = ConsoleColor.Red;

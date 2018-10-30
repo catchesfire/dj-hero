@@ -220,7 +220,11 @@ namespace dj_hero
                 keyTimer.StopTimer();
             }
             timer = null;
-            Audio.StopSong();
+            try
+            {
+                Audio.StopSong();
+            }
+            catch { };
 
             endGameThread = new Thread(delegate ()
             {

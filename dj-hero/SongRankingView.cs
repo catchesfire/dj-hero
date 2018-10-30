@@ -25,7 +25,7 @@ namespace dj_hero
             Elements.Add("H1", new ViewElement(Console.WindowWidth / 2 - h1.Length / 2, 3, h2.Length, 1, new List<string>() { h1 }));
             Elements.Add("H2", new ViewElement(5, 5, h2.Length, 1, new List<string>() { h2 }));
 
-            string[] colHeaders = { "Lp.", "Name", "Score" };
+            string[] colHeaders = { "Lp.", "Nazwa", "Wynik" };
 
             int colSize = (Console.WindowWidth / 3) - 5;
 

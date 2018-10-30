@@ -27,7 +27,7 @@ namespace dj_hero
 
             _logo = new ViewElement((Console.WindowWidth / 2) - (logo[0].Length / 2), 1, logo[0].Length, logo.Count, logo);
             border = new ViewElement(Console.WindowWidth / 2 - 20, Console.WindowHeight / 2 - 2, 40, 5, DrawRect(40, 5));
-            header = new ViewElement(Console.WindowWidth / 2 - 5, border.PosY - 2, 10, 1, new List<string>() { "Podaj nick" });
+            header = new ViewElement(Console.WindowWidth / 2 - 5, border.PosY - 2, 11, 1, new List<string>() { "Podaj nick:" });
             nickname = new ViewElement(border.PosX + 2, border.PosY + 2, 36, 1, new List<string>() { "" });
 
             _logo.ForegroundColor = ConsoleColor.Red;
@@ -37,8 +37,8 @@ namespace dj_hero
             Elements.Add("NicknameBorder", border);
             Elements.Add("Nickname", nickname);
 
-            Elements.Add("alert", new ViewElement(Console.WindowWidth / 2 - 18, Console.WindowHeight / 2 + 6, 40, 1, new List<string>()
-                {"Invalid nickname" }));
+            Elements.Add("alert", new ViewElement(Console.WindowWidth / 2 - 18, Console.WindowHeight / 2 + 6, 19, 1, new List<string>()
+                {"Nieprawidłowa nazwa" }));
         }
 
 
