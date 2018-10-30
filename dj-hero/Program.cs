@@ -35,7 +35,7 @@ namespace dj_hero
         {
 
             Console.CursorVisible = false;
-
+            Console.OutputEncoding = Encoding.UTF8;
             Maximize(); 
 
 

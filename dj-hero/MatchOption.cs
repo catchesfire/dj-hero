@@ -14,8 +14,10 @@ namespace dj_hero
         public int progresBarLosePerSec = 10;
         public int decPointsPerMiss = 20;
         public int incPointsPerSucceed = 15;
+
         public int maxBombCounterElement = 4;
-        public int chanceBombElement =8  ;//range 0-10
+        public int chanceBombElement = 7;//range 0-10
+
         public int amountElementsSameTime = 3;
         public string nickname = "Player";
 

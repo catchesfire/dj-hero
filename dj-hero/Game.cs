@@ -52,7 +52,7 @@ namespace dj_hero
             }
             else
             {
-                game.DecreaseProgresBarPerSec();
+                //game.DecreaseProgresBarPerSec();
                 game.TimeControler();
             }
         }

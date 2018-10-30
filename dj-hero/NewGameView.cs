@@ -54,7 +54,7 @@ namespace dj_hero
             exit = false;
             do
             {
-                pressedKey = Console.ReadKey(false);
+                pressedKey = Console.ReadKey(true);
 
                 switch (pressedKey.Key)
                 {
@@ -82,8 +82,9 @@ namespace dj_hero
                             if(nick.Length < nickname.Width)
                             {
                                 nick += pressedKey.KeyChar;
-                                //nickname.Lines[0] = nick;
+                                nickname.Lines[0] = nick;
                             }
+                            nickname.Update();
                         }
                         break;
                 }
