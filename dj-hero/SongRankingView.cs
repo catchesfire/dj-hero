@@ -32,15 +32,15 @@ namespace dj_hero
             for (int i = 0; i < 3; i++)
             {
                 int x = 15 + (colSize * i) + (5 * i);
-                Elements.Add("Table_col" + i + "_header", new ViewElement(x, 6, colSize, 1, new List<string>() { colHeaders[i] }));
+                Elements.Add("Table_col" + i + "_header", new ViewElement(x, 7, colSize, 1, new List<string>() { colHeaders[i] }));
             }
 
             for (int i = 0; i < 10; i++)
             {
                 for(int j = 0; j < 3; j++)
                 {
-                    int x = (colSize * j) + (5 * j);
-                    Elements.Add("Table_row" + i + "_col" + j, new ViewElement(x, 7 + i, colSize, 1, new List<string>() { "" }));
+                    int x = 15 + (colSize * j) + (5 * j);
+                    Elements.Add("Table_row" + i + "_col" + j, new ViewElement(x, 8 + i, colSize, 1, new List<string>() { "" }));
                 }
             }
         }
