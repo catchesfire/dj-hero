@@ -52,7 +52,7 @@ namespace dj_hero
             }
             else
             {
-                game.DecreaseProgresBarPerSec();
+                //game.DecreaseProgresBarPerSec();
                 game.TimeControler();
             }
         }
@@ -198,7 +198,7 @@ namespace dj_hero
             if (mainElement.counter > 0)
             {
                 view.UpdateCharacter(mainElement);
-                Console.WriteLine("no chance");
+                //Console.WriteLine("no chance");
                 //display 
             }
             //hit

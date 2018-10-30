@@ -27,11 +27,11 @@ namespace dj_hero
 
             string[] colHeaders = { "Lp.", "Name", "Score" };
 
-            int colSize = (Console.WindowWidth / 3) - 5;
+            int colSize = ((Console.WindowWidth - 30) / 3) - 5;
 
             for (int i = 0; i < 3; i++)
             {
-                int x = (colSize * i) + (5 * i);
+                int x = 15 + (colSize * i) + (5 * i);
                 Elements.Add("Table_col" + i + "_header", new ViewElement(x, 6, colSize, 1, new List<string>() { colHeaders[i] }));
             }
 
