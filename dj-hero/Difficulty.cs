@@ -38,9 +38,9 @@ namespace dj_hero
             this.name = _name;
         }
 
-        public static Difficulty easy = new Difficulty(1,easyCharacters, 5, "easy");
-        public static Difficulty medium = new Difficulty(2,mediumCharacters, 4, "medium");
-        public static Difficulty hard = new Difficulty(3,hardCharacters, 3, "hard");
+        public static Difficulty easy = new Difficulty(1,easyCharacters, 5, "łatwy");
+        public static Difficulty medium = new Difficulty(2,mediumCharacters, 4, "średni");
+        public static Difficulty hard = new Difficulty(3,hardCharacters, 3, "trudny");
 
 
         public char GetRandomCharacter()

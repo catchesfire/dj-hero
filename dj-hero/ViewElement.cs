@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dj_hero
@@ -19,7 +20,7 @@ namespace dj_hero
 
         public List<string> Lines { get; set; }
 
-        static readonly object locker = new object();
+        public static readonly object locker = new object();
 
         public ViewElement(int _posX, int _posY, int _width, int _height, List<string> _lines)
         {
@@ -39,11 +40,13 @@ namespace dj_hero
             {
                 for (int i = 0; i < Lines.Count; i++)
                 {
+                    string clear = "";
                     for(int j = 0; j < Width; j++)
                     {
-                        Console.SetCursorPosition(PosX + j, PosY + i);
-                        Console.Write(" ");
+                        clear += " ";
                     }
+                    Console.SetCursorPosition(PosX, PosY + i);
+                    Console.Write(clear);
                 }
             }
         }
@@ -60,29 +63,29 @@ namespace dj_hero
         public void Update()
         {
             Clear();
-            if(Lines.Count > Height)
-            {
-                //throw new Exception();
-            }
-            if(PosX >=0 && PosY >= 0)
+            if (PosX >= 0 && PosY >= 0)
             {
                 Console.BackgroundColor = BackgroundColor;
                 Console.ForegroundColor = ForegroundColor;
                 for (int i = 0; i < Lines.Count; i++)
                 {
-                    for(int j = 0; j < Lines[i].Length && j < Width; j++)
+                    string line;
+                    if(Lines[i].Length >= Width)
                     {
-                        Console.SetCursorPosition(PosX + j, PosY + i);
-                        Console.Write(Lines[i][j]);
+                        line = Lines[i].Substring(0, Width);
                     }
+                    else
+                    {
+                        line = Lines[i];
+                    }
+                    
+                    Console.SetCursorPosition(PosX, PosY + i);
+                    Console.Write(line);
                 }
 
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
-
-                //Console.SetCursorPosition(0, 0);
             }
-            
         }
 
         public void UpdateReverseColours()

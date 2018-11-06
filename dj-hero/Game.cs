@@ -14,7 +14,7 @@ namespace dj_hero
     {
         private int time;
         Game game;
-        
+
         private System.Timers.Timer timer = new System.Timers.Timer(1000);
 
         public GameTimer(int _time, Game _game)
@@ -33,6 +33,7 @@ namespace dj_hero
         {
             timer.Stop();
             timer.Dispose();
+            game = null;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -42,7 +43,7 @@ namespace dj_hero
             game.view.DisplayTime(time);
 
 
-            if(time <= 0)
+            if (time <= 0)
             {
                 // go end game
                 game.EndGame();
@@ -51,7 +52,7 @@ namespace dj_hero
             }
             else
             {
-                game.DecreaseProgresBarPerSec();
+                //game.DecreaseProgresBarPerSec();
                 game.TimeControler();
             }
         }
@@ -59,7 +60,6 @@ namespace dj_hero
 
     public sealed class Game
     {
-        //public List<String> characterList = new List<string>();
         private GameTimer timer;
         public GameView view;
         private int points;
@@ -80,39 +80,55 @@ namespace dj_hero
             points = 0;
             progresBarValue = matchOpttions.progresBarValue;
             timer = new GameTimer(song.duration, this);
+            keyTimer = new KeyTimer(this);
             view = new GameView();
             gameOverByUserInterrupt = false;
             gameOverProcesDone = false;
             play();
 
         }
-
+        private Thread t;
+        public Thread readThread;
+        public KeyTimer keyTimer;
         public void play()
         {
             view.Render();
+
             Audio.StartSong(song);
-            //timer.RunTimer();
+            timer.RunTimer();
+            keyTimer.RunTimer();
+
             LoadSegment();
             string currentCharacter;
-            while (!gameOverProcesDone)
+
+            t = new Thread(delegate ()
             {
-                currentCharacter = view.getChar().ToUpper();
-                if(currentCharacter == mainElement.character.ToString().ToUpper())
+
+                while (true)
                 {
-                    SuccesedClick();
-                }
-                else
-                {
-                    if(currentCharacter == "ESCAPE")
+                    currentCharacter = keyTimer.getCharacter();
+                    if (currentCharacter == mainElement.character.ToString().ToUpper())
                     {
-                        gameOverByUserInterrupt = true;
-                        EndGame();
-                    }else
-                    {
-                        MissClick();
+                        SuccesedClick();
                     }
+                    else
+                    {
+                        if (currentCharacter == "ESCAPE")
+                        {
+                            gameOverByUserInterrupt = true;
+                            EndGame();
+                        }
+                        else
+                        {
+                            MissClick();
+                        }
+                    }
+                    
                 }
-            }
+
+            });
+            t.Start();
+            t.Join();
 
             if (gameOverByUserInterrupt == true)
             {
@@ -126,7 +142,6 @@ namespace dj_hero
 
                 EndGameView endGameView = new EndGameView(points, song, matchOpttions);
             }
-            
         }
 
 
@@ -144,9 +159,9 @@ namespace dj_hero
 
         private void MissClick()
         {
-            //Audio.Noise();
+            if (gameOverProcesDone)
+                return;
             Audio.StartServiceTrack("beep");
-            //Console.Beep();
 
             // progresbar -- or nothing
             DecreaseProgresBarPerMiss();
@@ -159,7 +174,10 @@ namespace dj_hero
         private Queue<AppearingChar> queue = new Queue<AppearingChar>();
         private void LoadSegment()
         {
-            //core
+            if(gameOverProcesDone)
+            {
+                return;
+            }
             RefreshTimeToAnswer();
             //========================
             //3 posibility
@@ -167,7 +185,7 @@ namespace dj_hero
             if (mainElement == null)
             {
 
-                for (int i=1; i<=matchOpttions.amountElementsSameTime;i++)
+                for (int i = 1; i <= matchOpttions.amountElementsSameTime; i++)
                 {
                     mainElement = new AppearingChar(matchOpttions);
                     queue.Enqueue(mainElement);
@@ -181,8 +199,6 @@ namespace dj_hero
             if (mainElement.counter > 0)
             {
                 view.UpdateCharacter(mainElement);
-                Console.WriteLine("no chance");
-                //display 
             }
             //hit
             if (mainElement.counter == 0)
@@ -195,20 +211,39 @@ namespace dj_hero
 
             }
         }
-
+        private Thread endGameThread;
         public void EndGame()
         {
+            if (timer != null)
+            {
+                timer.StopTimer();
+                keyTimer.StopTimer();
+            }
+            timer = null;
+            try
+            {
+                Audio.StopSong();
+            }
+            catch { };
 
-            timer.StopTimer();
-            //pressedKey = new ConsoleKeyInfo();
-            Audio.StopSong();
+            endGameThread = new Thread(delegate ()
+            {
+
+                t.Abort();
+
+            });
+            endGameThread.Start();
             gameOverProcesDone = true;
+            t.Abort();
+
         }
 
         // -- operation on progresbarr
 
         public void DecreaseProgresBarPerSec()
         {
+            if (progresBarValue < 1)
+                return;
             progresBarValue -= matchOpttions.progresBarLosePerSec;
             view.DisplayProgressBar(progresBarValue);
             if (progresBarValue < 1)
@@ -219,6 +254,8 @@ namespace dj_hero
 
         public void DecreaseProgresBarPerMiss()
         {
+            if (progresBarValue < 1)
+                return;
             progresBarValue -= matchOpttions.decPointsPerMiss;
             view.DisplayProgressBar(progresBarValue);
             if (progresBarValue < 1)
@@ -241,7 +278,7 @@ namespace dj_hero
         {
             timeToAnswer--;
 
-            if (timeToAnswer==0)
+            if (timeToAnswer == 0)
             {
                 MissClick(); //miss answer function
                 timeToAnswer = matchOpttions.answerTime;

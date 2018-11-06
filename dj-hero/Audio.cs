@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WMPLib;
 
@@ -13,10 +14,13 @@ namespace dj_hero
         public static Song mainmenusong;
         public static Song noisesong;
 
+        static readonly object locker = new object();
+
         private static List<Song> songs = new List<Song>();
         private static WMPLib.WindowsMediaPlayer Player = new WMPLib.WindowsMediaPlayer();
-        private static WMPLib.WindowsMediaPlayer Player2 = new WMPLib.WindowsMediaPlayer();
+        private static WMPLib.WindowsMediaPlayer Player2= new WMPLib.WindowsMediaPlayer();
         public static readonly string libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/DJH_MusicFiles";
+        private static Thread t;
 
         // beep, gameover, invalid, lose, main, rank, selection, menu
         public static Dictionary<string, string> servicesTrack = new Dictionary<string, string>();
@@ -29,15 +33,30 @@ namespace dj_hero
 
         public static void StartServiceTrack(string key, bool isLoop = false)
         {
-            if (isLoop == true)
-                Player2.settings.setMode("loop", true);
-            else
-                Player2.settings.setMode("loop", false);
-            Player2.URL = servicesTrack[key];
+            t = new Thread(delegate ()
+            {
+                try
+                {
+                    Player2 = new WMPLib.WindowsMediaPlayer();
+                    Player2.settings.volume = 60;
+                    if (isLoop == true)
+                        Player2.settings.setMode("loop", true);
+                    else
+                        Player2.settings.setMode("loop", false);
+                    Player2.URL = servicesTrack[key];
+                }
+                catch { }
+
+            });
+            t.Start();
+
+
 
         }
         public static void StopTrack()
         {
+            
+            t.Abort();
             Player2.controls.stop();
         }
 
@@ -69,7 +88,7 @@ namespace dj_hero
         public static void PrepareSongs()
         {
             Player.settings.volume = 20;
-            Player2.settings.volume = 80;
+            //Player2.settings.volume = 80;
 
             string primaryPath = @"../../media";
 

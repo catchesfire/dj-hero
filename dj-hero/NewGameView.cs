@@ -17,7 +17,6 @@ namespace dj_hero
 
         private ViewElement border;
         private ViewElement _logo;
-        private Thread t;
         private bool exit;
         private ConsoleKeyInfo pressedKey;
 
@@ -28,7 +27,7 @@ namespace dj_hero
 
             _logo = new ViewElement((Console.WindowWidth / 2) - (logo[0].Length / 2), 1, logo[0].Length, logo.Count, logo);
             border = new ViewElement(Console.WindowWidth / 2 - 20, Console.WindowHeight / 2 - 2, 40, 5, DrawRect(40, 5));
-            header = new ViewElement(Console.WindowWidth / 2 - 5, border.PosY - 2, 10, 1, new List<string>() { "Podaj nick" });
+            header = new ViewElement(Console.WindowWidth / 2 - 5, border.PosY - 2, 11, 1, new List<string>() { "Podaj nick:" });
             nickname = new ViewElement(border.PosX + 2, border.PosY + 2, 36, 1, new List<string>() { "" });
 
             _logo.ForegroundColor = ConsoleColor.Red;
@@ -38,8 +37,8 @@ namespace dj_hero
             Elements.Add("NicknameBorder", border);
             Elements.Add("Nickname", nickname);
 
-            Elements.Add("alert", new ViewElement(Console.WindowWidth / 2 - 18, Console.WindowHeight / 2 + 6, 40, 1, new List<string>()
-                {"Invalid nickname" }));
+            Elements.Add("alert", new ViewElement(Console.WindowWidth / 2 - 18, Console.WindowHeight / 2 + 6, 19, 1, new List<string>()
+                {"Nieprawidłowa nazwa" }));
         }
 
 
@@ -55,7 +54,7 @@ namespace dj_hero
             exit = false;
             do
             {
-                pressedKey = Console.ReadKey(false);
+                pressedKey = Console.ReadKey(true);
 
                 switch (pressedKey.Key)
                 {
@@ -68,7 +67,7 @@ namespace dj_hero
                         EnterAction();
                         break;
                     case ConsoleKey.Backspace:
-                        if(nick.Length > 0)
+                        if (nick.Length > 0)
                         {
                             nickname.Lines[0] = nick.Remove(nick.Length - 1, 1);
                             nick = nickname.Lines[0];
@@ -85,6 +84,7 @@ namespace dj_hero
                                 nick += pressedKey.KeyChar;
                                 nickname.Lines[0] = nick;
                             }
+                            nickname.Update();
                         }
                         break;
                 }
@@ -109,8 +109,7 @@ namespace dj_hero
                 Elements["alert"].Update();
                 Audio.StartServiceTrack("invalid");
 
-
-                Console.SetCursorPosition(nickname.PosX + 2, nickname.PosY + 2);
+                Console.SetCursorPosition(nickname.PosX, nickname.PosY);
                 return;
             }
 

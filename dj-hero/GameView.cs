@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace dj_hero
 {
@@ -21,7 +22,9 @@ namespace dj_hero
 
         protected ViewElement points;
 
-        protected Dictionary<string, List<string>> Ascii { get; set; }
+
+        public static readonly object locker = new object();
+        public static bool isWriting = false;
 
 
         public GameView()
@@ -32,7 +35,6 @@ namespace dj_hero
             characters = new ViewElement[charactersNo];
             counters = new ViewElement[charactersNo];
             vacancy = new bool[Console.WindowHeight, Console.WindowWidth];
-            Ascii = new Dictionary<string, List<string>>();
 
             timer = new ViewElement(Console.WindowWidth - 8, 1, 5, 3,
                 new List<string>()
@@ -52,155 +54,7 @@ namespace dj_hero
             progressBar.ForegroundColor = ConsoleColor.Green;
             DisplayProgressBar(100);
 
-            Ascii.Add("0", new List<string>()
-            {
-                @"  ___ ",
-                @" / _ \",
-                @"| | | |",
-                @"| | | |",
-                @" \___/"
-            });
-
-            Ascii.Add("1", new List<string>()
-            {
-                @" _",
-                @"/ |",
-                @"| |",
-                @"| |",
-                @"|_|",
-            });
-
-            Ascii.Add("2", new List<string>()
-            {
-                @" ____",
-                @"|___ \",
-                @"  __) |",
-                @" / __/",
-                @"|_____|"
-            });
-
-            Ascii.Add("3", new List<string>()
-            {
-                @" _____",
-                @"|___ /",
-                @"  |_ \",
-                @" ___) |",
-                @"|____/",
-            });
-
-            Ascii.Add("4", new List<string>()
-            {
-                @" _  _",
-                @"| || |",
-                @"| || |_",
-                @"|__   _|",
-                @"   |_|",
-            });
-
-            Ascii.Add("5", new List<string>()
-            {
-                @" ____",
-                @"| ___|",
-                @"|___ \",
-                @" ___) |",
-                @"|____/",
-            });
-
-            Ascii.Add("6", new List<string>()
-            {
-                @"  __",
-                @" / /_",
-                @"| '_ \",
-                @"| (_) |",
-                @" \___/",
-            });
-
-            Ascii.Add("7", new List<string>()
-            {
-                @" _____",
-                @"|___  |",
-                @"   / /",
-                @"  / /",
-                @" /_/",
-            });
-
-            Ascii.Add("8", new List<string>()
-            {
-                @"  ___",
-                @" ( _ )",
-                @" / _ \",
-                @"| (_) |",
-                @" \___/",
-            });
-
-            Ascii.Add("9", new List<string>()
-            {
-                @"  ___",
-                @" / _ \",
-                @"| (_) |",
-                @" \__, |",
-                @"   /_/",
-            });
-
-            Ascii.Add("a", new List<string>()
-            {
-                @" █████╗",
-                @"██╔══██╗",
-                @"███████║",
-                @"██╔══██║",
-                @"██║  ██║",
-                @"╚═╝  ╚═╝"
-            });
-
-            Ascii.Add("s", new List<string>()
-            {
-                @"███████╗",
-                @"██╔════╝",
-                @"███████╗",
-                @"╚════██║",
-                @"███████║",
-                @"╚══════╝"
-            });
-
-            Ascii.Add("d", new List<string>()
-            {
-                @"██████╗",
-                @"██╔══██╗",
-                @"██║  ██║",
-                @"██║  ██║",
-                @"██████╔╝",
-                @"╚═════╝"
-            });
-
-            Ascii.Add("j", new List<string>()
-            {
-                @"     ██╗",
-                @"     ██║",
-                @"     ██║",
-                @"██   ██║",
-                @"╚█████╔╝",
-                @" ╚════╝"
-            });
-
-            Ascii.Add("k", new List<string>()
-            {
-                @"██╗  ██╗",
-                @"██║ ██╔╝",
-                @"█████╔╝",
-                @"██╔═██╗",
-                @"██║  ██╗",
-                @"╚═╝  ╚═╝"
-            });
-
-            Ascii.Add("l", new List<string>()
-            {
-                @"██╗",
-                @"██║",
-                @"██║",
-                @"██║",
-                @"███████╗",
-                @"╚══════╝"
-            });
+            
 
             InitCharacters();
         }
@@ -213,7 +67,7 @@ namespace dj_hero
                 max = Math.Max(max, line.Length);
             }
 
-            return max;
+            return ++max;
         }
 
         private int GetCharWidth(char letter, int counter)
@@ -278,7 +132,7 @@ namespace dj_hero
             sTime += seconds < 10 ? "0" + seconds.ToString() : seconds.ToString();
 
             Elements["Timer"].Lines[2] = sTime;
-            Elements["Timer"].Update(2);
+            Elements["Timer"].Update();
         }
 
         public void DisplayProgressBar(int percent)
@@ -325,9 +179,9 @@ namespace dj_hero
                 vac = true;
                 character.PosX = rand.Next(5, Console.WindowWidth - 5);
                 character.PosY = rand.Next(3, Console.WindowHeight - 7);
-                for(int i = 0; i < 6; i++)
+                for(int i = 0; i < 8; i++)
                 {
-                    for(int j = 0; j < GetCharWidth(character.character, character.counter); j++)
+                    for(int j = 0; j < GetAsciiWidth(character.character.ToString()) + 9; j++)
                     {
                         if(vacancy[character.PosY + i, character.PosX + j] == false)
                         {
@@ -342,11 +196,11 @@ namespace dj_hero
             } while (vac == false);
 
 
+            Elements["Character" + characterIndex % 3].Clear();
+            Elements["Counter" + characterIndex % 3].Clear();
             Elements["Character" + characterIndex % 3].Width = GetAsciiWidth(character.character.ToString());
             Elements["Counter" + characterIndex % 3].Width = GetAsciiWidth(character.counter.ToString());
 
-            Elements["Character" + characterIndex % 3].Clear();
-            Elements["Counter" + characterIndex % 3].Clear();
             if (characterIndex > 3)
             {
                 ReleasePos(Elements["Character" + characterIndex % 3]);
@@ -392,36 +246,70 @@ namespace dj_hero
             if (character.counter == 0)
             {
                 Elements["Character" + (characterIndex + 1) % 3].Clear();
+                Elements["Counter" + (characterIndex + 1) % 3].Clear();
             }
             else
             {
-                Elements["Character" + characterIndex % 3].Lines[6] = character.counter.ToString();
+                Elements["Counter" + characterIndex % 3].Lines = Ascii[character.counter.ToString()];
+                Elements["Counter" + characterIndex % 3].Update();
                 Elements["Character" + characterIndex % 3].ForegroundColor = ConsoleColor.Green;
                 Elements["Character" + characterIndex % 3].Update();
             }
         }
 
+    }
 
+    public class KeyTimer
+    {
 
+        Game game;
         public ConsoleKeyInfo pressedKey;
 
-        public string getChar()
+        private System.Timers.Timer timer = new System.Timers.Timer(100);
+
+        public KeyTimer(Game _game)
         {
             pressedKey = new ConsoleKeyInfo();
-            pressedKey = Console.ReadKey(true);
-            if (pressedKey.Key == ConsoleKey.Escape)
-            {
-                return "escape";
-            }
 
-            return pressedKey.Key.ToString();
+            game = _game;
         }
 
+        public void RunTimer()
+        {
+            timer.Elapsed += Timer_Elapsed;
+            timer.Enabled = true;
+        }
 
-     
+        public void StopTimer()
+        {
+            pressedKey = new ConsoleKeyInfo();
+            timer.Stop();
+            timer.Dispose();
+            game = null;
+            pressedKey = new ConsoleKeyInfo();
 
+        }
+        public string getCharacter()
+        {
+            while (pressedKey.Key == 0) ;
 
+            string character = pressedKey.Key.ToString();
+            if(pressedKey.Key == ConsoleKey.Escape)
+            {
+                character = "ESCAPE";
+            }
+            pressedKey = new ConsoleKeyInfo();
 
+            return character;
+        }
 
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (Console.KeyAvailable)
+            {
+                pressedKey = new ConsoleKeyInfo();
+                pressedKey = Console.ReadKey(true);
+            }
+        }
     }
 }

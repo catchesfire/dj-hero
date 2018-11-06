@@ -29,7 +29,7 @@ namespace dj_hero
             int y = 0;
             foreach (Song song in songsList)
             {
-                songViewsList.Add(new SongView(x, y, song));
+                songViewsList.Add(new SongView(x, y, Console.WindowWidth /2, song));
                 y += 5;
 
             }
@@ -43,11 +43,11 @@ namespace dj_hero
             Elements["Logo"].ForegroundColor = ConsoleColor.Red;
             List<string> h1 = new List<string>()
             {
-                "Witaj " + nickname
+                "Witaj " + nickname + "!"
             };
             List<string> h2 = new List<string>()
             {
-                "Wybierz melodie"
+                "Wybierz melodię."
             };
             Elements.Add("H1", new ViewElement((Console.WindowWidth / 4) - (h1[0].Length / 2), Console.WindowHeight / 2, h1[0].Length, 1, h1));
             Elements.Add("H2", new ViewElement((Console.WindowWidth / 4) - (h2[0].Length / 2), Console.WindowHeight / 2 + 1, h2[0].Length, 1, h2));
